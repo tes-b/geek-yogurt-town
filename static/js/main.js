@@ -1,24 +1,39 @@
 document.addEventListener("DOMContentLoaded", () => {
-    createSquares();
-    
+    // initLocalStorage();
+
     let guessedWords = [[]] // 시도한 단어
     let availableSpace = 1; // 현재 글자가 들어갈 자리
 
     let word = getNewWord(); // 단어 가져오기
     let guessedWordCount = 0;
+    // let currentWordIndex = 0;
 
     const keys = document.querySelectorAll(".keyboard-row button") // 키보드 버튼
 
-    function getNewWord(){
+    // function initLocalStorage() {
+    //     const storedCurrentWordIndex = window.localStorage.getItem('currentWordIndex');
+    //     if (!storedCurrentWordIndex) {
+    //         window.localStorage.setItem('currentWordIndex', currentWordIndex);
+    //     } else {
+    //         currentWordIndex = Number(storedCurrentWordIndex);
+    //     }
+    // }
+
+    createSquares();
+    keyInput();
+
+
+    function getNewWord() {
         // 데이터베이스에 있는 단어들을 가져오는 방식으로 수정해야함
         // 이 과정에서 각 단어의 정답률, 평균 시도 횟수 등을 통계처리 할 수 있을 듯
-        const wordArr = ['seven', 'world', 'about', 'again','heart', 'pizza', 'water', 'happy', 'sixty', 'board', 'month', 'angel', 'death', 'green', 'music', 'fifty', 'three', 'party', 'piano', 'kelly', 'mouth'];
+        const wordArr = ['seven', 'world', 'about', 'again', 'heart', 'pizza', 'water', 'happy', 'sixty', 'board', 'month', 'angel', 'death', 'green', 'music', 'fifty', 'three', 'party', 'piano', 'kelly', 'mouth'];
         const randomWord = wordArr[Math.floor(Math.random() * wordArr.length)];
+        // const randomWord = wordArr[currentWordIndex % wordArr.length]
         console.log(randomWord)
         return randomWord;
     }
 
-    function getCurrentWordArr() {
+    function getCurrentWordArr() { // 입력한 단어 리스트
         const numberOfGuessedWords = guessedWords.length
         return guessedWords[numberOfGuessedWords - 1]
     }
@@ -55,30 +70,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function handleSubmitWord() {
         const currentWordArr = getCurrentWordArr();
-        if (currentWordArr.length !==5) {
-            window.alert("5글자 단어를 제출하세요거트~");
-        } 
+        if (currentWordArr.length !== 5) { // 5 letter only
+            // window.alert("5글자 단어를 제출하세요거트~");
+            // shakeX 애니메이션 
+            // 글자 지우기
+            return;
+        }
 
-        const currentWord = currentWordArr.join('')
+        // const currentWord = currentWordArr.join('') // 단어조합
+        let currentWord = ""
 
         const firstLetterId = guessedWordCount * 5 + 1;
         const interval = 200;
-        currentWordArr.forEach((letter, index) => {
+
+        currentWordArr.forEach(function (letter, index) {
             setTimeout(() => {
                 const tileColor = getTileColor(letter, index);
 
                 const letterId = firstLetterId + index;
-                const letterEl = document.getElementById(letterId);
+                const letterEl = document.getElementById(letterId); // 애니메이션 할 글자 El 가져옴
                 letterEl.classList.add("animate__flipInX");
-                letterEl.style = `background-color:${tileColor};border-color:${tileColor}`
+                letterEl.style = `background-color:${tileColor};border-color:${tileColor}`;
+                currentWord = currentWord + letter;
             }, interval * index);
         });
 
         guessedWordCount += 1;
 
-        // if (currentWord === word) {
-        //     window.alert("정답입니다람쥐~")
-        // }
+        if (currentWord === word) { // 정답
+            window.alert("정답입니다람쥐~")
+            // 애니메이션 bounce
+            // currentWordArr.forEach((letter, index) => {
+            //     setTimeout(() => {
+            //         const tileColor = getTileColor(letter, index);
+
+            //         const letterId = firstLetterId + index; 
+            //         const letterEl = document.getElementById(letterId); // 애니메이션 할 글자 El 가져옴
+            //         letterEl.classList.add("animate__bounce");
+            //         letterEl.style = `background-color:${tileColor};border-color:${tileColor}`
+            //     }, interval * index);
+            // });
+
+            // 결과창에 통계 보여준다. 
+            // 평균 답안 수
+            // 개인 평균
+            // 정답글자
+            // 새게임
+        }
         // else {
         //     window.alert("틀렸네용가리치킨너겟~")
         // }
@@ -92,16 +130,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function handleDeleteLetter() {
         const currentWordArr = getCurrentWordArr();
+        if (currentWordArr % 5 == 0) { // 이미 확인한 단어는 지우지 못함
+            console.log("Can't delete")
+            return;
+        }
+
         const removedLetter = currentWordArr.pop();
 
-        guessedWords[guessedWords.length-1] = currentWordArr;
+        guessedWords[guessedWords.length - 1] = currentWordArr;
 
         const lastLetterEl = document.getElementById(String(availableSpace - 1))
 
         lastLetterEl.textContent = '';
         availableSpace = availableSpace - 1;
     }
-    
+
     function createSquares() {
         const gameBoard = document.getElementById("board");
 
@@ -114,24 +157,52 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    for (let i = 0; i < keys.length; i++) {
-        keys[i].onclick = ({ target }) => {
-            const letter = target.getAttribute("data-key");
-            
-            if (letter === 'enter') {
+    // 글자 입력
+    function keyInput() {
+
+        // 키보드 입력
+        document.addEventListener('keydown', (event) => {
+            const letter = event.key;
+            // console.log(event);
+
+            if (letter === 'Enter') {
                 handleSubmitWord()
                 return;
             }
 
-            if (letter === 'del') {
+            if (['Delete', 'Backspace'].includes(letter)) {
                 if (availableSpace > 1) {
                     handleDeleteLetter();
                 }
                 return;
             }
 
-            console.log(letter);
-            updateGuessedWords(letter);
+            if ('abcdefghijklmnopqrstuvwxyz'.includes(letter)) {
+                updateGuessedWords(letter);
+                return;
+            }
+        });
+
+        // 클릭 입력
+        for (let i = 0; i < keys.length; i++) {
+            keys[i].onclick = ({ target }) => {
+                const letter = target.getAttribute("data-key");
+
+                if (letter === 'enter') {
+                    handleSubmitWord()
+                    return;
+                }
+
+                if (letter === 'del') {
+                    if (availableSpace > 1) {
+                        handleDeleteLetter();
+                    }
+                    return;
+                }
+
+                console.log(letter);
+                updateGuessedWords(letter);
+            }
         }
     }
 });

@@ -206,3 +206,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 });
+
+function openPop() {
+    console.log("open-result-box");
+    document.getElementById("result-box").style.display = "block";
+}
+
+function closePop() {
+    console.log("close-result-box");
+    document.getElementById("result-box").style.display = "none";
+}

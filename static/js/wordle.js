@@ -6,7 +6,7 @@ let availableSpace = 1; // 현재 글자가 들어갈 자리
 
 let word = getNewWord(); // 단어 가져오기
 let guessedWordCount = 0;
-let result = false;
+let onPlay = true;
 // let currentWordIndex = 0;
 
 const keys = document.querySelectorAll(".keyboard-row button") // 키보드 버튼
@@ -37,7 +37,7 @@ function newGame() {
     availableSpace = 1; // 현재 글자가 들어갈 
     word = getNewWord(); // 단어 가져오기
     guessedWordCount = 0;
-    result = false;
+    onPlay = true;
     document.getElementById("result-box").style.display = "none";
     createSquares();
     resetGuessedKeys();
@@ -101,14 +101,14 @@ function getTileColor(letter, index) {
     return colorYellow;
 }
 
-function openResultBox() {
+function openResultBox(result) {
     console.log("open-result-box");
     document.getElementById("result-box").style.display = "block";
     var template = `
     <div>
-        <h1>WIN</h1>
-        <div>${word}</div>
-        <div>TRIES : ${guessedWords.length}</div>
+        <h1>${result ? 'WIN' : 'LOOSE'}</h1>
+        <div>ANSWER : ${word}</div>
+        <div>TRIES : ${guessedWordCount}</div>
     </div>`;
     const resultEl = document.getElementById("result-content");
     while (resultEl.hasChildNodes()) {
@@ -141,7 +141,7 @@ function handleSubmitWord() {
     const currentWord = currentWordArr.join('') // 단어조합
 
     const firstLetterId = guessedWordCount * 5 + 1;
-    const interval = 200;
+    const interval = 100;
 
     const promises = [];
 
@@ -153,6 +153,7 @@ function handleSubmitWord() {
                 const letterId = firstLetterId + index;
                 const letterEl = document.getElementById(letterId);
                 letterEl.classList.add("animate__flipInX");
+                letterEl.style.setProperty('--animate-duration', '.5s');
                 letterEl.style = `background-color:${tileColor};border-color:${tileColor}`;
                 letterEl.addEventListener("animationend", () => {
                     resolve(); // resolve the promise when the animation is completed
@@ -165,19 +166,23 @@ function handleSubmitWord() {
     Promise.all(promises).then(() => {
         //   console.log("All animations are done!");
         // 모든 애니메이션이 끝나면 결과 확인한다.
+
+        guessedWordCount += 1;
+
         if (currentWord === word) { // 정답
-            result = true;
-            openResultBox();
+            onPlay = false;
+            openResultBox(true);
+            return;
         }
+
+        if (guessedWords.length === 6) {
+            onPlay = false;
+            openResultBox(false);
+            // window.alert(`더이상 기회가 없습니당나귀... 정답은 ${word} 입니다.`)
+        } 
+
+        guessedWords.push([])
     });
-
-    guessedWordCount += 1;
-
-    if (guessedWords.length === 6) {
-        window.alert(`더이상 기회가 없습니당나귀... 정답은 ${word} 입니다.`)
-    }
-
-    guessedWords.push([])
 }
 
 function handleDeleteLetter() {
@@ -214,7 +219,7 @@ function createSquares() {
 
 // 글자 입력
 function keyInput() {
-    if (result) { return; }
+    if (!onPlay) { return; }
     // 키보드 입력
     document.addEventListener('keydown', (event) => {
         const letter = event.key;

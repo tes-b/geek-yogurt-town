@@ -186,4 +186,5 @@ pip-selfcheck.json
 
 secrets.json
 create_secret_key.py
-# End of https://www.toptal.com/developers/gitignore/api/venv,django
+word_pusher.py
+5_letter_words.txt

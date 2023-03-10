@@ -4,9 +4,9 @@
 let guessedWords = [[]] // 시도한 단어
 let availableSpace = 1; // 현재 글자가 들어갈 자리
 
-let word = getNewWord(); // 단어 가져오기
+
 let guessedWordCount = 0;
-let onPlay = true;
+let onPlay = false;
 // let currentWordIndex = 0;
 
 const keys = document.querySelectorAll(".keyboard-row button") // 키보드 버튼
@@ -14,6 +14,12 @@ const keys = document.querySelectorAll(".keyboard-row button") // 키보드 버�
 const colorGreen = "rgb(83, 141, 78)";
 const colorYellow = "rgb(181, 159, 59)";
 const colorGrey = "rgb(58, 58, 60)";
+
+let word = "";
+
+newGame(); 
+keyInput();
+
 
 // function initLocalStorage() {
 //     const storedCurrentWordIndex = window.localStorage.getItem('currentWordIndex');
@@ -24,18 +30,19 @@ const colorGrey = "rgb(58, 58, 60)";
 //     }
 // }
 
-createSquares();
-keyInput();
+// createSquares();
+
+
+
 
 // ====================================================
 // FUNCTIONS
 // ====================================================
 
-function newGame() {
-    console.log("newGame");
+function resetPage() {
+    // console.log(word);
     guessedWords = [[]]; // 시도한 단어
     availableSpace = 1; // 현재 글자가 들어갈 
-    word = getNewWord(); // 단어 가져오기
     guessedWordCount = 0;
     onPlay = true;
     document.getElementById("result-box").style.display = "none";
@@ -43,14 +50,30 @@ function newGame() {
     resetGuessedKeys();
 }
 
-function getNewWord() {
-    // 데이터베이스에 있는 단어들을 가져오는 방식으로 수정해야함
+async function newGame() {
     // 이 과정에서 각 단어의 정답률, 평균 시도 횟수 등을 통계처리 할 수 있을 듯
-    const wordArr = ['seven', 'world', 'about', 'again', 'heart', 'pizza', 'water', 'happy', 'sixty', 'board', 'month', 'angel', 'death', 'green', 'music', 'fifty', 'three', 'party', 'piano', 'kelly', 'mouth'];
-    const randomWord = wordArr[Math.floor(Math.random() * wordArr.length)];
-    // const randomWord = wordArr[currentWordIndex % wordArr.length]
-    console.log(randomWord)
-    return randomWord;
+    
+    // const wordArr = ['seven', 'world', 'about', 'again', 'heart', 'pizza', 'water', 'happy', 'sixty', 'board', 'month', 'angel', 'death', 'green', 'music', 'fifty', 'three', 'party', 'piano', 'kelly', 'mouth'];
+
+    fetch("http://127.0.0.1:8000/wordle/api?rand=true") // 데이터베이스에서 랜덤으로 단어 가져옴
+                .then(response => {
+                    console.log(response)
+                    if (response.status == 200) {
+                        return response.json();
+                    }
+                    else {
+                        throw new Error("단어를 받아오지 못했습니다.");
+                    }
+                        
+                })
+                .then(data => {
+                    word = data;
+                    resetPage();
+                })
+                .catch(error => {
+                    console.log('Fetch Error', error);
+                    window.alert(error.message);
+                });
 }
 
 function getCurrentWordArr() { // 입력한 단어 리스트
@@ -103,6 +126,7 @@ function getTileColor(letter, index) {
 
 function openResultBox(result) {
     console.log("open-result-box");
+    onPlay = false;
     document.getElementById("result-box").style.display = "block";
     var template = `
     <div>
@@ -153,7 +177,7 @@ function handleSubmitWord() {
                 const letterId = firstLetterId + index;
                 const letterEl = document.getElementById(letterId);
                 letterEl.classList.add("animate__flipInX");
-                letterEl.style.setProperty('--animate-duration', '.5s');
+                // letterEl.style.setProperty('--animate-duration', '.5s');
                 letterEl.style = `background-color:${tileColor};border-color:${tileColor}`;
                 letterEl.addEventListener("animationend", () => {
                     resolve(); // resolve the promise when the animation is completed
@@ -178,7 +202,6 @@ function handleSubmitWord() {
         if (guessedWords.length === 6) {
             onPlay = false;
             openResultBox(false);
-            // window.alert(`더이상 기회가 없습니당나귀... 정답은 ${word} 입니다.`)
         } 
 
         guessedWords.push([])
@@ -219,12 +242,12 @@ function createSquares() {
 
 // 글자 입력
 function keyInput() {
-    if (!onPlay) { return; }
+    
     // 키보드 입력
     document.addEventListener('keydown', (event) => {
         const letter = event.key;
         // console.log(event);
-
+        if (!onPlay) { return; }
         if (letter === 'Enter') {
             handleSubmitWord();
             return;
@@ -247,7 +270,7 @@ function keyInput() {
     for (let i = 0; i < keys.length; i++) {
         keys[i].onclick = ({ target }) => {
             const letter = target.getAttribute("data-key");
-
+            if (!onPlay) { return; }
             if (letter === 'enter') {
                 handleSubmitWord();
                 return;
@@ -260,7 +283,7 @@ function keyInput() {
                 return;
             }
 
-            console.log(letter);
+            // console.log(letter);
             updateGuessedWords(letter);
         }
     }

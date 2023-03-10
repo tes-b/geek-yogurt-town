@@ -7,14 +7,15 @@ let availableSpace = 1; // 현재 글자가 들어갈 자리
 
 let guessedWordCount = 0;
 let onPlay = false;
+let onResultBox = false;
 // let currentWordIndex = 0;
 
 const keys = document.querySelectorAll(".keyboard-row button") // 키보드 버튼
 
-const colorGreen = "rgb(83, 141, 78)";
-const colorYellow = "rgb(181, 159, 59)";
-const colorGrey = "rgb(58, 58, 60)";
-const colorRed = "rgb(154, 35, 53)";
+const colorGreen    = "rgb(83,  141, 78)";
+const colorYellow   = "rgb(181, 159, 59)";
+const colorGrey     = "rgb(58,  58,  60)";
+const colorRed      = "rgb(154, 35,  53)";
 
 let word = "";
 
@@ -35,7 +36,6 @@ keyInput();
 
 
 
-
 // ====================================================
 // FUNCTIONS
 // ====================================================
@@ -46,7 +46,7 @@ function resetPage() {
     availableSpace = 1; // 현재 글자가 들어갈 
     guessedWordCount = 0;
     onPlay = true;
-    document.getElementById("result-box").style.display = "none";
+    closeResultBox();
     createSquares();
     resetGuessedKeys();
 }
@@ -128,6 +128,7 @@ function getTileColor(letter, index) {
 function openResultBox(result) {
     console.log("open-result-box");
     onPlay = false;
+    onResultBox = true;
     document.getElementById("result-box").style.display = "block";
     var template = `
     <div>
@@ -151,6 +152,7 @@ function openResultBox(result) {
 
 function closeResultBox() {
     console.log("close-result-box");
+    onResultBox = false;
     document.getElementById("result-box").style.display = "none";
 }
 
@@ -158,14 +160,13 @@ function checkResult(currentWord) {
     guessedWordCount += 1;
 
         if (currentWord === word) { // 정답
-            onPlay = false;
             openResultBox(true);
             return;
         }
 
         if (guessedWords.length === 6) {
-            onPlay = false;
             openResultBox(false);
+            return;
         }
 
         guessedWords.push([]);
@@ -235,8 +236,7 @@ function handleSubmitWord() {
                         }, 0);
                     }));
                 });
-                // window.alert("단어없음");
-                Promise.all(promises).then(() => {
+                Promise.all(promises).then(() => { // 단어 지우기
                     for (let index = 0; index < 5; index++){
                         handleDeleteLetter();
                         const letterId = firstLetterId + index;
@@ -292,13 +292,21 @@ function keyInput() {
     document.addEventListener('keydown', (event) => {
         const letter = event.key;
         // console.log(event);
-        if (!onPlay) { return; }
+        
         if (letter === 'Enter') {
-            handleSubmitWord();
-            return;
+            if (onPlay) { 
+                handleSubmitWord();    
+                return;
+            }
+            else if (onResultBox) {
+                newGame();
+                return;
+            }
         }
 
+        if (!onPlay) { return; }
         if (['Delete', 'Backspace'].includes(letter)) {
+
             if (availableSpace > 1) {
                 handleDeleteLetter();
             }

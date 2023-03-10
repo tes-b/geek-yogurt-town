@@ -124,7 +124,6 @@ header {
     transform: translate(-50%, -50%);
     padding: 10px;
     background-color: rgb(130, 130, 130);
-    ;
     border-radius: 20px;
     z-index: 1;
     align-items: center;
@@ -161,7 +160,7 @@ header {
 
     padding: 10px;
     display: block;
-    background-color: rgb(130, 130, 130);
+    background-color: rgb(130, 130, 130,);
     ;
     border-radius: 20px;
     z-index: 1;

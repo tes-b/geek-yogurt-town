@@ -50,9 +50,9 @@ class WordAPIView(APIView):
             elif word: # 단어 데이터베이스에 있는지 체크
                 try:
                     queryset = Word.objects.get(word=word)
-                    return Response(status=status.HTTP_200_OK)
+                    return Response(data=True, status=status.HTTP_200_OK)
                 except:
-                    return Response(status=status.HTTP_404_NOT_FOUND)
+                    return Response(data=False, status=status.HTTP_200_OK)
                 
 
             return Response(status=status.HTTP_400_BAD_REQUEST)

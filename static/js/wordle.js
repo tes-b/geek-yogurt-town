@@ -14,10 +14,11 @@ const keys = document.querySelectorAll(".keyboard-row button") // 키보드 버�
 const colorGreen = "rgb(83, 141, 78)";
 const colorYellow = "rgb(181, 159, 59)";
 const colorGrey = "rgb(58, 58, 60)";
+const colorRed = "rgb(154, 35, 53)";
 
 let word = "";
 
-newGame(); 
+newGame();
 keyInput();
 
 
@@ -40,7 +41,7 @@ keyInput();
 // ====================================================
 
 function resetPage() {
-    // console.log(word);
+    console.log(word);
     guessedWords = [[]]; // 시도한 단어
     availableSpace = 1; // 현재 글자가 들어갈 
     guessedWordCount = 0;
@@ -52,28 +53,28 @@ function resetPage() {
 
 async function newGame() {
     // 이 과정에서 각 단어의 정답률, 평균 시도 횟수 등을 통계처리 할 수 있을 듯
-    
+
     // const wordArr = ['seven', 'world', 'about', 'again', 'heart', 'pizza', 'water', 'happy', 'sixty', 'board', 'month', 'angel', 'death', 'green', 'music', 'fifty', 'three', 'party', 'piano', 'kelly', 'mouth'];
 
     fetch("http://127.0.0.1:8000/wordle/api?rand=true") // 데이터베이스에서 랜덤으로 단어 가져옴
-                .then(response => {
-                    console.log(response)
-                    if (response.status == 200) {
-                        return response.json();
-                    }
-                    else {
-                        throw new Error("단어를 받아오지 못했습니다.");
-                    }
-                        
-                })
-                .then(data => {
-                    word = data;
-                    resetPage();
-                })
-                .catch(error => {
-                    console.log('Fetch Error', error);
-                    window.alert(error.message);
-                });
+        .then(response => {
+            // console.log(response)
+            if (response.status == 200) {
+                return response.json();
+            }
+            else {
+                throw new Error("단어를 받아오지 못했습니다.");
+            }
+
+        })
+        .then(data => {
+            word = data;
+            resetPage();
+        })
+        .catch(error => {
+            console.log('Fetch Error', error);
+            window.alert(error.message);
+        });
 }
 
 function getCurrentWordArr() { // 입력한 단어 리스트
@@ -96,7 +97,7 @@ function updateGuessedWords(letter) {
 function updateGuessedKeys(letter, color) { // 키 색 변경
     const buttonEl = document.querySelector(`button[data-key=${letter}]`); // 글자 버튼 가져오기
     const bgColor = window.getComputedStyle(buttonEl).getPropertyValue('background-color'); // 색상 가져오기
-    if (bgColor === colorGreen) {return;} // 색상 green 이면 리턴
+    if (bgColor === colorGreen) { return; } // 색상 green 이면 리턴
     buttonEl.style = `background-color:${color};border-color:${color}`; // 색상 변경
 }
 
@@ -153,6 +154,23 @@ function closeResultBox() {
     document.getElementById("result-box").style.display = "none";
 }
 
+function checkResult(currentWord) {
+    guessedWordCount += 1;
+
+        if (currentWord === word) { // 정답
+            onPlay = false;
+            openResultBox(true);
+            return;
+        }
+
+        if (guessedWords.length === 6) {
+            onPlay = false;
+            openResultBox(false);
+        }
+
+        guessedWords.push([]);
+}
+
 function handleSubmitWord() {
     const currentWordArr = getCurrentWordArr();
     if (currentWordArr.length !== 5) { // 5 letter only
@@ -164,48 +182,75 @@ function handleSubmitWord() {
 
     const currentWord = currentWordArr.join('') // 단어조합
 
-    const firstLetterId = guessedWordCount * 5 + 1;
-    const interval = 100;
+    fetch(`http://127.0.0.1:8000/wordle/api?word=${currentWord}`)
+        .then(response => {
+            if (response.status == 200) {
+                return response.json();
+            }
+            else {
+                throw new Error("단어를 받아오지 못했습니다.");
+            }
+        })
+        .then(data => {
+            const firstLetterId = guessedWordCount * 5 + 1;
+            const interval = 100;
 
-    const promises = [];
-
-    currentWordArr.forEach(function (letter, index) {
-        promises.push(new Promise((resolve) => {
-            setTimeout(() => {
-                const tileColor = getTileColor(letter, index);
-
-                const letterId = firstLetterId + index;
-                const letterEl = document.getElementById(letterId);
-                letterEl.classList.add("animate__flipInX");
-                // letterEl.style.setProperty('--animate-duration', '.5s');
-                letterEl.style = `background-color:${tileColor};border-color:${tileColor}`;
-                letterEl.addEventListener("animationend", () => {
-                    resolve(); // resolve the promise when the animation is completed
+            if (data) { // 단어가 데이터베이스에 있는 경우
+                const promises = [];    
+                currentWordArr.forEach(function (letter, index) {
+                    promises.push(new Promise((resolve) => {
+                        setTimeout(() => {
+                            const tileColor = getTileColor(letter, index);
+            
+                            const letterId = firstLetterId + index;
+                            const letterEl = document.getElementById(letterId);
+                            letterEl.classList.add("animate__flipInX");
+                            // letterEl.style.setProperty('--animate-duration', '.5s');
+                            letterEl.style = `background-color:${tileColor};border-color:${tileColor}`;
+                            letterEl.addEventListener("animationend", () => {
+                                resolve(); // resolve the promise when the animation is completed
+                            });
+                            updateGuessedKeys(letter, tileColor);
+                        }, interval * index);
+                    }));
                 });
-                updateGuessedKeys(letter, tileColor);
-            }, interval * index);
-        }));
-    });
-
-    Promise.all(promises).then(() => {
-        //   console.log("All animations are done!");
-        // 모든 애니메이션이 끝나면 결과 확인한다.
-
-        guessedWordCount += 1;
-
-        if (currentWord === word) { // 정답
-            onPlay = false;
-            openResultBox(true);
-            return;
-        }
-
-        if (guessedWords.length === 6) {
-            onPlay = false;
-            openResultBox(false);
-        } 
-
-        guessedWords.push([])
-    });
+            
+                Promise.all(promises).then(() => checkResult(currentWord)); // 모든 애니메이션이 끝나면 결과 확인한다.
+            }
+            else { // 단어가 데이터베이스에 없는 경우
+                const promises = [];
+                currentWordArr.forEach(function (letter, index) {
+                    promises.push(new Promise((resolve) => {
+                        setTimeout(() => {
+                            const tileColor = colorRed;
+            
+                            const letterId = firstLetterId + index;
+                            const letterEl = document.getElementById(letterId);
+                            letterEl.classList.add("animate__headShake");
+                            // letterEl.style.setProperty('--animate-duration', '.5s');
+                            letterEl.style = `background-color:${tileColor};border-color:${tileColor}`;
+                            letterEl.addEventListener("animationend", () => {
+                                resolve(); // resolve the promise when the animation is completed
+                            });
+                        }, 0);
+                    }));
+                });
+                // window.alert("단어없음");
+                Promise.all(promises).then(() => {
+                    for (let index = 0; index < 5; index++){
+                        handleDeleteLetter();
+                        const letterId = firstLetterId + index;
+                        const letterEl = document.getElementById(letterId);
+                        letterEl.style = "";
+                        letterEl.classList.remove("animate__headShake");
+                    }
+                }); // 모든 애니메이션이 끝나면 결과 확인한다.
+            }
+        })
+        .catch(error => {
+            console.log('Fetch Error', error);
+            window.alert(error.message);
+        });
 }
 
 function handleDeleteLetter() {
@@ -242,7 +287,7 @@ function createSquares() {
 
 // 글자 입력
 function keyInput() {
-    
+
     // 키보드 입력
     document.addEventListener('keydown', (event) => {
         const letter = event.key;

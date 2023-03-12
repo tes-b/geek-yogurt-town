@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "wordle",
     "rest_framework",
     "accounts",
+    "leaderboard",
 ]
 
 MIDDLEWARE = [

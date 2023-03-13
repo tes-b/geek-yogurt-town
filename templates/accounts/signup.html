@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div id="container">
+    <div id="game">
+        <header>
+            <h1 class="title">SIGN UP</h1>
+        </header>
+        <div>
+            <form name="signup" action="{% url 'accounts:api_signup' %}" method="post">
+                {% csrf_token %}
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required><br>
+                <br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br>
+                <br>
+                <label for="password_check">Confirm Password:</label>
+                <input type="password" id="password_check" name="password_check" required><br>
+                <br>
+                <input type="submit" value="submit">
+            </form>
+        </div>
+    </div>
+</div>
+<!-- <script type="text/javascript" src="{% static 'js/wordle.js' %}"> </script> -->
+{% endblock %}

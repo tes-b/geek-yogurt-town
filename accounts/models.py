@@ -41,9 +41,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(_("active"), default=True)
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
 
-    plays = models.PositiveIntegerField(_("plays"), default=0)
-    wins = models.PositiveIntegerField(_("wins"), default=0)
-    tries = models.PositiveBigIntegerField(_("tries"), default=0)
+    plays = models.PositiveIntegerField(_("plays"), default=0)  # 게임수
+    wins = models.PositiveIntegerField(_("wins"), default=0)    # 이긴횟수
+    tries = models.PositiveBigIntegerField(_("tries"), default=0)   # 총시도수
 
     objects = UserManager()
     USERNAME_FIELD = "username"

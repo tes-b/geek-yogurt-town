@@ -34,10 +34,15 @@ label {
 }
 
 header {
+    width: 97%;
     border-bottom: 1px solid rgb(58, 58, 60);
     display: flex;
+    justify-content: space-between;
     color: gainsboro;
     align-items: center;
+    /* padding-left: 100px; */
+    /* padding-right: 100px; */
+
 }
 
 .title {
@@ -188,4 +193,15 @@ header {
     display: flex;
     width: 80%;
     justify-content: space-around;
+}
+
+.userinfo {
+    display: inline-block;
+    text-decoration: none;
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
 }

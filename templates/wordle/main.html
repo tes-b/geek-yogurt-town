@@ -2,11 +2,15 @@
 {% load static %}
 {% block content %}
 <div id="container">
+    
+    <header>
+        <div id="menu-bar" class="menu-bar">menu</div>
+        <h1 class="title">WORDLE</h1>
+        <a id="username" class="userinfo" href="{% url 'accounts:login' %}">username</a>
+    </header>    
+    
     <div id="game">
-        <header>
-            <h1 class="title">WORDLE</h1>
-            <div id="username" class="userinfo">username</div>
-        </header>        
+    
         <!-- <a href="javascript:openPop()">
             <div>box</div>
         </a> -->

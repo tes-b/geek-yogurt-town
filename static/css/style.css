@@ -35,6 +35,9 @@ label {
 
 header {
     border-bottom: 1px solid rgb(58, 58, 60);
+    display: flex;
+    color: gainsboro;
+    align-items: center;
 }
 
 .title {

@@ -18,6 +18,10 @@ const colorGrey = "rgb(58,  58,  60)";
 const colorRed = "rgb(154, 35,  53)";
 
 let word = "";
+let word_id = 0;
+
+let username = "";
+let user_id = 0;
 
 getUserInfo();
 newGame();
@@ -44,7 +48,7 @@ keyInput();
 
 
 function resetPage() {
-    console.log(word);
+    console.log(word_id, word);
     guessedWords = [[]]; // 시도한 단어
     availableSpace = 1; // 현재 글자가 들어갈 
     guessedWordCount = 0;
@@ -65,21 +69,21 @@ function getUserInfo() {
             } else {
                 throw new Error('Not logged in');
             }
-            
-    })
-    .then(data => {
-    const username = data.username;
-    console.log(username);
+        })
+        .then(data => {
+            username = data.username;
+            user_id = data.id;
+            // console.log(user_id, username);
 
-    const usernameDiv = document.getElementById('username')
-    usernameDiv.textContent = username;
-    })
-    .catch(error => {
-        console.error(error);
+            const usernameDiv = document.getElementById('username')
+            usernameDiv.textContent = username;
+        })
+        .catch(error => {
+            console.error(error);
 
-        const usernameDiv = document.getElementById('username');
-        usernameDiv.textContent = "Log In";
-    });
+            const usernameDiv = document.getElementById('username');
+            usernameDiv.textContent = "Log In";
+        });
 }
 
 function newGame() {
@@ -96,10 +100,10 @@ function newGame() {
             else {
                 throw new Error("단어를 받아오지 못했습니다.");
             }
-
         })
         .then(data => {
-            word = data;
+            word = data['word'];
+            word_id = data['id'];
             resetPage();
         })
         .catch(error => {
@@ -156,6 +160,31 @@ function getTileColor(letter, index) {
     return colorYellow;
 }
 
+function sendResult(result) {
+    // 게임 결과 보내기
+    const data = {
+        'word': word_id,
+        'result': result,
+        'tries': guessedWordCount,
+        'user': user_id
+    }
+
+    fetch("http://127.0.0.1:8000/leaderboard/api/record/", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+        })
+        .then(response => {
+            // console.log(response)
+            if (response.status == 200) {
+                return;
+            }
+            else {
+                throw new Error("Result sending failed");
+            }
+        })
+}
+
 function openResultBox(result) {
     console.log("open-result-box");
     onPlay = false;
@@ -191,11 +220,13 @@ function checkResult(currentWord) {
     guessedWordCount += 1;
 
     if (currentWord === word) { // 정답
+        sendResult(true);
         openResultBox(true);
         return;
     }
 
     if (guessedWords.length === 6) {
+        sendResult(false);
         openResultBox(false);
         return;
     }

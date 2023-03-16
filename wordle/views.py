@@ -45,7 +45,8 @@ class WordAPIView(APIView):
                 rand_id = random.randrange(1,total)   
                 queryset = Word.objects.get(id=rand_id)
                 rt_word = queryset.word
-                return Response(data=rt_word, status=status.HTTP_200_OK)
+                data = {'word':rt_word, 'id':rand_id}
+                return Response(data=data, status=status.HTTP_200_OK)
             
             elif word: # 단어 데이터베이스에 있는지 체크
                 try:

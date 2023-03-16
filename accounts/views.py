@@ -60,14 +60,9 @@ class UserLogInView(APIView):
         try:
             # access token decode
             access = request.COOKIES['access']
-            # print("UserLogInView.get.access : ", access)
-            # print("UserLogInView.get.SECRET_KEY : ", SECRET_KEY)
             payload = jwt.decode(access, SECRET_KEY, algorithms=['HS256']) # 토큰 디코드
-            # print("UserLogInView.get.payload : ", payload)
             pk = payload.get('user_id') 
-            # print("UserLogInView.get.id : ", pk)
             user = get_object_or_404(User, pk=pk) # id 로 유저 받아옴
-            # print("UserLogInView.get.user : ", user)
             serializers = UserSerializer(instance=user)
             return Response(serializers.data, status=status.HTTP_200_OK)
             

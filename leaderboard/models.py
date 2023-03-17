@@ -7,3 +7,4 @@ class Record(models.Model):
     result = models.BooleanField(null=True)
     tries = models.PositiveSmallIntegerField(null=True)
     user = models.ForeignKey(User, db_column="user", on_delete=models.DO_NOTHING, null=True)
+    time = models.DateTimeField(auto_now=True, null=True)

@@ -21,7 +21,7 @@ let word = "";
 let word_id = 0;
 
 let username = "";
-let user_id = 0;
+let user_id = null;
 
 getUserInfo();
 newGame();

@@ -6,16 +6,10 @@
     <header>
         <div id="menu-bar" class="menu-bar">menu</div>
         <h1 class="title">WORDLE</h1>
-        <a id="username" class="userinfo" href="{% url 'accounts:login' %}">username</a>
+        <a id="username" class="button" href="{% url 'accounts:login' %}">username</a>
     </header>    
     
     <div id="game">
-    
-        <!-- <a href="javascript:openPop()">
-            <div>box</div>
-        </a> -->
-        
-        <!-- <div id="result-box" class="modal-window" style="display: none;"></div> -->
         <div id="result-box" class="modal hidden">
             <div class="bg"></div>
             <div id="result" class="modal-box">

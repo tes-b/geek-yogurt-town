@@ -2,9 +2,7 @@ from rest_framework import serializers
 from .models import User
 
 class UserSerializer(serializers.ModelSerializer):
-    # plays = serializers.IntegerField() # 게임수
-    # wins  = serializers.IntegerField() # 이긴횟수
-    # tries = serializers.IntegerField() # 총시도수
+
     password = serializers.CharField(required=True, write_only=True, style={'input_type':'password'})
     password_check = serializers.CharField(required=True, write_only=True, style={'input_type':'password'})
 
@@ -27,6 +25,6 @@ class UserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ['id','username','password','password_check']
+        fields = ['id','username','password','password_check','plays','wins','tries']
 
 

@@ -15,26 +15,11 @@
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required><br>
                 <br>
-                <input type="submit" value="login">
-            </form>
-        </div>
-        <h1 class="title">SING UP</h1>
-        <div>
-            <form name="signup" action="{% url 'accounts:api_signup' %}" method="post">
-                {% csrf_token %}
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required><br>
-                <br>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required><br>
-                <br>
-                <label for="password_check">Confirm Password:</label>
-                <input type="password" id="password_check" name="password_check" required><br>
-                <br>
-                <input type="submit" value="submit">
+                <button type="submit" class="button" value="LogIn">Log In</button>
+
+                <a id="btn-signup" class="button" href="{% url 'accounts:signup' %}">Sign Up</a>
             </form>
         </div>
     </div>
 </div>
-<!-- <script type="text/javascript" src="{% static 'js/wordle.js' %}"> </script> -->
 {% endblock %}

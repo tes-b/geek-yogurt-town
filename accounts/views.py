@@ -56,7 +56,6 @@ class UserSignUpView(APIView):
 class UserLogInView(APIView):
     # 유저 정보
     def get(self, request):
-        print("UserLogInView.get")
         try:
             # access token decode
             access = request.COOKIES['access']
@@ -125,4 +124,4 @@ class UserLogInView(APIView):
         response.delete_cookie('access')
         response.delete_cookie('refresh')
         return response
-            
+

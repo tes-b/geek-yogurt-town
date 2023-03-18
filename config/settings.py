@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "wordle",
     "accounts",
     "leaderboard",
+    "town",
 
     # libraries
     "rest_framework",

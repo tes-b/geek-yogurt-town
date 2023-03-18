@@ -21,4 +21,5 @@ urlpatterns = [
     path('wordle/', include('wordle.urls')),
     path('accounts/', include('accounts.urls')),
     path('leaderboard/', include('leaderboard.urls')),
+    path('town/', include('town.urls')),
 ]

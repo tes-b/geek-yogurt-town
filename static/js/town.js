@@ -6,6 +6,86 @@ canvas.setAttribute("height", window.innerHeight);
 var ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = false; // 이미지 부드럽게 처리하지 않음
 
+class Tile {
+    constructor() {
+        this.attr = none;
+        this.sizeX = 16;
+        this.sizeY = 16;
+    }
+}
+
+class Map {
+    constructor() {
+
+        this.TILE_NONE = [0,0];
+        this.TILE_FLOOR = [4,1];
+        this.TILE_GROUND1 = [4,3];
+        this.TILE_GROUND2 = [4,8];
+
+        this.tileAttArr = [
+            this.TILE_NONE,      // 0
+            this.TILE_FLOOR,     // 1
+            this.TILE_GROUND1,   // 2
+            this.TILE_GROUND2,   // 3
+        ];
+
+        this.mapSizeX = 100;
+        this.mapSizeY = 20;
+
+        this.frameWidth = 16;
+        this.frameHeight = 16;
+
+        this.scale = 4;
+        this.offsetY = 10;
+        this.map = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+                    [2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3],
+                    [3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2],
+                    [2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3],];
+        
+        this.imgSizeX = 18;
+        this.imgSizeY = 13;
+
+        this.imgTile = new Image();
+        this.imgTile.src = imgTileTerrain;
+    }
+
+    drawFrame(frameX, frameY, posX=0, posY=0) {
+        if(this.imgTile.complete){
+            ctx.drawImage(
+                this.imgTile,
+                this.frameWidth * frameX,
+                this.frameHeight * frameY,
+                this.frameWidth,
+                this.frameHeight,
+                posX * this.frameWidth * this.scale,
+                posY * this.frameHeight * this.scale, 
+                this.frameWidth * this.scale,
+                this.frameHeight * this.scale, 
+                );
+        }
+    }
+
+    draw() {
+        for (var y=0; y < this.map.length; y++) {
+            for (var x=0; x<this.map[y].length; x++){
+                this.drawFrame(this.tileAttArr[this.map[y][x]][0],
+                                this.tileAttArr[this.map[y][x]][1],
+                                x,y+this.offsetY);
+                
+            }
+        }
+        // for (var tiles in this.map) {
+        //     for (var tile in tiles) {
+        //         this.drawFrame(4,2);
+        //     }
+        // }
+    }
+}
+
+
+
 class Cactus {
     
     constructor() {
@@ -42,6 +122,8 @@ var gravity = 3;
 var animation;
 
 var charactor = new Charactor();
+var map = new Map();
+
 
 function keyInput() {
     document.addEventListener('keydown', function(e) {
@@ -101,11 +183,11 @@ function run() {
         ctx.clearRect(0,0, canvas.width, canvas.height);
 
         bg.draw();
-
-        if (lastTime % cactusSpawnTime <= frameDuration) {
-            var cactus = new Cactus();
-            cactusArr.push(cactus);
-        }
+        map.draw();
+        // if (lastTime % cactusSpawnTime <= frameDuration) {
+        //     var cactus = new Cactus();
+        //     cactusArr.push(cactus);
+        // }
         
         cactusArr = cactusArr.filter((cactus) => {
             if (cactus.x >= -cactus.width) {

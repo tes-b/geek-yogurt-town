@@ -32,8 +32,8 @@ class Map {
         this.mapSizeX = 100;
         this.mapSizeY = 20;
 
-        this.frameWidth = 16;
-        this.frameHeight = 16;
+        this.tileWidth = 16;
+        this.tileHeight = 16;
 
         this.scale = 4;
         this.offsetY = 10;
@@ -55,14 +55,14 @@ class Map {
         if(this.imgTile.complete){
             ctx.drawImage(
                 this.imgTile,
-                this.frameWidth * frameX,
-                this.frameHeight * frameY,
-                this.frameWidth,
-                this.frameHeight,
-                posX * this.frameWidth * this.scale,
-                posY * this.frameHeight * this.scale, 
-                this.frameWidth * this.scale,
-                this.frameHeight * this.scale, 
+                this.tileWidth * frameX,
+                this.tileHeight * frameY,
+                this.tileWidth,
+                this.tileHeight,
+                posX * this.tileWidth * this.scale,
+                posY * this.tileHeight * this.scale, 
+                this.tileWidth * this.scale,
+                this.tileHeight * this.scale, 
                 );
         }
     }
@@ -81,6 +81,36 @@ class Map {
         //         this.drawFrame(4,2);
         //     }
         // }
+    }
+}
+
+class Board {
+    constructor() {
+        this.tileWidth = 16;
+        this.tileHeight = 16;
+
+        this.scale = 6;
+
+        this.imgObjBoard = new Image();
+        this.imgObjBoard.src = imgObjBoard;
+
+
+    }
+
+    draw(posX=0, posY=0) {
+        if(this.imgObjBoard.complete){
+            ctx.drawImage(
+                this.imgObjBoard,
+                0,
+                0,
+                this.tileWidth * 7,
+                this.tileHeight * 5,
+                posX * this.tileWidth * this.scale,
+                posY * this.tileHeight * this.scale, 
+                this.tileWidth * 7 * this.scale,
+                this.tileHeight * 5 * this.scale, 
+                );
+        }
     }
 }
 
@@ -123,7 +153,7 @@ var animation;
 
 var charactor = new Charactor();
 var map = new Map();
-
+var board = new Board();
 
 function keyInput() {
     document.addEventListener('keydown', function(e) {
@@ -184,6 +214,8 @@ function run() {
 
         bg.draw();
         map.draw();
+        board.draw(5,3);
+
         // if (lastTime % cactusSpawnTime <= frameDuration) {
         //     var cactus = new Cactus();
         //     cactusArr.push(cactus);

@@ -14,7 +14,7 @@ class Charactor {
         this.isMovingRight = false;
         this.isMovingUp = false;
         this.isMovingDown = false;
-        this.moveSpeed = 5;
+        this.moveSpeed = 8;
 
         this.state = "idle"
 
@@ -38,7 +38,7 @@ class Charactor {
 
         this.frameCount = 0;
         
-        this.scale = 4;        
+        this.scale = 6;        
     }
 
     changeState(state) {

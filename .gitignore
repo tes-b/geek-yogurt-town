@@ -183,7 +183,7 @@ cython_debug/
 pyvenv.cfg
 pip-selfcheck.json
 
-
+gimp
 secrets.json
 create_secret_key.py
 word_pusher.py

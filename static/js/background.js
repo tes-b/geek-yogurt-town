@@ -1,5 +1,5 @@
 class Background{
-    constructor(canvas, ctx) {
+    constructor(canvas, ctx, tileSize=16) {
 
         this.imgDict = {};
 
@@ -32,8 +32,8 @@ class Background{
                 img["frameHeight"],
                 0,
                 0, 
-                canvas.width,
-                canvas.height, 
+                img["frameWidth"],
+                img["frameHeight"],
                 );
         }
     }

@@ -6,6 +6,39 @@ canvas.setAttribute("height", window.innerHeight);
 var ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = false; // 이미지 부드럽게 처리하지 않음
 
+
+class Camera {
+    constructor() {
+        this.x = 0;
+        this.y = 0;
+        this.offsetX = 0;
+        this.offsetY = 200;
+        this.speed = 1;
+        this.isMovingRight = false;
+        this.isMovingLeft = false;
+        this.isMovingUp = false;
+        this.isMovingDown = false;
+    }
+
+    follow(obj) {
+        this.x = obj.x;
+        this.y = obj.y - this.offsetY;
+    }
+
+    move(elapsedTime) {
+        if (this.isMovingRight) {
+            this.x += this.speed * elapsedTime;
+        } else if (this.isMovingLeft) {
+            this.x -= this.speed * elapsedTime;
+        }
+        if (this.isMovingUp) {
+            this.y -= this.speed * elapsedTime;
+        } else if (this.isMovingDown) {
+            this.y += this.speed * elapsedTime;
+        }
+    }
+}
+
 class Tile {
     constructor() {
         this.attr = none;
@@ -15,7 +48,7 @@ class Tile {
 }
 
 class Map {
-    constructor() {
+    constructor(tileSize=16) {
 
         this.TILE_NONE = [0,0];
         this.TILE_FLOOR = [4,1];
@@ -29,29 +62,27 @@ class Map {
             this.TILE_GROUND2,   // 3
         ];
 
-        this.mapSizeX = 100;
-        this.mapSizeY = 20;
+        // this.mapSizeX = 100;
+        // this.mapSizeY = 20;
 
         this.tileWidth = 16;
         this.tileHeight = 16;
 
-        this.scale = 4;
+        this.scale = 1;
         this.offsetY = 10;
-        this.map = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        this.map = [
                     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
                     [2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3],
                     [3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2],
                     [2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3],];
         
-        this.imgSizeX = 18;
-        this.imgSizeY = 13;
 
         this.imgTile = new Image();
         this.imgTile.src = imgTileTerrain;
     }
 
-    drawFrame(frameX, frameY, posX=0, posY=0) {
+    drawFrame(frameX, frameY, posX=0, posY=0, cam) {
         if(this.imgTile.complete){
             ctx.drawImage(
                 this.imgTile,
@@ -59,37 +90,41 @@ class Map {
                 this.tileHeight * frameY,
                 this.tileWidth,
                 this.tileHeight,
-                posX * this.tileWidth * this.scale,
-                posY * this.tileHeight * this.scale, 
-                this.tileWidth * this.scale,
-                this.tileHeight * this.scale, 
+                posX * tileSize * this.scale,
+                posY * tileSize * this.scale, 
+                tileSize * this.scale,
+                tileSize * this.scale, 
                 );
         }
     }
 
-    draw() {
+    draw(cam) {
         for (var y=0; y < this.map.length; y++) {
             for (var x=0; x<this.map[y].length; x++){
-                this.drawFrame(this.tileAttArr[this.map[y][x]][0],
-                                this.tileAttArr[this.map[y][x]][1],
-                                x,y+this.offsetY);
-                
+                this.drawFrame(
+                    this.tileAttArr[this.map[y][x]][0],
+                    this.tileAttArr[this.map[y][x]][1],
+                    x,
+                    y, 
+                    cam
+                    );
             }
         }
-        // for (var tiles in this.map) {
-        //     for (var tile in tiles) {
-        //         this.drawFrame(4,2);
-        //     }
-        // }
     }
 }
 
 class Board {
-    constructor() {
+    constructor(posX=0, posY=0, tileSize=16) {
         this.tileWidth = 16;
         this.tileHeight = 16;
 
-        this.scale = 6;
+        this.posX = posX;
+        this.posY = posY;
+
+        this.scale = 1;
+
+        this.frameX = 12;
+        this.frameY = 9;
 
         this.imgObjBoard = new Image();
         this.imgObjBoard.src = imgObjBoard;
@@ -97,24 +132,35 @@ class Board {
 
     }
 
-    draw(posX=0, posY=0) {
+    draw(posX=0, posY=0, cam) {
         if(this.imgObjBoard.complete){
             ctx.drawImage(
                 this.imgObjBoard,
                 0,
                 0,
-                this.tileWidth * 7,
-                this.tileHeight * 5,
+                this.tileWidth * this.frameX,
+                this.tileHeight * this.frameY,
                 posX * this.tileWidth * this.scale,
                 posY * this.tileHeight * this.scale, 
-                this.tileWidth * 7 * this.scale,
-                this.tileHeight * 5 * this.scale, 
+                this.tileWidth * this.frameX * this.scale,
+                this.tileHeight * this.frameY * this.scale, 
                 );
         }
     }
 }
 
-
+class Info {
+    draw(show=true, charactor) {
+        if(show) {
+            const charactorPosEl = document.getElementById("charactor-pos");
+            if (charactorPosEl) {
+                charactorPosEl.innerText = `Charactor : ${Math.floor(charactor.x)} , ${Math.floor(charactor.y)}`;
+            }
+            // document.getElementById("charactor-pos").innerText = `Charactor : ${Math.floor(charactor.x)} , ${Math.floor(charactor.y)}`;
+        }
+    }
+    
+}
 
 class Cactus {
     
@@ -137,7 +183,7 @@ class Cactus {
     }
 }
 
-var bg = new Background(canvas, ctx);
+
 
 let lastTime = 0;
 const targetFPS = 60;
@@ -150,16 +196,22 @@ var floorHeight = 200;
 var gravity = 3;
 
 var animation;
+var tileSize = 16;
 
-var charactor = new Charactor();
-var map = new Map();
-var board = new Board();
+var bg = new Background(canvas, ctx, tileSize);
+var map = new Map(tileSize);
+var board = new Board(tileSize=tileSize);
+var charactor = new Charactor(0, 0, tileSize);
+var cam = new Camera();
+var info = new Info();
 
 function keyInput() {
     document.addEventListener('keydown', function(e) {
         if (e.code === 'Enter') {
             if (charactor.state === "idle") {
-                charactor.changeState("running");
+                charactor.changeState("walk");
+            } else if (charactor.state === "walk") {
+                charactor.changeState("run");
             } else {
                 charactor.changeState("idle");
             }
@@ -187,15 +239,19 @@ function keyInput() {
     document.addEventListener('keyup', function(e) {
         if (e.code === 'ArrowLeft') {
             charactor.isMovingLeft = false;
+            cam.isMovingLeft = false;
         }
         if (e.code === 'ArrowRight') {
             charactor.isMovingRight = false;
+            cam.isMovingRight = false;
         }
         if (e.code === 'ArrowUp') {
             charactor.isMovingUp = false;   
+            cam.isMovingUp = false;
         }
         if (e.code === 'ArrowDown') {
             charactor.isMovingDown = false;
+            cam.isMovingDown = false;
         }
     })
 }
@@ -212,9 +268,12 @@ function run() {
 
         ctx.clearRect(0,0, canvas.width, canvas.height);
 
+        charactor.move(elapsedTime);
+        cam.follow(charactor);
+
         bg.draw();
-        map.draw();
-        board.draw(5,3);
+        map.draw(cam);
+        board.draw(0,0, cam);
 
         // if (lastTime % cactusSpawnTime <= frameDuration) {
         //     var cactus = new Cactus();
@@ -248,8 +307,9 @@ function run() {
         //     jumpTimer = 0;
         // }
         
-        charactor.move(elapsedTime);
+        
         charactor.draw(true);
+        info.draw(true, charactor);
         
         //===================================================
         lastTime = currentTime - (elapsedTime % frameDuration);

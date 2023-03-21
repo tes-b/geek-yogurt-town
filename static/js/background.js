@@ -1,48 +1,62 @@
-class Background{
-    constructor(canvas, ctx, tileSize=16) {
+class BackgroundImg{
+    constructor(img, tileSize=16, frameWidth, frameHeight, scale=1) {
+        this.img = new Image();
+        this.img.src = img;
 
-        this.imgDict = {};
+        this.x = 0;
+        this.y = 0;
+        this.tileSize = tileSize;
+        this.frameWidth = frameWidth * this.tileSize;
+        this.frameHeight = frameHeight * this.tileSize;
 
-        this.imgBgWater1 = new Image();
-        this.imgBgWater1.src = imgBackgroundWater1;
-        this.imgBgWater2 = new Image();
-        this.imgBgWater2.src = imgBackgroundWater2;
-        this.imgBgCloud1 = new Image();
-        this.imgBgCloud1.src = imgBackgroundCloud1;
-        this.imgBgCloud2 = new Image();
-        this.imgBgCloud2.src = imgBackgroundCloud2;
-        this.imgBgSky = new Image();
-        this.imgBgSky.src = imgBackgroundSky;
-        
-        this.imgDict["water1"] = {"obj":this.imgBgWater1, "frameX":1, "frameY":1 ,"frameWidth":288, "frameHeight":208, "frameRate":0};
-        this.imgDict["water2"] = {"obj":this.imgBgWater2, "frameX":1, "frameY":1 ,"frameWidth":288, "frameHeight":208, "frameRate":0};
-        this.imgDict["cloud1"] = {"obj":this.imgBgCloud1, "frameX":1, "frameY":1 ,"frameWidth":288, "frameHeight":208, "frameRate":0};
-        this.imgDict["cloud2"] = {"obj":this.imgBgCloud2, "frameX":1, "frameY":1 ,"frameWidth":288, "frameHeight":208, "frameRate":0};
-        this.imgDict["sky"] = {"obj":this.imgBgSky, "frameX":1, "frameY":1 ,"frameWidth":288, "frameHeight":208, "frameRate":0};
-
+        this.scale = scale;
     }
 
-    drawImage(img) {
-        if(img["obj"].complete){
+    draw(hitbox) {
+        if(this.img.complete){
             ctx.drawImage(
-                img["obj"], 
+                this.img, 
                 0,
                 0,
-                img["frameWidth"],
-                img["frameHeight"],
-                0,
-                0, 
-                img["frameWidth"],
-                img["frameHeight"],
+                this.frameWidth,
+                this.frameHeight,
+                this.x,
+                this.y, 
+                this.frameWidth * this.scale,
+                this.frameHeight * this.scale,
                 );
+        }
+        if(hitbox){
+            this.drawRect();
         }
     }
 
-    draw() {
-        this.drawImage(this.imgDict["sky"]);
-        this.drawImage(this.imgDict["cloud2"]);
-        this.drawImage(this.imgDict["cloud1"]);
-        this.drawImage(this.imgDict["water2"]);
-        this.drawImage(this.imgDict["water1"]);
+    drawRect() {
+        ctx.strokeRect(
+            this.x,
+            this.y, 
+            this.frameWidth * this.scale,
+            this.frameHeight * this.scale,
+            );
+    }
+}
+
+class Background{
+    constructor(canvas, ctx, cam, tileSize=16) {
+        this.scale = 4;
+
+        this.imgBgWater1 = new BackgroundImg(imgBackgroundWater1, tileSize, 18, 13, this.scale);
+        this.imgBgWater2 = new BackgroundImg(imgBackgroundWater2, tileSize, 18, 13, this.scale);
+        this.imgBgCloud1 = new BackgroundImg(imgBackgroundCloud1, tileSize, 18, 13, this.scale);
+        this.imgBgCloud2 = new BackgroundImg(imgBackgroundCloud2, tileSize, 18, 13, this.scale);
+        this.imgBgSky = new BackgroundImg(imgBackgroundSky, tileSize, 18, 13, this.scale);
+    }
+
+    draw(hitbox=false) {
+        this.imgBgSky.draw(hitbox);
+        this.imgBgCloud2.draw(hitbox);
+        this.imgBgCloud1.draw(hitbox);
+        this.imgBgWater2.draw(hitbox);
+        this.imgBgWater1.draw(hitbox);
     }
 }

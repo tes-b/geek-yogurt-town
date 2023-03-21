@@ -39,16 +39,8 @@ class Camera {
     }
 }
 
-class Tile {
-    constructor() {
-        this.attr = none;
-        this.sizeX = 16;
-        this.sizeY = 16;
-    }
-}
-
 class Map {
-    constructor(tileSize=16) {
+    constructor(cam, tileSize=16) {
 
         this.TILE_NONE = [0,0];
         this.TILE_FLOOR = [4,1];
@@ -68,7 +60,7 @@ class Map {
         this.tileWidth = 16;
         this.tileHeight = 16;
 
-        this.scale = 1;
+        this.scale = 4;
         this.offsetY = 10;
         this.map = [
                     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -80,6 +72,15 @@ class Map {
 
         this.imgTile = new Image();
         this.imgTile.src = imgTileTerrain;
+    }
+
+    drawRect(posX=0, posY=0, cam) {
+        ctx.strokeRect(
+            posX * tileSize * this.scale,
+            posY * tileSize * this.scale, 
+            tileSize * this.scale,
+            tileSize * this.scale, 
+            );
     }
 
     drawFrame(frameX, frameY, posX=0, posY=0, cam) {
@@ -105,26 +106,27 @@ class Map {
                     this.tileAttArr[this.map[y][x]][0],
                     this.tileAttArr[this.map[y][x]][1],
                     x,
-                    y, 
+                    y + this.offsetY, 
                     cam
                     );
+                this.drawRect(x,y + this.offsetY,cam);
             }
         }
     }
 }
 
 class Board {
-    constructor(posX=0, posY=0, tileSize=16) {
+    constructor(cam, posX=0, posY=0, tileSize=16) {
         this.tileWidth = 16;
         this.tileHeight = 16;
 
-        this.posX = posX;
-        this.posY = posY;
+        this.scale = 4;
 
-        this.scale = 1;
+        this.x = posX * this.tileWidth * this.scale;
+        this.y = posY * this.tileHeight * this.scale;
 
-        this.frameX = 12;
-        this.frameY = 9;
+        this.frameSizeX = 12;
+        this.frameSizeY = 9;
 
         this.imgObjBoard = new Image();
         this.imgObjBoard.src = imgObjBoard;
@@ -132,18 +134,18 @@ class Board {
 
     }
 
-    draw(posX=0, posY=0, cam) {
+    draw(cam) {
         if(this.imgObjBoard.complete){
             ctx.drawImage(
                 this.imgObjBoard,
                 0,
                 0,
-                this.tileWidth * this.frameX,
-                this.tileHeight * this.frameY,
-                posX * this.tileWidth * this.scale,
-                posY * this.tileHeight * this.scale, 
-                this.tileWidth * this.frameX * this.scale,
-                this.tileHeight * this.frameY * this.scale, 
+                this.tileWidth * this.frameSizeX,
+                this.tileHeight * this.frameSizeY,
+                this.x,
+                this.y, 
+                tileSize * this.frameSizeX * this.scale,
+                tileSize * this.frameSizeY * this.scale, 
                 );
         }
     }
@@ -156,7 +158,6 @@ class Info {
             if (charactorPosEl) {
                 charactorPosEl.innerText = `Charactor : ${Math.floor(charactor.x)} , ${Math.floor(charactor.y)}`;
             }
-            // document.getElementById("charactor-pos").innerText = `Charactor : ${Math.floor(charactor.x)} , ${Math.floor(charactor.y)}`;
         }
     }
     
@@ -198,11 +199,11 @@ var gravity = 3;
 var animation;
 var tileSize = 16;
 
-var bg = new Background(canvas, ctx, tileSize);
-var map = new Map(tileSize);
-var board = new Board(tileSize=tileSize);
-var charactor = new Charactor(0, 0, tileSize);
 var cam = new Camera();
+var bg = new Background(canvas, ctx, cam, tileSize);
+var map = new Map(cam, tileSize);
+var board = new Board(cam, 0, 0, tileSize=tileSize);
+var charactor = new Charactor(0, 9, tileSize);
 var info = new Info();
 
 function keyInput() {
@@ -271,28 +272,28 @@ function run() {
         charactor.move(elapsedTime);
         cam.follow(charactor);
 
-        bg.draw();
+        bg.draw(hitbox=true);
         map.draw(cam);
-        board.draw(0,0, cam);
+        board.draw(cam);
 
         // if (lastTime % cactusSpawnTime <= frameDuration) {
         //     var cactus = new Cactus();
         //     cactusArr.push(cactus);
         // }
         
-        cactusArr = cactusArr.filter((cactus) => {
-            if (cactus.x >= -cactus.width) {
-                cactus.x -= cactus.speed;
+        // cactusArr = cactusArr.filter((cactus) => {
+        //     if (cactus.x >= -cactus.width) {
+        //         cactus.x -= cactus.speed;
 
-                if(collisionCheck(charactor, cactus)) {
-                    // cancelAnimationFrame(animation);
-                }
+        //         if(collisionCheck(charactor, cactus)) {
+        //             // cancelAnimationFrame(animation);
+        //         }
 
-                cactus.draw();
-                return true;
-            }
-            return false;
-        })
+        //         cactus.draw();
+        //         return true;
+        //     }
+        //     return false;
+        // })
 
         // if (charactor.isJumping) {
         //     charactor.y -= charactor.jumpPower;

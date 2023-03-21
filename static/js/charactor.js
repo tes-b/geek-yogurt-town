@@ -1,7 +1,9 @@
 class Charactor {
     constructor(posX=0, posY=0, tilesize=16) {
-        this.x = posX * tileSize;
-        this.y = posY * tileSize;
+        this.scale = 4;        
+
+        this.x = posX * tileSize * this.scale;
+        this.y = posY * tileSize * this.scale;
         // this.width = 128;
         // this.height = 128;
         this.widthHalf = 25;
@@ -44,7 +46,7 @@ class Charactor {
 
         this.frameCount = 0;
         
-        this.scale = 1;        
+        
     }
 
     changeState(state) {

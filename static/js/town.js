@@ -8,16 +8,25 @@ ctx.imageSmoothingEnabled = false; // 이미지 부드럽게 처리하지 않음
 
 
 class Camera {
-    constructor() {
+    constructor(canvas) {
         this.x = 0;
         this.y = 0;
+        this.width = canvas.width;
+        this.height = canvas.height;
         this.offsetX = 0;
-        this.offsetY = 200;
+        this.offsetY = canvas.height * 0.6;
         this.speed = 1;
         this.isMovingRight = false;
         this.isMovingLeft = false;
         this.isMovingUp = false;
         this.isMovingDown = false;
+    }
+
+    update(elapsedTime, followObj) {
+        this.width = canvas.width;
+        this.height = canvas.height;
+        this.follow(followObj);
+        this.move(elapsedTime)
     }
 
     follow(obj) {
@@ -35,118 +44,6 @@ class Camera {
             this.y -= this.speed * elapsedTime;
         } else if (this.isMovingDown) {
             this.y += this.speed * elapsedTime;
-        }
-    }
-}
-
-class Map {
-    constructor(cam, tileSize=16) {
-
-        this.TILE_NONE = [0,0];
-        this.TILE_FLOOR = [4,1];
-        this.TILE_GROUND1 = [4,3];
-        this.TILE_GROUND2 = [4,8];
-
-        this.tileAttArr = [
-            this.TILE_NONE,      // 0
-            this.TILE_FLOOR,     // 1
-            this.TILE_GROUND1,   // 2
-            this.TILE_GROUND2,   // 3
-        ];
-
-        // this.mapSizeX = 100;
-        // this.mapSizeY = 20;
-
-        this.tileWidth = 16;
-        this.tileHeight = 16;
-
-        this.scale = 4;
-        this.offsetY = 10;
-        this.map = [
-                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-                    [2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3],
-                    [3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2],
-                    [2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3],];
-        
-
-        this.imgTile = new Image();
-        this.imgTile.src = imgTileTerrain;
-    }
-
-    drawRect(posX=0, posY=0, cam) {
-        ctx.strokeRect(
-            posX * tileSize * this.scale,
-            posY * tileSize * this.scale, 
-            tileSize * this.scale,
-            tileSize * this.scale, 
-            );
-    }
-
-    drawFrame(frameX, frameY, posX=0, posY=0, cam) {
-        if(this.imgTile.complete){
-            ctx.drawImage(
-                this.imgTile,
-                this.tileWidth * frameX,
-                this.tileHeight * frameY,
-                this.tileWidth,
-                this.tileHeight,
-                posX * tileSize * this.scale,
-                posY * tileSize * this.scale, 
-                tileSize * this.scale,
-                tileSize * this.scale, 
-                );
-        }
-    }
-
-    draw(cam) {
-        for (var y=0; y < this.map.length; y++) {
-            for (var x=0; x<this.map[y].length; x++){
-                this.drawFrame(
-                    this.tileAttArr[this.map[y][x]][0],
-                    this.tileAttArr[this.map[y][x]][1],
-                    x,
-                    y + this.offsetY, 
-                    cam
-                    );
-                this.drawRect(x,y + this.offsetY,cam);
-            }
-        }
-    }
-}
-
-class Board {
-    constructor(cam, posX=0, posY=0, tileSize=16) {
-        this.tileWidth = 16;
-        this.tileHeight = 16;
-
-        this.scale = 4;
-
-        this.x = posX * this.tileWidth * this.scale;
-        this.y = posY * this.tileHeight * this.scale;
-
-        this.frameSizeX = 12;
-        this.frameSizeY = 9;
-
-        this.imgObjBoard = new Image();
-        this.imgObjBoard.src = imgObjBoard;
-
-
-    }
-
-    draw(cam) {
-        if(this.imgObjBoard.complete){
-            ctx.drawImage(
-                this.imgObjBoard,
-                0,
-                0,
-                this.tileWidth * this.frameSizeX,
-                this.tileHeight * this.frameSizeY,
-                this.x,
-                this.y, 
-                tileSize * this.frameSizeX * this.scale,
-                tileSize * this.frameSizeY * this.scale, 
-                );
         }
     }
 }
@@ -199,11 +96,11 @@ var gravity = 3;
 var animation;
 var tileSize = 16;
 
-var cam = new Camera();
-var bg = new Background(canvas, ctx, cam, tileSize);
+var cam = new Camera(canvas);
+var bg = new Background(cam, ctx, tileSize);
 var map = new Map(cam, tileSize);
 var board = new Board(cam, 0, 0, tileSize=tileSize);
-var charactor = new Charactor(0, 9, tileSize);
+var charactor = new Charactor(cam, 0, 9, tileSize);
 var info = new Info();
 
 function keyInput() {
@@ -270,11 +167,14 @@ function run() {
         ctx.clearRect(0,0, canvas.width, canvas.height);
 
         charactor.move(elapsedTime);
-        cam.follow(charactor);
+        cam.update(elapsedTime, followObj=charactor)
+        // cam.follow(charactor);
 
         bg.draw(hitbox=true);
         map.draw(cam);
         board.draw(cam);
+        charactor.draw(cam, hitbox=true);
+        info.draw(show=true, charactor);
 
         // if (lastTime % cactusSpawnTime <= frameDuration) {
         //     var cactus = new Cactus();
@@ -309,8 +209,7 @@ function run() {
         // }
         
         
-        charactor.draw(true);
-        info.draw(true, charactor);
+        
         
         //===================================================
         lastTime = currentTime - (elapsedTime % frameDuration);

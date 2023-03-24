@@ -1,7 +1,8 @@
 class BackgroundImg{
-    constructor(img, tileSize=16, frameWidth, frameHeight, scale=1) {
+    constructor(img, cam, tileSize=16, frameWidth, frameHeight, scale=1) {
         this.img = new Image();
         this.img.src = img;
+        this.cam = cam;
 
         this.x = 0;
         this.y = 0;
@@ -12,7 +13,7 @@ class BackgroundImg{
         this.scale = scale;
     }
 
-    draw(hitbox) {
+    draw(hitbox=false) {
         if(this.img.complete){
             ctx.drawImage(
                 this.img, 
@@ -20,8 +21,8 @@ class BackgroundImg{
                 0,
                 this.frameWidth,
                 this.frameHeight,
-                this.x,
-                this.y, 
+                this.x - this.cam.x,
+                this.y - this.cam.y, 
                 this.frameWidth * this.scale,
                 this.frameHeight * this.scale,
                 );
@@ -33,8 +34,8 @@ class BackgroundImg{
 
     drawRect() {
         ctx.strokeRect(
-            this.x,
-            this.y, 
+            this.x - this.cam.x,
+            this.y - this.cam.y, 
             this.frameWidth * this.scale,
             this.frameHeight * this.scale,
             );
@@ -42,14 +43,15 @@ class BackgroundImg{
 }
 
 class Background{
-    constructor(canvas, ctx, cam, tileSize=16) {
-        this.scale = 4;
+    constructor(cam, ctx, tileSize=16) {
+        this.cam = cam
+        this.scale = 4 * this.cam.height * 0.001;
 
-        this.imgBgWater1 = new BackgroundImg(imgBackgroundWater1, tileSize, 18, 13, this.scale);
-        this.imgBgWater2 = new BackgroundImg(imgBackgroundWater2, tileSize, 18, 13, this.scale);
-        this.imgBgCloud1 = new BackgroundImg(imgBackgroundCloud1, tileSize, 18, 13, this.scale);
-        this.imgBgCloud2 = new BackgroundImg(imgBackgroundCloud2, tileSize, 18, 13, this.scale);
-        this.imgBgSky = new BackgroundImg(imgBackgroundSky, tileSize, 18, 13, this.scale);
+        this.imgBgWater1 = new BackgroundImg(imgBackgroundWater1, this.cam, tileSize, 18, 13, this.scale);
+        this.imgBgWater2 = new BackgroundImg(imgBackgroundWater2, this.cam, tileSize, 18, 13, this.scale);
+        this.imgBgCloud1 = new BackgroundImg(imgBackgroundCloud1, this.cam, tileSize, 18, 13, this.scale);
+        this.imgBgCloud2 = new BackgroundImg(imgBackgroundCloud2, this.cam, tileSize, 18, 13, this.scale);
+        this.imgBgSky = new BackgroundImg(imgBackgroundSky, this.cam, tileSize, 18, 13, this.scale);
     }
 
     draw(hitbox=false) {

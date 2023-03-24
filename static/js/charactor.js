@@ -1,22 +1,23 @@
 class Charactor {
-    constructor(posX=0, posY=0, tilesize=16) {
-        this.scale = 4;        
+    constructor(cam, posX=0, posY=0, tilesize=16) {
+        this.cam = cam
+        this.scale = 4 * this.cam.height * 0.001;            
 
         this.x = posX * tileSize * this.scale;
         this.y = posY * tileSize * this.scale;
-        // this.width = 128;
-        // this.height = 128;
+
         this.widthHalf = 25;
         this.heightHalf = 25;
         this.jumpPower = 4;        
         this.isJumping = false;
         this.jumpDuration = 2000;
         this.jumpTimer = 0;
+
         this.isMovingLeft = false;
         this.isMovingRight = false;
         this.isMovingUp = false;
         this.isMovingDown = false;
-        this.moveSpeed = 0.1;
+        this.moveSpeed = 0.3;
 
         this.state = "idle"
 
@@ -30,8 +31,8 @@ class Charactor {
         this.imgWalk.src = imgCharactorWalk;
 
         this.imgDict["idle"] = {"obj":this.imgIdle, "frameX":4, "frameY":1 ,"frameWidth":16, "frameHeight":16, "frameRate":15};
-        this.imgDict["run"] = {"obj":this.imgRun, "frameX":6, "frameY":1 ,"frameWidth":32, "frameHeight":32, "frameRate":7};
-        this.imgDict["walk"] = {"obj":this.imgWalk, "frameX":6, "frameY":1 ,"frameWidth":32, "frameHeight":32, "frameRate":10};
+        this.imgDict["run"] = {"obj":this.imgRun, "frameX":6, "frameY":1 ,"frameWidth":16, "frameHeight":16, "frameRate":7};
+        this.imgDict["walk"] = {"obj":this.imgWalk, "frameX":6, "frameY":1 ,"frameWidth":16, "frameHeight":16, "frameRate":10};
 
         this.imgCurrent = this.imgDict[this.state];
 
@@ -59,8 +60,8 @@ class Charactor {
 
     drawHitbox() {
         ctx.strokeRect(
-            this.x,
-            this.y, 
+            this.x - this.cam.x,
+            this.y - this.cam.y, 
             this.imgCurrent["frameWidth"] * this.frameSizeX * this.scale,
             this.imgCurrent["frameHeight"] * this.frameSizeY * this.scale,
             );
@@ -74,8 +75,8 @@ class Charactor {
                 frameY * this.imgCurrent["frameHeight"] * this.frameSizeY,
                 this.imgCurrent["frameWidth"] * this.frameSizeX,
                 this.imgCurrent["frameHeight"] * this.frameSizeY,
-                this.x,
-                this.y, 
+                this.x - this.cam.x,
+                this.y - this.cam.y, 
                 this.imgCurrent["frameWidth"] * this.frameSizeX * this.scale,
                 this.imgCurrent["frameHeight"] * this.frameSizeY * this.scale,
                 );
@@ -111,7 +112,7 @@ class Charactor {
         }
     }
 
-    draw(hitbox) {
+    draw(hitbox=false) {
         if (hitbox) {
             this.drawHitbox();
         }

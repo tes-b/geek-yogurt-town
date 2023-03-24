@@ -1,7 +1,7 @@
 class Charactor {
     constructor(cam, posX=0, posY=0, tilesize=16) {
         this.cam = cam
-        this.scale = 4 * this.cam.height * 0.001;            
+        this.scale = 6 * this.cam.height * 0.001;            
 
         this.x = posX * tileSize * this.scale;
         this.y = posY * tileSize * this.scale;
@@ -51,6 +51,7 @@ class Charactor {
     }
 
     changeState(state) {
+        if (this.state == state) { return; }
         this.state = state;
         this.currentFrameX = 0;
         this.currentFrameY = 0;

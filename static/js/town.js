@@ -6,48 +6,6 @@ canvas.setAttribute("height", window.innerHeight);
 var ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = false; // 이미지 부드럽게 처리하지 않음
 
-
-class Camera {
-    constructor(canvas) {
-        this.x = 0;
-        this.y = 0;
-        this.width = canvas.width;
-        this.height = canvas.height;
-        this.offsetX = 0;
-        this.offsetY = canvas.height * 0.6;
-        this.speed = 1;
-        this.isMovingRight = false;
-        this.isMovingLeft = false;
-        this.isMovingUp = false;
-        this.isMovingDown = false;
-    }
-
-    update(elapsedTime, followObj) {
-        this.width = canvas.width;
-        this.height = canvas.height;
-        this.follow(followObj);
-        this.move(elapsedTime)
-    }
-
-    follow(obj) {
-        this.x = obj.x;
-        this.y = obj.y - this.offsetY;
-    }
-
-    move(elapsedTime) {
-        if (this.isMovingRight) {
-            this.x += this.speed * elapsedTime;
-        } else if (this.isMovingLeft) {
-            this.x -= this.speed * elapsedTime;
-        }
-        if (this.isMovingUp) {
-            this.y -= this.speed * elapsedTime;
-        } else if (this.isMovingDown) {
-            this.y += this.speed * elapsedTime;
-        }
-    }
-}
-
 class Info {
     draw(show=true, charactor) {
         if(show) {
@@ -93,15 +51,21 @@ var cactusSpawnTime = 3000;
 var floorHeight = 200;
 var gravity = 3;
 
-var animation;
 var tileSize = 16;
+
+const SECTION_INTRO = 0;
+const SECTION_RESUME = 0;
+
+var section = SECTION_INTRO;
 
 var cam = new Camera(canvas);
 var bg = new Background(cam, ctx, tileSize);
 var map = new Map(cam, tileSize);
-var board = new Board(cam, 0, 0, tileSize=tileSize);
-var charactor = new Charactor(cam, 0, 9, tileSize);
+var board = new Board(cam, 5, 6, tileSize=tileSize);
+var charactor = new Charactor(cam, 2, 9, tileSize);
 var info = new Info();
+
+cam.followObj = charactor;
 
 function keyInput() {
     document.addEventListener('keydown', function(e) {
@@ -122,9 +86,11 @@ function keyInput() {
         }
         if (e.code === 'ArrowLeft') {
             charactor.isMovingLeft = true;
+            charactor.changeState("run");
         }
         if (e.code === 'ArrowRight') {
             charactor.isMovingRight = true;
+            charactor.changeState("run");
         }
         if (e.code === 'ArrowUp') {
             charactor.isMovingUp = true;   
@@ -137,19 +103,17 @@ function keyInput() {
     document.addEventListener('keyup', function(e) {
         if (e.code === 'ArrowLeft') {
             charactor.isMovingLeft = false;
-            cam.isMovingLeft = false;
+            charactor.changeState("idle");
         }
         if (e.code === 'ArrowRight') {
             charactor.isMovingRight = false;
-            cam.isMovingRight = false;
+            charactor.changeState("idle");
         }
         if (e.code === 'ArrowUp') {
             charactor.isMovingUp = false;   
-            cam.isMovingUp = false;
         }
         if (e.code === 'ArrowDown') {
             charactor.isMovingDown = false;
-            cam.isMovingDown = false;
         }
     })
 }
@@ -167,7 +131,7 @@ function run() {
         ctx.clearRect(0,0, canvas.width, canvas.height);
 
         charactor.move(elapsedTime);
-        cam.update(elapsedTime, followObj=charactor)
+        cam.update(elapsedTime);
         // cam.follow(charactor);
 
         bg.draw(hitbox=true);

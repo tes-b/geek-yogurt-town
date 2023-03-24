@@ -20,7 +20,7 @@ class Map {
         this.tileWidth = 16;
         this.tileHeight = 16;
 
-        this.scale = 4 * this.cam.height * 0.001;
+        this.scale = 6 * this.cam.height * 0.001;
         this.offsetY = 10;
         this.map = [
                     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],

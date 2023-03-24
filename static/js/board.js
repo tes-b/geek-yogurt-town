@@ -4,7 +4,7 @@ class Board {
         this.tileWidth = 16;
         this.tileHeight = 16;
 
-        this.scale = 4 * this.cam.height * 0.001;
+        this.scale = 6 * this.cam.height * 0.001;
 
         this.x = posX * this.tileWidth * this.scale;
         this.y = posY * this.tileHeight * this.scale;

@@ -11,21 +11,28 @@
 <body>
     
     <canvas id="canvas"></canvas>
+    <!-- <iframe id="overlay" src="../overlay.html"></iframe> -->
+    <!-- <iframe id="overlay" src="http://127.0.0.1:8000/wordle/"></iframe> -->
+    <iframe class="overlay" id="wordle" src="/wordle/"></iframe>
+    
     <!-- <script src="town.js"></script> -->
     <script>
-        var imgCharactorIdle = "{% static 'img/charactor/Pink_Monster_Idle_4.png' %}";
-        // var imgCharactorIdle = "{% static 'img/charactor/Pink_Monster_Idle_4_0.png' %}";
-        var imgCharactorWalk = "{% static 'img/charactor/Pink_Monster_Walk_6.png' %}";
-        var imgCharactorRun = "{% static 'img/charactor/Pink_Monster_Run_6.png' %}";
-        // var imgCharactorIdle = "{% static 'img/charactor/Idle (32 x 32).png' %}";
-        var imgBackgroundWater1 = "{% static 'img/background/1 - Waters_version_1.png' %}";
-        var imgBackgroundWater2 = "{% static 'img/background/2 - Waters_version_2.png' %}";
-        var imgBackgroundCloud1 = "{% static 'img/background/3 - Floating_clouds.png' %}";
-        var imgBackgroundCloud2 = "{% static 'img/background/4 - Background_clouds.png' %}";
-        var imgBackgroundSky = "{% static 'img/background/5 - Sky_color.png' %}";
-        var imgTileTerrain = "{% static 'img/tiles/Terrain (16 x 16).png' %}";
-        var imgObjBoard = "{% static 'img/tiles/board(16x16).png' %}";
-        // var imgObjBoard = "{% static 'img/tiles/board(16x16)_0.png' %}";
+        
+        var imgCharactorIdle = "{% static 'img/charactor/Idle_Poses (32 x 32).png' %}";
+        var imgCharactorWalk = "{% static 'img/charactor/Walking (32 x 32).png' %}";        
+        var imgCharactorRun = "{% static 'img/charactor/Running (32 x 32).png' %}";
+
+        
+        var imgBackgroundNight1 = "{% static 'img/background/1.png' %}";
+        var imgBackgroundNight2 = "{% static 'img/background/2.png' %}";
+        var imgBackgroundNight3 = "{% static 'img/background/3.png' %}";
+        var imgBackgroundNight4 = "{% static 'img/background/4.png' %}";
+        var imgBackgroundNight5 = "{% static 'img/background/5.png' %}";
+        
+        var imgTileMedieval = "{% static 'img/tiles/Medieval_tiles_free2_0.png' %}";
+        
+        var imgObjBoard = "{% static 'img/tiles/billboard(256x96).png' %}";
+        
     </script>
     <script type="text/javascript" src="{% static 'js/camera.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/board.js' %}"></script>

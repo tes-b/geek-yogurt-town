@@ -30,8 +30,8 @@ class Charactor {
         this.imgWalk = new Image();
         this.imgWalk.src = imgCharactorWalk;
 
-        this.imgDict["idle"] = {"obj":this.imgIdle, "frameX":4, "frameY":1 ,"frameWidth":16, "frameHeight":16, "frameRate":15};
-        this.imgDict["run"] = {"obj":this.imgRun, "frameX":6, "frameY":1 ,"frameWidth":16, "frameHeight":16, "frameRate":7};
+        this.imgDict["idle"] = {"obj":this.imgIdle, "frameX":4, "frameY":1 ,"frameWidth":16, "frameHeight":16, "frameRate":50};
+        this.imgDict["run"] = {"obj":this.imgRun, "frameX":8, "frameY":1 ,"frameWidth":16, "frameHeight":16, "frameRate":5};
         this.imgDict["walk"] = {"obj":this.imgWalk, "frameX":6, "frameY":1 ,"frameWidth":16, "frameHeight":16, "frameRate":10};
 
         this.imgCurrent = this.imgDict[this.state];

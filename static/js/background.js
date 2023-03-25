@@ -10,7 +10,7 @@ class BackgroundImg {
         this.frameWidth = frameWidth * this.tileSize;
         this.frameHeight = frameHeight * this.tileSize;
 
-        this.scale = scale;
+        this.scale = 4;
     }
 
     draw(hitbox = false) {
@@ -44,42 +44,62 @@ class BackgroundImg {
 
 class Background {
     constructor(cam, ctx, tileSize = 16) {
+        tileSize = 32;
         this.cam = cam
         this.scale = 6 * this.cam.height * 0.001;
 
-        this.imgBgWater1 = new BackgroundImg(imgBackgroundWater1, this.cam, tileSize, 18, 13, this.scale);
-        this.imgBgWater2 = new BackgroundImg(imgBackgroundWater2, this.cam, tileSize, 18, 13, this.scale);
-        this.imgBgCloud1 = new BackgroundImg(imgBackgroundCloud1, this.cam, tileSize, 18, 13, this.scale);
-        this.imgBgCloud2 = new BackgroundImg(imgBackgroundCloud2, this.cam, tileSize, 18, 13, this.scale);
-        this.imgBgSky = new BackgroundImg(imgBackgroundSky, this.cam, tileSize, 18, 13, this.scale);
+        this.imgBackgroundNight1 = new BackgroundImg(imgBackgroundNight1, this.cam, tileSize, 18, 10, this.scale);
+        this.imgBackgroundNight2 = new BackgroundImg(imgBackgroundNight2, this.cam, tileSize, 18, 10, this.scale);
+        this.imgBackgroundNight3 = new BackgroundImg(imgBackgroundNight3, this.cam, tileSize, 18, 10, this.scale);
+        this.imgBackgroundNight4 = new BackgroundImg(imgBackgroundNight4, this.cam, tileSize, 18, 10, this.scale);
+        this.imgBackgroundNight5 = new BackgroundImg(imgBackgroundNight5, this.cam, tileSize, 18, 10, this.scale);
 
+        
         this.frameCount = 0;
         this.currentFrameX = 0;
         this.frameRate = 30;
-        this.switchBg = true;
-    }
+        this.switchBg = true;   
+        this.imgFrameCount = 0;
+    }   
 
-    draw(hitbox = false) {
-        this.imgBgSky.draw(hitbox);
-        this.imgBgCloud2.draw(hitbox);
-        this.imgBgCloud1.draw(hitbox);
-        this.animateBg(hitbox);
+    draw(hitbox = false) {  
+
+        this.imgBackgroundNight1.draw(hitbox);
+        this.imgBackgroundNight2.draw(hitbox);
+        this.imgBackgroundNight3.draw(hitbox);
+        this.imgBackgroundNight4.draw(hitbox);
+        this.imgBackgroundNight5.draw(hitbox);
     }
 
     animateBg(hitbox) {
         this.frameCount++;
         if (this.frameCount >= this.frameRate) {
-            if (this.switchBg) { this.switchBg = false; }
-            else { this.switchBg = true; }
+            // if (this.switchBg) { this.switchBg = false; }
+            // else { this.switchBg = true; }
+            this.imgFrameCount += 1;
+            if (this.imgFrameCount >= 5) { 
+                this.imgFrameCount = 0;
+            }
             this.frameCount = 0;
         }
 
-        if (this.switchBg) {
-            this.imgBgWater1.draw(hitbox);
+        if (this.imgFrameCount == 0) {
+            // this.imgBgWater1.draw(hitbox);
+            this.imgBackgroundNewYork0.draw(hitbox);
         }
-        else {
-            this.imgBgWater2.draw(hitbox);
+        else if (this.imgFrameCount == 1) {
+            this.imgBackgroundNewYork1.draw(hitbox);
         }
+        else if (this.imgFrameCount == 2) {
+            this.imgBackgroundNewYork2.draw(hitbox);
+        }
+        else if (this.imgFrameCount == 3) {
+            this.imgBackgroundNewYork3.draw(hitbox);
+        }
+        else if (this.imgFrameCount == 4) {
+            this.imgBackgroundNewYork4.draw(hitbox);
+        }
+        
     }
 
 }

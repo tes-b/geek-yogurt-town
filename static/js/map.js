@@ -2,36 +2,50 @@ class Map {
     constructor(cam, tileSize=16) {
         this.cam = cam;
 
-        this.TILE_NONE = [0,0];
-        this.TILE_FLOOR = [4,1];
-        this.TILE_GROUND1 = [4,3];
-        this.TILE_GROUND2 = [4,8];
+        // this.TILE_NONE = [0,0];
+        // this.TILE_FLOOR = [4,1];
+        // this.TILE_GROUND1 = [4,3];
+        // this.TILE_GROUND2 = [4,8];
+
+        this.TILE_NONE = [2,3];
+        this.TILE_FLOOR1 = [11,5];
+        this.TILE_FLOOR2 = [0,6];
+        this.TILE_FLOOR3 = [1,6];
+        // this.TILE_FLOOR2 = [1,6];
+        this.TILE_GROUND1 = [1,0];
+        this.TILE_GROUND2 = [3,0];
 
         this.tileAttArr = [
             this.TILE_NONE,      // 0
-            this.TILE_FLOOR,     // 1
-            this.TILE_GROUND1,   // 2
-            this.TILE_GROUND2,   // 3
+            // this.TILE_FLOOR,     // 1
+            this.TILE_FLOOR1,    // 1
+            this.TILE_FLOOR2,    // 2
+            this.TILE_FLOOR3,    // 3
+            this.TILE_GROUND1,   // 4
+            this.TILE_GROUND2,   // 5
         ];
 
         // this.mapSizeX = 100;
         // this.mapSizeY = 20;
 
-        this.tileWidth = 16;
-        this.tileHeight = 16;
+        this.tileWidth = 48;
+        this.tileHeight = 48;
 
         this.scale = 6 * this.cam.height * 0.001;
         this.offsetY = 10;
         this.map = [
                     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-                    [2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3],
-                    [3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2],
-                    [2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3],];
+                    [1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1],
+                    [4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5],
+                    [5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4],
+                    [4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5,4,5],];
         
 
         this.imgTile = new Image();
-        this.imgTile.src = imgTileTerrain;
+        this.imgTile.src = imgTileMedieval;
+        // this.imgTile.src = imgTileGreenZone;
+        // this.imgTile.src = imgTileTerrain;
+        
     }
 
     drawRect(posX=0, posY=0) {

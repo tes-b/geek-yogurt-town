@@ -53,31 +53,53 @@ var gravity = 3;
 
 var tileSize = 16;
 
+var onOverlay = false;
+
 const SECTION_INTRO = 0;
-const SECTION_RESUME = 0;
+const SECTION_RESUME = 1;
+const SECTION_WORDLE = 2;
+const SECTION_YOUTUBE = 3;
 
 var section = SECTION_INTRO;
 
 var cam = new Camera(canvas);
 var bg = new Background(cam, ctx, tileSize);
 var map = new Map(cam, tileSize);
-var board = new Board(cam, 5, 6, tileSize=tileSize);
+var board = new Board(cam, 5, 5, tileSize=tileSize);
 var charactor = new Charactor(cam, 2, 9, tileSize);
 var info = new Info();
 
 cam.followObj = charactor;
 
+
 function keyInput() {
     document.addEventListener('keydown', function(e) {
         if (e.code === 'Enter') {
-            if (charactor.state === "idle") {
-                charactor.changeState("walk");
-            } else if (charactor.state === "walk") {
-                charactor.changeState("run");
+
+            var wordleFrame = document.getElementById("wordle");
+            if (onOverlay) {
+                wordleFrame.style.display = "none";
+                onOverlay = false;
             } else {
-                charactor.changeState("idle");
+                wordleFrame.style.display = "block";
+                wordleFrame.contentWindow.focus(); // Focus the iframe
+                onOverlay = true;
             }
             
+            
+            // cancelAnimationFrame(animation);
+            // if (charactor.state === "idle") {
+            //     charactor.changeState("walk");
+            // } else if (charactor.state === "walk") {
+            //     charactor.changeState("run");
+            // } else {
+            //     charactor.changeState("idle");
+            // }
+
+
+            // const section1 = document.getElementById("section1");
+            
+            // location.href = "http://127.0.0.1:8000/wordle/"
         }
         if (e.code === 'Space') {
             // if (!charactor.isJumping) {
@@ -133,10 +155,11 @@ function run() {
         charactor.move(elapsedTime);
         cam.update(elapsedTime);
         // cam.follow(charactor);
-
-        bg.draw(hitbox=true);
-        map.draw(cam);
-        board.draw(cam);
+        if (!onOverlay) {
+            bg.draw(hitbox=true);
+            map.draw(cam);
+            board.draw(cam);
+        }
         charactor.draw(cam, hitbox=true);
         info.draw(show=true, charactor);
 
@@ -171,9 +194,7 @@ function run() {
         //     charactor.isJumping = false;
         //     jumpTimer = 0;
         // }
-        
-        
-        
+
         
         //===================================================
         lastTime = currentTime - (elapsedTime % frameDuration);

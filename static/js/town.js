@@ -6,46 +6,6 @@ canvas.setAttribute("height", window.innerHeight);
 var ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = false; // 이미지 부드럽게 처리하지 않음
 
-class Info {
-    constructor(cam, section) {
-        this.cam = cam;
-        this.section = section;
-    }
-    draw(show=true, charactor) {
-        if(show) {
-            const charactorPosEl = document.getElementById("charactor-pos");
-            if (charactorPosEl) {
-                charactorPosEl.innerText = `Charactor : ${Math.floor(charactor.x)} , ${Math.floor(charactor.y)}
-                                            CAM : ${Math.floor(this.cam.x)}, ${Math.floor(this.cam.y)}
-                                            SECTION : ${this.section}`
-                                            ;
-            }
-        }
-    }
-    
-}
-
-class Cactus {
-    
-    constructor() {
-        this.x = 500;
-        this.y = 200;
-        
-        this.width = 50;
-        this.height = 50;
-        this.widthHalf = 25;
-        this.heightHalf = 25;
-
-        this.speed = 3;
-    }
-
-    draw() {
-        ctx.fillStyle = 'red';
-        ctx.fillRect(this.x - this.widthHalf,this.y - this.heightHalf, this.width,this.height);
-        
-    }
-}
-
 
 
 let lastTime = 0;
@@ -72,11 +32,19 @@ var section = SECTION_INTRO;
 var cam = new Camera(canvas);
 var bg = new Background(cam, ctx, tileSize);
 var map = new Map(cam, tileSize);
-var board = new Board(cam, 6, 3, tileSize=tileSize);
+var board = new Board(cam, 6, 3, SECTION_INTRO);
 var charactor = new Charactor(cam, 3, 7, tileSize);
 var info = new Info(cam, section);
 
 cam.followObj = charactor;
+
+
+// RUN FUNCTIONS ============
+keyInput();
+run();
+
+
+// DECLARE FUNCTIONS=========
 
 
 function keyInput() {
@@ -147,7 +115,7 @@ function keyInput() {
     })
 }
 
-keyInput();
+
 
 
 function run() {
@@ -195,7 +163,7 @@ function run() {
     }
 }
 
-run();
+
 
 function collisionCheck(obj1, obj2) {
     var diffX = Math.abs(obj1.x - obj2.x);

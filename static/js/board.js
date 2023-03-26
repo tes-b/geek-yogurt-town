@@ -17,14 +17,14 @@ class Board {
         this.imgObjBoard = new Image();
         this.imgObjBoard.src = imgObjBoard;
 
-        this.frameCountX = 0;   
+        this.lightOn = false;
     }
 
     draw() {
         if(this.imgObjBoard.complete){
             ctx.drawImage(
                 this.imgObjBoard,
-                this.tileWidth * this.frameSizeX * this.frameCountX,
+                this.tileWidth * this.frameSizeX * this.lightOn,
                 0,
                 this.tileWidth * this.frameSizeX,
                 this.tileHeight * this.frameSizeY,

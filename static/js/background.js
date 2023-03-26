@@ -1,5 +1,5 @@
 class BackgroundImg {
-    constructor(img, cam, tileSize = 16, frameWidth, frameHeight, scale = 1) {
+    constructor(img, cam, tileSize = 16, frameWidth, frameHeight, scale=1, depthZ=1) {
         this.img = new Image();
         this.img.src = img;
         this.cam = cam;
@@ -7,27 +7,33 @@ class BackgroundImg {
         this.x = 0;
         this.y = 0;
         this.tileSize = tileSize;
+        this.scale = 3 * this.cam.height * 0.001;
         this.frameWidth = frameWidth * this.tileSize;
         this.frameHeight = frameHeight * this.tileSize;
-
-        this.scale = 4;
+        this.depthZ = depthZ;
+        this.hitbox = false;
     }
 
-    draw(hitbox = false) {
-        if (this.img.complete) {
-            ctx.drawImage(
-                this.img,
-                0,
-                0,
-                this.frameWidth,
-                this.frameHeight,
-                this.x - this.cam.x,
-                this.y - this.cam.y,
-                this.frameWidth * this.scale,
-                this.frameHeight * this.scale,
-            );
+    draw() {
+
+        for(var index=Math.floor((this.cam.x * this.depthZ)/(this.frameWidth * this.scale)); 
+            index<Math.ceil(this.cam.width/(this.frameWidth * this.scale))+Math.floor((this.cam.x * this.depthZ)/(this.frameWidth * this.scale))+1; 
+            index++) {
+            if (this.img.complete) {
+                ctx.drawImage(
+                    this.img,
+                    0,
+                    0,
+                    this.frameWidth,
+                    this.frameHeight,
+                    this.x + (this.frameWidth * this.scale * index) - (this.cam.x * this.depthZ),
+                    this.y - this.cam.y,
+                    this.frameWidth * this.scale,
+                    this.frameHeight * this.scale,
+                );
+            }
         }
-        if (hitbox) {
+        if (this.hitbox) {
             this.drawRect();
         }
     }
@@ -48,11 +54,11 @@ class Background {
         this.cam = cam
         this.scale = 6 * this.cam.height * 0.001;
 
-        this.imgBackgroundNight1 = new BackgroundImg(imgBackgroundNight1, this.cam, tileSize, 18, 10, this.scale);
-        this.imgBackgroundNight2 = new BackgroundImg(imgBackgroundNight2, this.cam, tileSize, 18, 10, this.scale);
-        this.imgBackgroundNight3 = new BackgroundImg(imgBackgroundNight3, this.cam, tileSize, 18, 10, this.scale);
-        this.imgBackgroundNight4 = new BackgroundImg(imgBackgroundNight4, this.cam, tileSize, 18, 10, this.scale);
-        this.imgBackgroundNight5 = new BackgroundImg(imgBackgroundNight5, this.cam, tileSize, 18, 10, this.scale);
+        this.imgBackgroundNight1 = new BackgroundImg(imgBackgroundNight1, this.cam, tileSize, 18, 10, this.scale, 0.05);
+        this.imgBackgroundNight2 = new BackgroundImg(imgBackgroundNight2, this.cam, tileSize, 18, 10, this.scale, 0.1);
+        this.imgBackgroundNight3 = new BackgroundImg(imgBackgroundNight3, this.cam, tileSize, 18, 10, this.scale, 0.2);
+        this.imgBackgroundNight4 = new BackgroundImg(imgBackgroundNight4, this.cam, tileSize, 18, 10, this.scale, 0.3);
+        this.imgBackgroundNight5 = new BackgroundImg(imgBackgroundNight5, this.cam, tileSize, 18, 10, this.scale, 0.5);
 
         
         this.frameCount = 0;
@@ -60,46 +66,19 @@ class Background {
         this.frameRate = 30;
         this.switchBg = true;   
         this.imgFrameCount = 0;
+
+        this.hitbox = false;
     }   
 
-    draw(hitbox = false) {  
-
-        this.imgBackgroundNight1.draw(hitbox);
-        this.imgBackgroundNight2.draw(hitbox);
-        this.imgBackgroundNight3.draw(hitbox);
-        this.imgBackgroundNight4.draw(hitbox);
-        this.imgBackgroundNight5.draw(hitbox);
-    }
-
-    animateBg(hitbox) {
-        this.frameCount++;
-        if (this.frameCount >= this.frameRate) {
-            // if (this.switchBg) { this.switchBg = false; }
-            // else { this.switchBg = true; }
-            this.imgFrameCount += 1;
-            if (this.imgFrameCount >= 5) { 
-                this.imgFrameCount = 0;
-            }
-            this.frameCount = 0;
-        }
-
-        if (this.imgFrameCount == 0) {
-            // this.imgBgWater1.draw(hitbox);
-            this.imgBackgroundNewYork0.draw(hitbox);
-        }
-        else if (this.imgFrameCount == 1) {
-            this.imgBackgroundNewYork1.draw(hitbox);
-        }
-        else if (this.imgFrameCount == 2) {
-            this.imgBackgroundNewYork2.draw(hitbox);
-        }
-        else if (this.imgFrameCount == 3) {
-            this.imgBackgroundNewYork3.draw(hitbox);
-        }
-        else if (this.imgFrameCount == 4) {
-            this.imgBackgroundNewYork4.draw(hitbox);
-        }
-        
+    draw() {  
+        // for(var i=0; i<2; i++){
+        //     this.imgBackgroundNight1.draw(i);        
+        // }
+        this.imgBackgroundNight1.draw();    
+        this.imgBackgroundNight2.draw();
+        this.imgBackgroundNight3.draw();
+        this.imgBackgroundNight4.draw();
+        this.imgBackgroundNight5.draw();
     }
 
 }

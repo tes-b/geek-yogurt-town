@@ -17,7 +17,7 @@ class Charactor {
         this.isMovingRight = false;
         this.isMovingUp = false;
         this.isMovingDown = false;
-        this.moveSpeed = 0.3;
+        this.moveSpeed = 0.8;
 
         this.state = "idle"
 

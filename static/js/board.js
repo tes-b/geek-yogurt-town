@@ -1,7 +1,8 @@
 class Board {
-    constructor(cam, posX=0, posY=0, tileSize=16) {
+    constructor(cam, posX=0, posY=0, section) {
 
         this.cam = cam;
+        this.section = section;
         this.tileWidth = 16;
         this.tileHeight = 16;
 
@@ -17,7 +18,6 @@ class Board {
         this.imgObjBoard.src = imgObjBoard;
 
         this.frameCountX = 0;   
-
     }
 
     draw() {
@@ -30,8 +30,8 @@ class Board {
                 this.tileHeight * this.frameSizeY,
                 this.x - this.cam.x,
                 this.y - this.cam.y, 
-                tileSize * this.frameSizeX * this.scale,
-                tileSize * this.frameSizeY * this.scale, 
+                this.tileWidth * this.frameSizeX * this.scale,
+                this.tileHeight * this.frameSizeY * this.scale, 
                 );
         }
     }

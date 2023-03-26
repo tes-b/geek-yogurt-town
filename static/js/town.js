@@ -7,11 +7,18 @@ var ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = false; // 이미지 부드럽게 처리하지 않음
 
 class Info {
+    constructor(cam, section) {
+        this.cam = cam;
+        this.section = section;
+    }
     draw(show=true, charactor) {
         if(show) {
             const charactorPosEl = document.getElementById("charactor-pos");
             if (charactorPosEl) {
-                charactorPosEl.innerText = `Charactor : ${Math.floor(charactor.x)} , ${Math.floor(charactor.y)}`;
+                charactorPosEl.innerText = `Charactor : ${Math.floor(charactor.x)} , ${Math.floor(charactor.y)}
+                                            CAM : ${Math.floor(this.cam.x)}, ${Math.floor(this.cam.y)}
+                                            SECTION : ${this.section}`
+                                            ;
             }
         }
     }
@@ -65,9 +72,9 @@ var section = SECTION_INTRO;
 var cam = new Camera(canvas);
 var bg = new Background(cam, ctx, tileSize);
 var map = new Map(cam, tileSize);
-var board = new Board(cam, 5, 5, tileSize=tileSize);
-var charactor = new Charactor(cam, 2, 9, tileSize);
-var info = new Info();
+var board = new Board(cam, 6, 3, tileSize=tileSize);
+var charactor = new Charactor(cam, 3, 7, tileSize);
+var info = new Info(cam, section);
 
 cam.followObj = charactor;
 
@@ -154,13 +161,13 @@ function run() {
 
         charactor.move(elapsedTime);
         cam.update(elapsedTime);
-        // cam.follow(charactor);
+
         if (!onOverlay) {
-            bg.draw(hitbox=true);
-            map.draw(cam);
-            board.draw(cam);
+            bg.draw();
+            map.draw();
+            board.draw();
         }
-        charactor.draw(cam, hitbox=true);
+        charactor.draw(hitbox=true);
         info.draw(show=true, charactor);
 
         // if (lastTime % cactusSpawnTime <= frameDuration) {
@@ -181,19 +188,6 @@ function run() {
         //     }
         //     return false;
         // })
-
-        // if (charactor.isJumping) {
-        //     charactor.y -= charactor.jumpPower;
-        //     jumpTimer += elapsedTime;
-        // }
-
-        // if (charactor.y < floorHeight){
-        //     charactor.y += gravity;
-        // }
-        // if (jumpTimer > jumpDuration) {
-        //     charactor.isJumping = false;
-        //     jumpTimer = 0;
-        // }
 
         
         //===================================================

@@ -9,7 +9,7 @@ class Info {
             if (charactorPosEl) {
                 charactorPosEl.innerText = `Charactor : ${Math.floor(charactor.x)} , ${Math.floor(charactor.y)}
                                             CAM : ${Math.floor(this.cam.x)}, ${Math.floor(this.cam.y)}
-                                            SECTION : ${this.section}`
+                                            SECTION : ${this.section.section}`
                                             ;
             }
         }

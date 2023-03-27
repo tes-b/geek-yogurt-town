@@ -71,9 +71,6 @@ class Background {
     }   
 
     draw() {  
-        // for(var i=0; i<2; i++){
-        //     this.imgBackgroundNight1.draw(i);        
-        // }
         this.imgBackgroundNight1.draw();    
         this.imgBackgroundNight2.draw();
         this.imgBackgroundNight3.draw();

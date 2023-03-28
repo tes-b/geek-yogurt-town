@@ -1,23 +1,23 @@
 class BackgroundImg {
-    constructor(img, cam, tileSize = 16, frameWidth, frameHeight, scale=1, depthZ=1) {
+    constructor(img, frameWidth, frameHeight, scale=1, depthZ=1) {
         this.img = new Image();
         this.img.src = img;
-        this.cam = cam;
+
 
         this.x = 0;
         this.y = 0;
         this.tileSize = tileSize;
-        this.scale = 3 * this.cam.height * 0.001;
-        this.frameWidth = frameWidth * this.tileSize;
-        this.frameHeight = frameHeight * this.tileSize;
+        this.scale = 3 * cam.height * 0.001;
+        this.frameWidth = frameWidth * tileSize;
+        this.frameHeight = frameHeight * tileSize;
         this.depthZ = depthZ;
         this.hitbox = false;
     }
 
     draw() {
 
-        for(var index=Math.floor((this.cam.x * this.depthZ)/(this.frameWidth * this.scale)); 
-            index<Math.ceil(this.cam.width/(this.frameWidth * this.scale))+Math.floor((this.cam.x * this.depthZ)/(this.frameWidth * this.scale))+1; 
+        for(var index=Math.floor((cam.x * this.depthZ)/(this.frameWidth * this.scale)); 
+            index<Math.ceil(cam.width/(this.frameWidth * this.scale))+Math.floor((cam.x * this.depthZ)/(this.frameWidth * this.scale))+1; 
             index++) {
             if (this.img.complete) {
                 ctx.drawImage(
@@ -26,8 +26,8 @@ class BackgroundImg {
                     0,
                     this.frameWidth,
                     this.frameHeight,
-                    this.x + (this.frameWidth * this.scale * index) - (this.cam.x * this.depthZ),
-                    this.y - this.cam.y,
+                    this.x + (this.frameWidth * this.scale * index) - (cam.x * this.depthZ),
+                    this.y - cam.y,
                     this.frameWidth * this.scale,
                     this.frameHeight * this.scale,
                 );
@@ -40,8 +40,8 @@ class BackgroundImg {
 
     drawRect() {
         ctx.strokeRect(
-            this.x - this.cam.x,
-            this.y - this.cam.y,
+            this.x - cam.x,
+            this.y - cam.y,
             this.frameWidth * this.scale,
             this.frameHeight * this.scale,
         );
@@ -49,16 +49,15 @@ class BackgroundImg {
 }
 
 class Background {
-    constructor(cam, ctx, tileSize = 16) {
-        tileSize = 32;
-        this.cam = cam
-        this.scale = 6 * this.cam.height * 0.001;
+    constructor() {
+     
+        this.scale = 6 * cam.height * 0.001;
 
-        this.imgBackgroundNight1 = new BackgroundImg(imgBackgroundNight1, this.cam, tileSize, 18, 10, this.scale, 0.05);
-        this.imgBackgroundNight2 = new BackgroundImg(imgBackgroundNight2, this.cam, tileSize, 18, 10, this.scale, 0.1);
-        this.imgBackgroundNight3 = new BackgroundImg(imgBackgroundNight3, this.cam, tileSize, 18, 10, this.scale, 0.2);
-        this.imgBackgroundNight4 = new BackgroundImg(imgBackgroundNight4, this.cam, tileSize, 18, 10, this.scale, 0.3);
-        this.imgBackgroundNight5 = new BackgroundImg(imgBackgroundNight5, this.cam, tileSize, 18, 10, this.scale, 0.5);
+        this.imgBackgroundNight1 = new BackgroundImg(imgBackgroundNight1, 32, 20, this.scale, 0.05);
+        this.imgBackgroundNight2 = new BackgroundImg(imgBackgroundNight2, 32, 20, this.scale, 0.1);
+        this.imgBackgroundNight3 = new BackgroundImg(imgBackgroundNight3, 32, 20, this.scale, 0.2);
+        this.imgBackgroundNight4 = new BackgroundImg(imgBackgroundNight4, 32, 20, this.scale, 0.3);
+        this.imgBackgroundNight5 = new BackgroundImg(imgBackgroundNight5, 32, 20, this.scale, 0.5);
 
         
         this.frameCount = 0;

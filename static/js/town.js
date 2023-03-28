@@ -28,32 +28,43 @@ const SECTION_WORDLE = 2;
 const SECTION_YOUTUBE = 3;
 const SECTION_MAX = 4;
 
+var sectionPoints = [
+    {"point": [3,7]},
+    {"point": [17,7]},
+    {"point": [31,7]},
+    {"point": [45,7]},
+];
 
 
-var currentSection = {"section" : SECTION_INTRO,
-                      "url" : "/wordle/"};
+var currentSection = {"section": SECTION_INTRO};
 
 var cam = new Camera(canvas);
-var bg = new Background(cam, ctx, tileSize);
-var map = new Map(cam, tileSize);
-var board_intro = new Board(cam, 6, 3, SECTION_INTRO);
-var board_resume = new Board(cam, 20, 3, SECTION_RESUME);
-var board_wordle = new Board(cam, 34, 3, SECTION_WORDLE);
-var board_youtube = new Board(cam, 50, 3, SECTION_YOUTUBE);
-var charactor = new Charactor(cam, 3, 7, tileSize);
-var info = new Info(cam, currentSection);
+var bg = new Background();
+var map = new Map();
+
+var board_intro = new Board(6, 3, SECTION_INTRO, "");
+var board_resume = new Board(20, 3, SECTION_RESUME, "");
+var board_wordle = new Board(34, 3, SECTION_WORDLE, "/wordle/");
+var board_youtube = new Board(48, 3, SECTION_YOUTUBE, "");
+
+var charactor = new Charactor(3, 7);
+var info = new Info(charactor, currentSection);
 
 cam.followObj = charactor;
 
-var listBoard = [board_intro,
+
+var listBoard = [
+                board_intro,
                 board_resume,
                 board_wordle,
-                board_youtube];
+                board_youtube,
+            ];
 
 
-// RUN FUNCTIONS ============
+
+// RUN FUNCTIONS ============;
 keyInput();
-changeSection(SECTION_INTRO);
+changeSection(currentSection.section);
 run();
 
 
@@ -63,10 +74,10 @@ function nextSection(prev=false) {
     var section = currentSection.section;
     if (prev){
         if (section-1 < 0) {return;} 
-        section = section-1;
+        section -= 1;
     } else {
         if (section+1 >= SECTION_MAX) {return;}
-        section = section+1;
+        section += 1;
     }
     changeSection(section)
 }
@@ -77,6 +88,7 @@ function changeSection(section) {
         board.lightOn = false;
     });
     listBoard[section].lightOn = true;
+    charactor.changeSection(currentSection);
 }
 
 function keyInput() {
@@ -114,10 +126,12 @@ function keyInput() {
             // }
         }
         if (e.code === 'ArrowLeft') {
+            charactor.isMovingRight = false;
             charactor.isMovingLeft = true;
             charactor.changeState("run");
         }
         if (e.code === 'ArrowRight') {
+            charactor.isMovingLeft = false;
             charactor.isMovingRight = true;
             charactor.changeState("run");
         }
@@ -152,9 +166,8 @@ function keyInput() {
 }
 
 
-
-
 function run() {
+
     animation = requestAnimationFrame(run);
     const currentTime = performance.now();
     const elapsedTime = currentTime - lastTime;
@@ -163,7 +176,7 @@ function run() {
 
         ctx.clearRect(0,0, canvas.width, canvas.height);
 
-        charactor.move(elapsedTime);
+        charactor.update(elapsedTime);
         cam.update(elapsedTime);
 
         if (!onOverlay) {
@@ -174,7 +187,7 @@ function run() {
             });
         }
         charactor.draw(hitbox=true);
-        info.draw(show=true, charactor);
+        info.draw();
 
         // if (lastTime % cactusSpawnTime <= frameDuration) {
         //     var cactus = new Cactus();

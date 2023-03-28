@@ -1,7 +1,5 @@
 class Map {
-    constructor(cam, tileSize=16) {
-        this.cam = cam;
-
+    constructor() {
         this.TILE_NONE = [2,3];
         this.TILE_FLOOR1 = [11,5];
         this.TILE_FLOOR2 = [0,6];
@@ -24,15 +22,12 @@ class Map {
             this.TILE_GROUND5,   // 8
         ];
 
-        // this.mapSizeX = 100;
-        // this.mapSizeY = 20;
-
         this.tileWidth = 48;
         this.tileHeight = 48;
 
-        this.tileSize = 16;
+        
 
-        this.scale = 6 * this.cam.height * 0.001;
+        this.scale = 6 * cam.height * 0.001;
         this.offsetY = 9;
         this.map = [
                     [1,2,3,2,1,2,3,2,1,2,3,2,1,2],
@@ -51,21 +46,15 @@ class Map {
         
         this.sectionCount = 4;
 
-        this.mapWidth = this.tileSize * this.map[0].length;
-
-
-        console.log(Math.floor(this.cam.x/(this.mapWidth * this.scale)));
-        console.log(Math.ceil(this.cam.width/(this.mapWidth * this.scale))+Math.floor(this.cam.x/(this.mapWidth * this.scale)));
-        
-        console.log(this.mapWidth);
+        this.mapWidth = tileSize * this.map[0].length;
     }
 
     drawRect(posX=0, posY=0) {
         ctx.strokeRect(
-            posX * this.tileSize * this.scale - this.cam.x,
-            posY * this.tileSize * this.scale - this.cam.y, 
-            this.tileSize * this.scale,
-            this.tileSize * this.scale, 
+            posX * tileSize * this.scale - cam.x,
+            posY * tileSize * this.scale - cam.y, 
+            tileSize * this.scale,
+            tileSize * this.scale, 
             );
     }
 
@@ -77,17 +66,17 @@ class Map {
                 this.tileHeight * frameY,
                 this.tileWidth,
                 this.tileHeight,
-                posX * this.tileSize * this.scale - this.cam.x,
-                posY * this.tileSize * this.scale - this.cam.y, 
-                this.tileSize * this.scale,
-                this.tileSize * this.scale, 
+                posX * tileSize * this.scale - cam.x,
+                posY * tileSize * this.scale - cam.y, 
+                tileSize * this.scale,
+                tileSize * this.scale, 
                 );
         }
     }
-
+ 
     draw() {
-        for(var index=Math.floor(this.cam.x/(this.mapWidth * this.scale)); 
-        index<Math.ceil(this.cam.width/(this.mapWidth * this.scale))+Math.floor(this.cam.x/(this.mapWidth * this.scale)+1); 
+        for(var index=Math.floor(cam.x/(this.mapWidth * this.scale)); 
+        index<Math.ceil(cam.width/(this.mapWidth * this.scale))+Math.floor(cam.x/(this.mapWidth * this.scale)+1); 
         index++) {
             for (var y=0; y<this.map.length; y++) {;
                 for (var x=0; x<this.map[y].length; x++){
@@ -102,7 +91,6 @@ class Map {
             }
         }
 
-
         // for (var i=0; i<2; i++) {
         //     for (var y=0; y<this.map.length; y++) {;
         //         for (var x=0; x<this.map[y].length; x++){
@@ -115,8 +103,6 @@ class Map {
         //             this.drawRect(x,y + this.offsetY);
         //         }
         //     }
-        // }
-
-        
+        // }        
     }
 }

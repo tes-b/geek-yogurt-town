@@ -1,10 +1,16 @@
 class Charactor {
-    constructor(cam, posX=0, posY=0, tilesize=16) {
-        this.cam = cam
-        this.scale = 6 * this.cam.height * 0.001;            
+    constructor(tileX=0, tileY=0) {
+        this.section = currentSection.section;
+        // this.nextSection = currentSection;
+        this.scale = 6 * cam.height * 0.001;            
 
-        this.x = posX * tileSize * this.scale;
-        this.y = posY * tileSize * this.scale;
+        this.tileSize = 16;
+
+        this.tileX = tileX;
+        this.tileY = tileY;
+
+        this.x = tileX * this.tileSize * this.scale;
+        this.y = tileY * this.tileSize * this.scale;
 
         this.widthHalf = 25;
         this.heightHalf = 25;
@@ -19,7 +25,10 @@ class Charactor {
         this.isMovingDown = false;
         this.moveSpeed = 0.8;
 
-        this.state = "idle"
+        this.STATE_IDLE = "idle";
+        this.STATE_WALK = "walk";
+        this.STATE_RUN = "run";
+        this.state = "idle";
 
         this.imgDict = {};
 
@@ -30,9 +39,9 @@ class Charactor {
         this.imgWalk = new Image();
         this.imgWalk.src = imgCharactorWalk;
 
-        this.imgDict["idle"] = {"obj":this.imgIdle, "frameX":4, "frameY":1 ,"frameWidth":16, "frameHeight":16, "frameRate":50};
-        this.imgDict["run"] = {"obj":this.imgRun, "frameX":8, "frameY":1 ,"frameWidth":16, "frameHeight":16, "frameRate":5};
-        this.imgDict["walk"] = {"obj":this.imgWalk, "frameX":6, "frameY":1 ,"frameWidth":16, "frameHeight":16, "frameRate":10};
+        this.imgDict[this.STATE_IDLE] = {"obj":this.imgIdle, "frameX":4, "frameY":1 ,"frameWidth":16, "frameHeight":16, "frameRate":50};
+        this.imgDict[this.STATE_RUN] = {"obj":this.imgRun, "frameX":8, "frameY":1 ,"frameWidth":16, "frameHeight":16, "frameRate":5};
+        this.imgDict[this.STATE_WALK] = {"obj":this.imgWalk, "frameX":6, "frameY":1 ,"frameWidth":16, "frameHeight":16, "frameRate":10};
 
         this.imgCurrent = this.imgDict[this.state];
 
@@ -47,7 +56,6 @@ class Charactor {
 
         this.frameCount = 0;
         
-        
     }
 
     changeState(state) {
@@ -61,8 +69,8 @@ class Charactor {
 
     drawHitbox() {
         ctx.strokeRect(
-            this.x - this.cam.x,
-            this.y - this.cam.y, 
+            this.x - cam.x,
+            this.y - cam.y, 
             this.imgCurrent["frameWidth"] * this.frameSizeX * this.scale,
             this.imgCurrent["frameHeight"] * this.frameSizeY * this.scale,
             );
@@ -76,8 +84,8 @@ class Charactor {
                 frameY * this.imgCurrent["frameHeight"] * this.frameSizeY,
                 this.imgCurrent["frameWidth"] * this.frameSizeX,
                 this.imgCurrent["frameHeight"] * this.frameSizeY,
-                this.x - this.cam.x,
-                this.y - this.cam.y, 
+                this.x - cam.x,
+                this.y - cam.y, 
                 this.imgCurrent["frameWidth"] * this.frameSizeX * this.scale,
                 this.imgCurrent["frameHeight"] * this.frameSizeY * this.scale,
                 );
@@ -117,12 +125,36 @@ class Charactor {
         if (hitbox) {
             this.drawHitbox();
         }
-        // this.drawImage();
-        // this.drawFrame(this.currentFrameX,this.currentFrameY);
         this.animateImage();
     }
 
+    changeSection(section) {
+        // this.nextSection = section;
+    }
+
+    update(elapsedTime) {
+        this.tileX = Math.floor(this.x / (tileSize * this.scale));
+        this.tileY = Math.floor(this.y / (tileSize * this.scale));
+
+        if (currentSection.section < this.section) {
+            this.isMovingLeft=true;    
+            charactor.changeState(this.STATE_RUN);
+        }
+        else if (currentSection.section > this.section) {
+            this.isMovingRight=true;
+            charactor.changeState(this.STATE_RUN);
+        }
+        else if (currentSection.section == this.section) {
+            // this.isMovingLeft=false;    
+            // this.isMovingRight=false;    
+            // charactor.changeState("idle");
+        }
+        listBoard
+        this.move(elapsedTime);
+    }
+
     move(elapsedTime) {
+        // console.log("move");
         if (this.isJumping) {
             this.y -= this.jumpPower;
             this.jumpTimer += elapsedTime;
@@ -132,11 +164,13 @@ class Charactor {
         // if (this.y < floorHeight){
         //     this.y += gravity;
         // }
+
         // jump
         if (this.jumpTimer > this.jumpDuration) {
             this.isJumping = false;
             this.jumpTimer = 0;
         }
+
         // move
         if (this.isMovingLeft) {
             this.x -= this.moveSpeed * elapsedTime;
@@ -150,5 +184,7 @@ class Charactor {
         else if (this.isMovingDown) {
             this.y += this.moveSpeed * elapsedTime;
         }
+
+        
     }
 }

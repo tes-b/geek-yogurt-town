@@ -28,14 +28,18 @@ class Charactor {
         this.isMovingDown = false;
         this.moveSpeed = 0.8;
 
+        this.isLeft = false;
+
         this.STATE_IDLE = "idle";
         this.STATE_WALK = "walk";
         this.STATE_RUN = "run";
         this.state = "idle";
+        
 
         this.isKeyMoving = false;
 
         this.imgDict = {};
+
 
         this.imgIdle = new Image();
         this.imgIdle.src = imgCharactorIdle;
@@ -44,7 +48,7 @@ class Charactor {
         this.imgWalk = new Image();
         this.imgWalk.src = imgCharactorWalk;
 
-        this.imgDict[this.STATE_IDLE] = { "obj": this.imgIdle, "frameX": 4, "frameY": 1, "frameWidth": 16, "frameHeight": 16, "frameRate": 50 };
+        this.imgDict[this.STATE_IDLE] = { "obj": this.imgIdle, "frameX": 4, "frameY": 2, "frameWidth": 16, "frameHeight": 16, "frameRate": 50 };
         this.imgDict[this.STATE_RUN] = { "obj": this.imgRun, "frameX": 8, "frameY": 1, "frameWidth": 16, "frameHeight": 16, "frameRate": 5 };
         this.imgDict[this.STATE_WALK] = { "obj": this.imgWalk, "frameX": 6, "frameY": 1, "frameWidth": 16, "frameHeight": 16, "frameRate": 10 };
 
@@ -114,7 +118,8 @@ class Charactor {
     // }
 
     animateImage() {
-        this.drawFrame(this.currentFrameX, this.currentFrameY);
+
+        this.drawFrame(this.currentFrameX, this.isLeft);
         this.frameCount++;
 
         if (this.frameCount >= this.imgCurrent["frameRate"]) {
@@ -158,10 +163,12 @@ class Charactor {
         this.isMovingDown = false;
 
         if (dir == "left") {
+            this.isLeft = true;
             this.isMovingLeft = true;
             this.changeState(this.STATE_RUN);
         }
         else if (dir == "right") {
+            this.isLeft = false;
             this.isMovingRight = true;
             this.changeState(this.STATE_RUN);
         }
@@ -174,6 +181,7 @@ class Charactor {
             this.changeState(this.STATE_WALK);
         }
         else if (dir == "stop") {
+            this.isLeft = false;
             this.changeState(this.STATE_IDLE);
         }
     }

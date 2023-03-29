@@ -1,8 +1,8 @@
 class Charactor {
-    constructor(tileX=0, tileY=0) {
+    constructor(tileX = 0, tileY = 0) {
         this.section = currentSection.section;
         // this.nextSection = currentSection;
-        this.scale = 6 * cam.height * 0.001;            
+        this.scale = 6 * cam.height * 0.001;
 
         this.tileSize = 16;
 
@@ -12,9 +12,12 @@ class Charactor {
         this.x = tileX * this.tileSize * this.scale;
         this.y = tileY * this.tileSize * this.scale;
 
+        this.gotoX = sectionPoints[this.section].point[0];
+        this.gotoOffsetX = 10;
+
         this.widthHalf = 25;
         this.heightHalf = 25;
-        this.jumpPower = 4;        
+        this.jumpPower = 4;
         this.isJumping = false;
         this.jumpDuration = 2000;
         this.jumpTimer = 0;
@@ -30,6 +33,8 @@ class Charactor {
         this.STATE_RUN = "run";
         this.state = "idle";
 
+        this.isKeyMoving = false;
+
         this.imgDict = {};
 
         this.imgIdle = new Image();
@@ -39,9 +44,9 @@ class Charactor {
         this.imgWalk = new Image();
         this.imgWalk.src = imgCharactorWalk;
 
-        this.imgDict[this.STATE_IDLE] = {"obj":this.imgIdle, "frameX":4, "frameY":1 ,"frameWidth":16, "frameHeight":16, "frameRate":50};
-        this.imgDict[this.STATE_RUN] = {"obj":this.imgRun, "frameX":8, "frameY":1 ,"frameWidth":16, "frameHeight":16, "frameRate":5};
-        this.imgDict[this.STATE_WALK] = {"obj":this.imgWalk, "frameX":6, "frameY":1 ,"frameWidth":16, "frameHeight":16, "frameRate":10};
+        this.imgDict[this.STATE_IDLE] = { "obj": this.imgIdle, "frameX": 4, "frameY": 1, "frameWidth": 16, "frameHeight": 16, "frameRate": 50 };
+        this.imgDict[this.STATE_RUN] = { "obj": this.imgRun, "frameX": 8, "frameY": 1, "frameWidth": 16, "frameHeight": 16, "frameRate": 5 };
+        this.imgDict[this.STATE_WALK] = { "obj": this.imgWalk, "frameX": 6, "frameY": 1, "frameWidth": 16, "frameHeight": 16, "frameRate": 10 };
 
         this.imgCurrent = this.imgDict[this.state];
 
@@ -55,7 +60,7 @@ class Charactor {
         this.currentFrameY = 0;
 
         this.frameCount = 0;
-        
+
     }
 
     changeState(state) {
@@ -70,14 +75,14 @@ class Charactor {
     drawHitbox() {
         ctx.strokeRect(
             this.x - cam.x,
-            this.y - cam.y, 
+            this.y - cam.y,
             this.imgCurrent["frameWidth"] * this.frameSizeX * this.scale,
             this.imgCurrent["frameHeight"] * this.frameSizeY * this.scale,
-            );
+        );
     }
 
     drawFrame(frameX, frameY) {
-        if(this.imgCurrent["obj"].complete){
+        if (this.imgCurrent["obj"].complete) {
             ctx.drawImage(
                 this.imgCurrent["obj"],
                 frameX * this.imgCurrent["frameWidth"] * this.frameSizeX,
@@ -85,10 +90,10 @@ class Charactor {
                 this.imgCurrent["frameWidth"] * this.frameSizeX,
                 this.imgCurrent["frameHeight"] * this.frameSizeY,
                 this.x - cam.x,
-                this.y - cam.y, 
+                this.y - cam.y,
                 this.imgCurrent["frameWidth"] * this.frameSizeX * this.scale,
                 this.imgCurrent["frameHeight"] * this.frameSizeY * this.scale,
-                );
+            );
         }
     }
 
@@ -109,10 +114,10 @@ class Charactor {
     // }
 
     animateImage() {
-        this.drawFrame(this.currentFrameX,this.currentFrameY);
+        this.drawFrame(this.currentFrameX, this.currentFrameY);
         this.frameCount++;
-        
-        if (this.frameCount >= this.imgCurrent["frameRate"]){
+
+        if (this.frameCount >= this.imgCurrent["frameRate"]) {
             this.currentFrameX++;
             if (this.currentFrameX >= this.imgCurrent["frameX"]) {
                 this.currentFrameX = 0;
@@ -121,7 +126,7 @@ class Charactor {
         }
     }
 
-    draw(hitbox=false) {
+    draw(hitbox = false) {
         if (hitbox) {
             this.drawHitbox();
         }
@@ -129,47 +134,78 @@ class Charactor {
     }
 
     changeSection(section) {
-        // this.nextSection = section;
+        this.section = section;
+        console.log(`Go To Section : ${this.section}`);
+
+        this.gotoX = sectionPoints[this.section].point[0] * this.tileSize * this.scale;
+        
+        if (Math.abs(this.gotoX - this.x) < this.gotoOffsetX ) {
+            this.move("stop");
+        }
+        else if (this.gotoX < this.x) {
+            this.move("left");
+        }
+        else if (this.gotoX > this.x) {
+            this.move("right");
+        }
+    }
+
+    move(dir) {
+        // console.log(dir);
+        this.isMovingLeft = false;
+        this.isMovingRight = false;
+        this.isMovingUp = false;
+        this.isMovingDown = false;
+
+        if (dir == "left") {
+            this.isMovingLeft = true;
+            this.changeState(this.STATE_RUN);
+        }
+        else if (dir == "right") {
+            this.isMovingRight = true;
+            this.changeState(this.STATE_RUN);
+        }
+        else if (dir == "up") {
+            this.isMovingUp = true;
+            this.changeState(this.STATE_WALK);
+        }
+        else if (dir == "down") {
+            this.isMovingDown = true;
+            this.changeState(this.STATE_WALK);
+        }
+        else if (dir == "stop") {
+            this.changeState(this.STATE_IDLE);
+        }
     }
 
     update(elapsedTime) {
         this.tileX = Math.floor(this.x / (tileSize * this.scale));
         this.tileY = Math.floor(this.y / (tileSize * this.scale));
 
-        if (currentSection.section < this.section) {
-            this.isMovingLeft=true;    
-            charactor.changeState(this.STATE_RUN);
+        if (Math.abs(this.gotoX - this.x) < this.gotoOffsetX ) {
+            this.move("stop");
         }
-        else if (currentSection.section > this.section) {
-            this.isMovingRight=true;
-            charactor.changeState(this.STATE_RUN);
-        }
-        else if (currentSection.section == this.section) {
-            // this.isMovingLeft=false;    
-            // this.isMovingRight=false;    
-            // charactor.changeState("idle");
-        }
-        listBoard
-        this.move(elapsedTime);
+
+        this.moveUpdate(elapsedTime);
     }
 
-    move(elapsedTime) {
+    moveUpdate(elapsedTime) {
         // console.log("move");
-        if (this.isJumping) {
-            this.y -= this.jumpPower;
-            this.jumpTimer += elapsedTime;
-        }
+        // if (this.isJumping) {
+        //     this.y -= this.jumpPower;
+        //     this.jumpTimer += elapsedTime;
+        // }
 
         // gravity
         // if (this.y < floorHeight){
         //     this.y += gravity;
         // }
 
-        // jump
-        if (this.jumpTimer > this.jumpDuration) {
-            this.isJumping = false;
-            this.jumpTimer = 0;
-        }
+        // // jump
+        // if (this.jumpTimer > this.jumpDuration) {
+        //     this.isJumping = false;
+        //     this.jumpTimer = 0;
+        // }
 
         // move
         if (this.isMovingLeft) {
@@ -185,6 +221,6 @@ class Charactor {
             this.y += this.moveSpeed * elapsedTime;
         }
 
-        
+
     }
 }

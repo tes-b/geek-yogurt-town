@@ -88,7 +88,7 @@ function changeSection(section) {
         board.lightOn = false;
     });
     listBoard[section].lightOn = true;
-    charactor.changeSection(currentSection);
+    charactor.changeSection(currentSection.section);
 }
 
 function keyInput() {
@@ -126,33 +126,27 @@ function keyInput() {
             // }
         }
         if (e.code === 'ArrowLeft') {
-            charactor.isMovingRight = false;
-            charactor.isMovingLeft = true;
-            charactor.changeState("run");
+            // charactor.move("left");
+            nextSection(prev=true);
         }
         if (e.code === 'ArrowRight') {
-            charactor.isMovingLeft = false;
-            charactor.isMovingRight = true;
-            charactor.changeState("run");
-        }
-        if (e.code === 'ArrowUp') {
-            // charactor.isMovingUp = true;   
+            // charactor.move("right");
             nextSection();
         }
+        if (e.code === 'ArrowUp') {  
+            
+        }
         if (e.code === 'ArrowDown') {
-            // charactor.isMovingDown = true;
-            nextSection(prev=true);
+            
         }
     })    
 
     document.addEventListener('keyup', function(e) {
         if (e.code === 'ArrowLeft') {
-            charactor.isMovingLeft = false;
-            charactor.changeState("idle");
+            // charactor.move("stop");
         }
         if (e.code === 'ArrowRight') {
-            charactor.isMovingRight = false;
-            charactor.changeState("idle");
+            // charactor.move("stop");
         }
         if (e.code === 'ArrowUp') {
             // charactor.isMovingUp = false;   

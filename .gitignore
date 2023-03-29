@@ -188,3 +188,4 @@ secrets.json
 create_secret_key.py
 word_pusher.py
 5_letter_words.txt
+memo.txt

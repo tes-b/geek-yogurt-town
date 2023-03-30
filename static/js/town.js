@@ -41,11 +41,12 @@ var currentSection = {"section": SECTION_INTRO};
 var cam = new Camera(canvas);
 var bg = new Background();
 var map = new Map();
+var command = new Command(0,9);
 
 var board_intro = new Board(6, 3, SECTION_INTRO, "");
 var board_resume = new Board(20, 3, SECTION_RESUME, "");
 var board_wordle = new Board(34, 3, SECTION_WORDLE, "/wordle/");
-var board_youtube = new Board(48, 3, SECTION_YOUTUBE, "");
+var board_youtube = new Board(48, 3, SECTION_YOUTUBE, "https://youtube.com/playlist?list=PL2QNFtrDTeb68f6i1MfZrjDSH9rzKrFlk");
 
 var charactor = new Charactor(3, 7);
 var info = new Info(charactor, currentSection);
@@ -60,7 +61,7 @@ var listBoard = [
                 board_youtube,
             ];
 
-
+var drawInfo = true;
 
 // RUN FUNCTIONS ============;
 keyInput();
@@ -93,48 +94,21 @@ function changeSection(section) {
 
 function keyInput() {
     document.addEventListener('keydown', function(e) {
+        console.log(e);
         if (e.code === 'Enter') {
-
-            // var wordleFrame = document.getElementById("wordle");
-            // if (onOverlay) {
-            //     wordleFrame.style.display = "none";
-            //     onOverlay = false;
-            // } else {
-            //     wordleFrame.style.display = "block";
-            //     wordleFrame.contentWindow.focus(); // Focus the iframe
-            //     onOverlay = true;
-            // }
-            
-            
-            // cancelAnimationFrame(animation);
-            // if (charactor.state === "idle") {
-            //     charactor.changeState("walk");
-            // } else if (charactor.state === "walk") {
-            //     charactor.changeState("run");
-            // } else {
-            //     charactor.changeState("idle");
-            // }
-
-
-            // const section1 = document.getElementById("section1");
-            
-            location.href = currentSection.url;
+            location.href = listBoard[currentSection.section].url;
         }
         if (e.code === 'Space') {
-            // if (!charactor.isJumping) {
-            //     charactor.isJumping = true;
-            // }
+            location.href = listBoard[currentSection.section].url;
         }
         if (e.code === 'ArrowLeft') {
-            // charactor.move("left");
             nextSection(prev=true);
         }
         if (e.code === 'ArrowRight') {
-            // charactor.move("right");
             nextSection();
         }
         if (e.code === 'ArrowUp') {  
-            
+            location.href = listBoard[currentSection.section].url;
         }
         if (e.code === 'ArrowDown') {
             
@@ -143,18 +117,12 @@ function keyInput() {
 
     document.addEventListener('keyup', function(e) {
         if (e.code === 'ArrowLeft') {
-            // charactor.move("stop");
         }
         if (e.code === 'ArrowRight') {
-            // charactor.move("stop");
         }
         if (e.code === 'ArrowUp') {
-            // charactor.isMovingUp = false;   
-            
         }
         if (e.code === 'ArrowDown') {
-            // charactor.isMovingDown = false;
-            
         }
     })
 }
@@ -179,29 +147,20 @@ function run() {
             listBoard.forEach((board) => {
                 board.draw();
             });
+            command.draw();
         }
-        charactor.draw(hitbox=true);
-        info.draw();
+        charactor.draw(hitbox=false);
+
+        if (drawInfo) {
+            info.draw();
+        }
+        
 
         // if (lastTime % cactusSpawnTime <= frameDuration) {
         //     var cactus = new Cactus();
         //     cactusArr.push(cactus);
         // }
         
-        // cactusArr = cactusArr.filter((cactus) => {
-        //     if (cactus.x >= -cactus.width) {
-        //         cactus.x -= cactus.speed;
-
-        //         if(collisionCheck(charactor, cactus)) {
-        //             // cancelAnimationFrame(animation);
-        //         }
-
-        //         cactus.draw();
-        //         return true;
-        //     }
-        //     return false;
-        // })
-
         
         //===================================================
         lastTime = currentTime - (elapsedTime % frameDuration);
@@ -219,12 +178,6 @@ function collisionCheck(obj1, obj2) {
         return true;
     }
     return false;
-    // var diffR = (obj1.x + obj1.width) - obj2.x;
-    // var diffL = (obj2.x + obj2.width) - obj1.x;
-    // var diffT = (obj1.y + obj1.height) - obj2.x;
-    // var diffB = (obj2.y + obj2.height) - obj1.x;
-
-    // if (diffR > 0 && )
 }
 
 

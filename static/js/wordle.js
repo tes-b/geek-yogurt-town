@@ -330,7 +330,7 @@ function handleDeleteLetter() {
     availableSpace = availableSpace - 1;
 }
 
-function createSquares() {
+function createSquares() { // 글자칸 생성
     const gameBoard = document.getElementById("board");
     while (gameBoard.hasChildNodes()) {
         gameBoard.removeChild(gameBoard.firstChild);

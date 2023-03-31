@@ -21,7 +21,7 @@ label {
 
 #container {
     display: flex;
-    background-color: black;
+    background-color:#1a2047;
     height: 100%;
     align-items: center;
     flex-direction: column;
@@ -37,7 +37,7 @@ label {
 
 header {
     width: 97%;
-    border-bottom: 1px solid rgb(58, 58, 60);
+    border-bottom: 1px solid gainsboro;
     display: flex;
     justify-content: space-between;
     color: gainsboro;
@@ -73,7 +73,7 @@ header {
 }
 
 .square {
-    border: 2px solid rgb(58, 58, 60);
+    border: 2px solid gainsboro;
     min-width: 60px;
     min-height: 60px;
     font-size: 50px;
@@ -106,7 +106,7 @@ header {
     height: 58;
     cursor: pointer;
     background-color: rgb(129, 131, 132);
-    color: rgb(215, 218, 220);
+    color: gainsboro;
     flex-grow: 1;
     text-transform: uppercase;
     margin-right: 6px;

@@ -1,5 +1,5 @@
 class Board {
-    constructor(posX=0, posY=0, section, url) {
+    constructor(posX=0, posY=0, img, section, url) {
         this.section = section;
         this.tileWidth = 16;
         this.tileHeight = 16;
@@ -13,7 +13,7 @@ class Board {
         this.frameSizeY = 6;
 
         this.imgObjBoard = new Image();
-        this.imgObjBoard.src = imgObjBoard;
+        this.imgObjBoard.src = img;
 
         this.lightOn = false;
 

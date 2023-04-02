@@ -28,12 +28,12 @@ class Command {
                 this.tileWidth * this.tileX * this.scale,
                 this.tileHeight * this.tileY * this.scale,
             );
-            ctx.strokeRect(
-                this.x,
-                this.y - cam.y,
-                this.tileWidth * this.tileX * this.scale,
-                this.tileHeight * this.tileY * this.scale,
-                );
+            // ctx.strokeRect(
+            //     this.x,
+            //     this.y - cam.y,
+            //     this.tileWidth * this.tileX * this.scale,
+            //     this.tileHeight * this.tileY * this.scale,
+            //     );
         }
     }
 }

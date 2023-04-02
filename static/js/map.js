@@ -86,7 +86,7 @@ class Map {
                         x + (index * this.map[y].length),
                         y + this.offsetY, 
                         );
-                    this.drawRect(x,y + this.offsetY);
+                    // this.drawRect(x,y + this.offsetY);
                 }
             }
         }

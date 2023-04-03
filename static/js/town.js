@@ -22,10 +22,10 @@ var tileSize = 16;
 
 var onOverlay = false;
 
-const SECTION_INTRO = 0;
-const SECTION_RESUME = 1;
-const SECTION_WORDLE = 2;
-const SECTION_YOUTUBE = 3;
+// const SECTION_INTRO = 0;
+const SECTION_RESUME = 0;
+const SECTION_WORDLE = 1;
+const SECTION_YOUTUBE = 2;
 const SECTION_MAX = 4;
 
 var sectionPoints = [
@@ -36,17 +36,17 @@ var sectionPoints = [
 ];
 
 
-var currentSection = {"section": SECTION_INTRO};
+var currentSection = {"section": SECTION_RESUME};
 
 var cam = new Camera(canvas);
 var bg = new Background();
 var map = new Map();
 var command = new Command(0,9);
 
-var board_intro = new Board(6, 3, imgObjBoard, SECTION_INTRO, "");
-var board_resume = new Board(20, 3, imgObjBoardResume, SECTION_RESUME, "");
-var board_wordle = new Board(34, 3, imgObjBoardWordle, SECTION_WORDLE, "/wordle/");
-var board_youtube = new Board(48, 3, imgObjBoard, SECTION_YOUTUBE, "https://youtube.com/playlist?list=PL2QNFtrDTeb68f6i1MfZrjDSH9rzKrFlk");
+// var board_intro = new Board(6, 3, imgObjBoard, SECTION_INTRO, "");
+var board_resume = new Board(6, 3, imgObjBoardResume, SECTION_RESUME, "");
+var board_wordle = new Board(20, 3, imgObjBoardWordle, SECTION_WORDLE, "/wordle/");
+var board_youtube = new Board(34, 3, imgObjBoardYoutube, SECTION_YOUTUBE, "https://youtube.com/playlist?list=PL2QNFtrDTeb68f6i1MfZrjDSH9rzKrFlk");
 
 var charactor = new Charactor(3, 7);
 var info = new Info(charactor, currentSection);
@@ -55,7 +55,7 @@ cam.followObj = charactor;
 
 
 var listBoard = [
-                board_intro,
+                // board_intro,
                 board_resume,
                 board_wordle,
                 board_youtube,

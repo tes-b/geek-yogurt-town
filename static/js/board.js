@@ -1,13 +1,16 @@
 class Board {
-    constructor(posX=0, posY=0, img, section, url) {
+    constructor(tileX=0, tileY=0, img, section, url) {
         this.section = section;
         this.tileWidth = 16;
         this.tileHeight = 16;
 
         this.scale = 6 * cam.height * 0.001;
+        
+        this.tileX = tileX;
+        this.tileY = tileY;
 
-        this.x = posX * this.tileWidth * this.scale;
-        this.y = posY * this.tileHeight * this.scale;
+        this.x = this.tileX * this.tileWidth * this.scale;
+        this.y = this.tileY * this.tileHeight * this.scale;
 
         this.frameSizeX = 8;
         this.frameSizeY = 6;

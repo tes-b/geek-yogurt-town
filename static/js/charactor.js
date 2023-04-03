@@ -1,7 +1,7 @@
 class Charactor {
     constructor(tileX = 0, tileY = 0) {
         this.section = currentSection.section;
-        // this.nextSection = currentSection;
+
         this.scale = 6 * cam.height * 0.001;
 
         this.tileSize = 16;
@@ -12,7 +12,7 @@ class Charactor {
         this.x = tileX * this.tileSize * this.scale;
         this.y = tileY * this.tileSize * this.scale;
 
-        this.gotoX = sectionPoints[this.section].point[0];
+        this.gotoX = listBoard[this.section].tileX;
         this.gotoOffsetX = 10;
 
         this.widthHalf = 25;
@@ -142,8 +142,7 @@ class Charactor {
         this.section = section;
         console.log(`Go To Section : ${this.section}`);
 
-        this.gotoX = sectionPoints[this.section].point[0] * this.tileSize * this.scale;
-        
+        this.gotoX = listBoard[this.section].tileX * this.tileSize * this.scale;
         if (Math.abs(this.gotoX - this.x) < this.gotoOffsetX ) {
             this.move("stop");
         }

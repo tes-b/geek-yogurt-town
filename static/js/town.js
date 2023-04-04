@@ -40,7 +40,7 @@ const SECTION_GITHUB = 3;
 var currentSection = {"section": SECTION_RESUME};
 
 // var board_intro = new Board(6, 3, imgObjBoard, SECTION_INTRO, "");
-var board_resume = new Board(6, 3, imgObjBoardResume, SECTION_RESUME, "");
+var board_resume = new Board(6, 3, imgObjBoardResume, SECTION_RESUME, "https://geekyougurt.notion.site/543c421751904604ad36dd98d8bc47d2");
 var board_wordle = new Board(20, 3, imgObjBoardWordle, SECTION_WORDLE, "/wordle/");
 var board_youtube = new Board(34, 3, imgObjBoardYoutube, SECTION_YOUTUBE, "https://youtube.com/playlist?list=PL2QNFtrDTeb68f6i1MfZrjDSH9rzKrFlk");
 var board_github = new Board(48, 3, imgObjBoardGithub, SECTION_GITHUB, "https://github.com/tes-b");

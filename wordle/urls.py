@@ -7,5 +7,5 @@ urlpatterns = [
     path('test', views.test, name='test'),
 
     # API
-    path('api/', views.WordAPIView.as_view(), name='wordleapi')
+    path('api/', views.WordAPIView.as_view(), name='word')
 ]

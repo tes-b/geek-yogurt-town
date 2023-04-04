@@ -1,5 +1,8 @@
-// document.addEventListener("DOMContentLoaded", () => {
 // initLocalStorage();
+
+// ====================================================
+// Variables
+// ====================================================
 
 let guessedWords = [[]] // 시도한 단어
 let availableSpace = 1; // 현재 글자가 들어갈 자리
@@ -8,7 +11,6 @@ let availableSpace = 1; // 현재 글자가 들어갈 자리
 let guessedWordCount = 0;
 let onPlay = false;
 let onResultBox = false;
-// let currentWordIndex = 0;
 
 const keys = document.querySelectorAll(".keyboard-row button") // 키보드 버튼
 
@@ -23,10 +25,19 @@ let word_id = 0;
 let username = "";
 let user_id = null;
 
+
+// ====================================================
+// Process
+// ====================================================
+
 getUserInfo();
 newGame();
 keyInput();
 
+
+// ====================================================
+// FUNCTIONS
+// ====================================================
 
 // function initLocalStorage() {
 //     const storedCurrentWordIndex = window.localStorage.getItem('currentWordIndex');
@@ -36,14 +47,6 @@ keyInput();
 //         currentWordIndex = Number(storedCurrentWordIndex);
 //     }
 // }
-
-// createSquares();
-
-// ====================================================
-// FUNCTIONS
-// ====================================================
-
-
 
 function resetPage() {
     console.log(word_id, word);
@@ -57,7 +60,7 @@ function resetPage() {
 }
 
 function getUserInfo() {
-    fetch("http://127.0.0.1:8000/accounts/api/login/", {
+    fetch("/accounts/api/login/", {
         method: 'GET',
         credentials: 'include' // This ensures that cookies are sent with the request
     })
@@ -89,7 +92,7 @@ function newGame() {
 
     // const wordArr = ['seven', 'world', 'about', 'again', 'heart', 'pizza', 'water', 'happy', 'sixty', 'board', 'month', 'angel', 'death', 'green', 'music', 'fifty', 'three', 'party', 'piano', 'kelly', 'mouth'];
 
-    fetch("http://127.0.0.1:8000/wordle/api?rand=true") // 데이터베이스에서 랜덤으로 단어 가져옴
+    fetch("/wordle/api?rand=true") // 데이터베이스에서 랜덤으로 단어 가져옴
         .then(response => {
             // console.log(response)
             if (response.status == 200) {
@@ -167,7 +170,7 @@ function sendResult(result) {
         'user': user_id
     }
 
-    fetch("http://127.0.0.1:8000/leaderboard/api/record/", {
+    fetch("/leaderboard/api/record/", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -243,7 +246,7 @@ function handleSubmitWord() {
 
     const currentWord = currentWordArr.join('') // 단어조합
 
-    fetch(`http://127.0.0.1:8000/wordle/api?word=${currentWord}`)
+    fetch(`/wordle/api?word=${currentWord}`)
         .then(response => {
             if (response.status == 200) {
                 return response.json();
@@ -401,4 +404,3 @@ function keyInput() {
         }
     }
 }
-// });

@@ -16,8 +16,9 @@
             <div id="result" class="modal-box">
                 <div id="result-content"></div>
                 <div class="btn-container">
-                    <button class="result-btn newgame" id="btn-newgame" onclick="newGame()">new game</button>
-                    <button class="result-btn exit">exit</button>
+                    <button class="result-btn newgame" id="btn-newgame" onclick="newGame()">NEW GAME</button>
+                    <a id="btn-town" class="button" href="{% url 'town:index' %}">TOWN</a>
+                    <!-- <button class="result-btn exit" href="{% url 'town:index' %}">TOWN</button> -->
                 </div>
             </div>
         </div>

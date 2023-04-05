@@ -7,7 +7,7 @@ class BackgroundImg {
         this.x = 0;
         this.y = 0;
         this.tileSize = tileSize;
-        this.scale = 3 * cam.height * 0.001;
+        this.scale = objectScale * 0.5;
         this.frameWidth = frameWidth * tileSize;
         this.frameHeight = frameHeight * tileSize;
         this.depthZ = depthZ;

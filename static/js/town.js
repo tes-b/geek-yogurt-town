@@ -12,13 +12,8 @@ let lastTime = 0;
 const targetFPS = 60;
 const frameDuration = 1000 / targetFPS;
 
-var cactusArr = [];
-var cactusSpawnTime = 3000;
-
-var floorHeight = 200;
-var gravity = 3;
-
 var tileSize = 16;
+var objectScale = 6 * canvas.height * 0.001;
 
 var onOverlay = false;
 
@@ -26,7 +21,8 @@ var onOverlay = false;
 var cam = new Camera(canvas);
 var bg = new Background();
 var map = new Map();
-var command = new Command(0,9);
+var command_prev = new Command(0,9);
+// var button_prev = new Button(imgBtnPrev,2,2,0,3);
 
 
 // 빌보드 초기화 ==============================
@@ -150,7 +146,8 @@ function run() {
             listBoard.forEach((board) => {
                 board.draw();
             });
-            command.draw();
+            command_prev.draw();
+            // button_prev.draw();
         }
         charactor.draw(hitbox=false);
 

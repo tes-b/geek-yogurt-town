@@ -2,7 +2,7 @@ class Charactor {
     constructor(tileX = 0, tileY = 0) {
         this.section = currentSection.section;
 
-        this.scale = 6 * cam.height * 0.001;
+        this.scale = objectScale;
 
         this.tileSize = 16;
 

@@ -27,7 +27,7 @@ class Map {
 
         
 
-        this.scale = 6 * cam.height * 0.001;
+        this.scale = objectScale;
         this.offsetY = 9;
         this.map = [
                     [1,2,3,2,1,2,3,2,1,2,3,2,1,2],

@@ -1,15 +1,12 @@
-class Command {
-    constructor(posX = 0, posY = 0) {
+class Button {
+    constructor(imgSrc, tileHor, tileVer, posX = 0, posY = 0) {
         this.imgCommand = new Image();
-        this.imgCommand.src = imgObjCommand;
+        this.imgCommand.src = imgSrc;
 
         this.scale = objectScale;
 
-        this.tileWidth = 16;
-        this.tileHeight = 16;
-
-        this.tileX = 8;
-        this.tileY = 2;
+        this.tileHor = tileHor;
+        this.tileVer = tileVer;
 
         this.x = posX * tileSize * this.scale;
         this.y = posY * tileSize * this.scale;
@@ -26,13 +23,13 @@ class Command {
             ctx.drawImage(
                 this.imgCommand,
                 0,
-                this.tileHeight * this.tileY * this.state,
-                this.tileWidth * this.tileX,
-                this.tileHeight * this.tileY,
+                tileSize * this.tileVer * this.state,
+                tileSize * this.tileHor,
+                tileSize * this.tileVer,
                 this.x,
                 this.y - cam.y,
-                this.tileWidth * this.tileX * this.scale,
-                this.tileHeight * this.tileY * this.scale,
+                tileSize * this.tileHor * this.scale,
+                tileSize * this.tileVer * this.scale,
             );
             // ctx.strokeRect(
             //     this.x,

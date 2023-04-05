@@ -10,8 +10,7 @@ class Info {
                                         Cahractor Tile : ${charactor.tileX} , ${charactor.tileY}
                                         CAM : ${Math.floor(cam.x)}, ${Math.floor(cam.y)}
                                         SECTION : ${currentSection.section}
-                                        CURR SECTION : ${charactor.section}
-
+                                        MOUSE : ${mouseX}, ${mouseY}                                       
                                         `
                                         ;
         }

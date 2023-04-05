@@ -1,7 +1,9 @@
 class Button {
-    constructor(imgSrc, tileHor, tileVer, posX = 0, posY = 0) {
+    constructor(imgSrc, callback, tileHor, tileVer, posX = 0, posY = 0) {
         this.imgCommand = new Image();
         this.imgCommand.src = imgSrc;
+
+        this.callback = callback;
 
         this.scale = objectScale;
 
@@ -16,6 +18,49 @@ class Button {
         this.STATE_PRESS = 2;
 
         this.state = this.STATE_NONE;
+
+        this.width = tileSize * this.tileHor * this.scale;
+        this.height = tileSize * this.tileVer * this.scale;
+
+        this.mouseOverPadding = 10;
+    }
+
+    update() {
+        if (!this.isMouseOver()) {
+            this.up();
+        }
+
+        if (this.state != this.STATE_PRESS) {
+            if (this.isMouseOver()) {
+                this.state = this.STATE_CURSOR_ON;
+            }
+            else {
+                this.state = this.STATE_NONE;
+            }
+        }
+        
+    }
+
+    press() {
+        if (this.isMouseOver()) {
+            this.state = this.STATE_PRESS;
+        }
+    }
+
+    up() {
+        if (this.isMouseOver()) {
+            this.callback();
+        }
+        this.state = this.STATE_NONE;
+    }
+
+    isMouseOver() {
+        return (
+          mouseX >= this.x + this.mouseOverPadding &&
+          mouseX <= this.x + this.width - this.mouseOverPadding&&
+          mouseY >= this.y - cam.y + this.mouseOverPadding&&
+          mouseY <= this.y + this.height - cam.y - this.mouseOverPadding
+        );
     }
 
     draw() {
@@ -28,14 +73,14 @@ class Button {
                 tileSize * this.tileVer,
                 this.x,
                 this.y - cam.y,
-                tileSize * this.tileHor * this.scale,
-                tileSize * this.tileVer * this.scale,
+                this.width,
+                this.height,
             );
             // ctx.strokeRect(
             //     this.x,
             //     this.y - cam.y,
-            //     this.tileWidth * this.tileX * this.scale,
-            //     this.tileHeight * this.tileY * this.scale,
+            //     this.width,
+            //     this.height,
             //     );
         }
     }

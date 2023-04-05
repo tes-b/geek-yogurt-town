@@ -6,7 +6,13 @@ canvas.setAttribute("height", window.innerHeight);
 var ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = false; // 이미지 부드럽게 처리하지 않음
 
+var mouseX = 0;
+var mouseY = 0;
 
+var clientX = 0;
+var clientY = 0;
+var rectLeft = 0;
+var rectTop = 0;
 
 let lastTime = 0;
 const targetFPS = 60;
@@ -21,9 +27,16 @@ var onOverlay = false;
 var cam = new Camera(canvas);
 var bg = new Background();
 var map = new Map();
-var command_prev = new Command(0,9);
-// var button_prev = new Button(imgBtnPrev,2,2,0,3);
 
+var button_prev = new Button(imgBtnPrev,prevSection, 2, 2, 0, 9);
+var button_next = new Button(imgBtnNext,nextSection, 2, 2, 2, 9);
+var button_select = new Button(imgBtnSelect,selectSection, 3, 2, 4, 9);
+
+var listButtons = [
+    button_prev,
+    button_next,
+    button_select,
+];
 
 // 빌보드 초기화 ==============================
 
@@ -33,10 +46,10 @@ const SECTION_WORDLE = 1;
 const SECTION_YOUTUBE = 2;
 const SECTION_GITHUB = 3;
 
-var currentSection = {"section": SECTION_RESUME};
+var currentSection = { "section": SECTION_RESUME };
 
 // var board_intro = new Board(6, 3, imgObjBoard, SECTION_INTRO, "");
-var board_resume = new Board(6, 3, imgObjBoardResume, SECTION_RESUME, "https://geekyougurt.notion.site/543c421751904604ad36dd98d8bc47d2");
+var board_resume = new Board(6, 3, imgObjBoardResume, SECTION_RESUME, "https://geekyougurt.notion.site/09aa2b7a2ea844bbb8b28572ea51b235");
 var board_wordle = new Board(20, 3, imgObjBoardWordle, SECTION_WORDLE, "/wordle/");
 var board_youtube = new Board(34, 3, imgObjBoardYoutube, SECTION_YOUTUBE, "https://youtube.com/playlist?list=PL2QNFtrDTeb68f6i1MfZrjDSH9rzKrFlk");
 var board_github = new Board(48, 3, imgObjBoardGithub, SECTION_GITHUB, "https://github.com/tes-b");
@@ -61,22 +74,35 @@ var drawInfo = true;
 
 // RUN FUNCTIONS ============;
 keyInput();
+mouseInput();
 changeSection(currentSection.section);
 run();
 
 
 // DECLARE FUNCTIONS=========
 
-function nextSection(prev=false) {
+function nextSection() {
     var section = currentSection.section;
-    if (prev){
-        if (section-1 < 0) {return;} 
-        section -= 1;
-    } else {
-        if (section+1 >= SECTION_MAX) {return;}
-        section += 1;
+    if (section + 1 >= SECTION_MAX) { return; }
+    section += 1;
+    changeSection(section);
+}
+
+function prevSection() {
+    var section = currentSection.section;
+    if (section - 1 < 0) { return; }
+    section -= 1;
+    changeSection(section);
+}
+
+function selectSection(newTab=true) {
+    if (newTab) {
+        window.open(listBoard[currentSection.section].url);
     }
-    changeSection(section)
+    else {
+        location.href = listBoard[currentSection.section].url;
+    }
+    
 }
 
 function changeSection(section) {
@@ -88,33 +114,56 @@ function changeSection(section) {
     charactor.changeSection(currentSection.section);
 }
 
+function mouseInput() {
+    canvas.addEventListener('mousemove', (event) => {
+        const rect = canvas.getBoundingClientRect();
+
+        clientX = event.clientX;
+        clientY = event.clientY;
+        rectLeft = rect.left;
+        rectTop = rect.top;
+        
+        mouseX = event.clientX - rect.left;
+        mouseY = event.clientY - rect.top;
+    });
+
+    canvas.addEventListener('mousedown', (event) => {
+        listButtons.forEach((button) => {
+            button.press();
+        });
+    });
+
+    canvas.addEventListener('mouseup', (event) => {
+        listButtons.forEach((button) => {
+            button.up();
+        });
+    });
+}
+
 function keyInput() {
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
         console.log(e);
         if (e.code === 'Enter') {
-            // location.href = listBoard[currentSection.section].url;
-            window.open(listBoard[currentSection.section].url);
+            selectSection();
         }
         if (e.code === 'Space') {
-            // location.href = listBoard[currentSection.section].url;
-            window.open(listBoard[currentSection.section].url);
+            selectSection();
         }
         if (e.code === 'ArrowLeft') {
-            nextSection(prev=true);
+            prevSection();
         }
         if (e.code === 'ArrowRight') {
             nextSection();
         }
-        if (e.code === 'ArrowUp') {  
-            // location.href = listBoard[currentSection.section].url;
-            window.open(listBoard[currentSection.section].url);
+        if (e.code === 'ArrowUp') {
+            selectSection();
         }
         if (e.code === 'ArrowDown') {
-            
-        }
-    })    
 
-    document.addEventListener('keyup', function(e) {
+        }
+    });
+
+    document.addEventListener('keyup', function (e) {
         if (e.code === 'ArrowLeft') {
         }
         if (e.code === 'ArrowRight') {
@@ -123,7 +172,7 @@ function keyInput() {
         }
         if (e.code === 'ArrowDown') {
         }
-    })
+    });
 }
 
 
@@ -135,33 +184,38 @@ function run() {
 
     if (elapsedTime >= frameDuration) {
 
-        ctx.clearRect(0,0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         charactor.update(elapsedTime);
         cam.update(elapsedTime);
-
+        listButtons.forEach((button) => {
+            button.update();
+        });
+        
         if (!onOverlay) {
             bg.draw();
             map.draw();
             listBoard.forEach((board) => {
                 board.draw();
             });
-            command_prev.draw();
-            // button_prev.draw();
+            // command_prev.draw();
+            listButtons.forEach((button) => {
+                button.draw();
+            });
         }
-        charactor.draw(hitbox=false);
+        charactor.draw(hitbox = false);
 
         if (drawInfo) {
             info.draw();
         }
-        
+
 
         // if (lastTime % cactusSpawnTime <= frameDuration) {
         //     var cactus = new Cactus();
         //     cactusArr.push(cactus);
         // }
-        
-        
+
+
         //===================================================
         lastTime = currentTime - (elapsedTime % frameDuration);
     }
@@ -174,7 +228,7 @@ function collisionCheck(obj1, obj2) {
     var diffY = Math.abs(obj1.y - obj2.y);
 
     if ((diffX < (obj1.widthHalf + obj2.widthHalf))
-    && (diffY < (obj1.heightHalf + obj2.heightHalf))) {
+        && (diffY < (obj1.heightHalf + obj2.heightHalf))) {
         return true;
     }
     return false;

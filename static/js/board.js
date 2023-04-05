@@ -1,22 +1,23 @@
 class Board {
     constructor(tileX=0, tileY=0, img, section, url) {
+        this.imgObjBoard = new Image();
+        this.imgObjBoard.src = img;
+
         this.section = section;
-        this.tileWidth = 16;
-        this.tileHeight = 16;
 
         this.scale = objectScale;
         
         this.tileX = tileX;
         this.tileY = tileY;
 
-        this.x = this.tileX * this.tileWidth * this.scale;
-        this.y = this.tileY * this.tileHeight * this.scale;
+        this.x = this.tileX * tileSize * this.scale;
+        this.y = this.tileY * tileSize * this.scale;
 
-        this.frameSizeX = 8;
-        this.frameSizeY = 6;
+        this.tileHor = 8;
+        this.tileVer = 6;
 
-        this.imgObjBoard = new Image();
-        this.imgObjBoard.src = img;
+        this.width = tileSize * this.tileHor * this.scale;
+        this.height = tileSize * this.tileVer * this.scale;
 
         this.lightOn = false;
 
@@ -27,14 +28,14 @@ class Board {
         if(this.imgObjBoard.complete){
             ctx.drawImage(
                 this.imgObjBoard,
-                this.tileWidth * this.frameSizeX * this.lightOn,
+                tileSize * this.tileHor * this.lightOn,
                 0,
-                this.tileWidth * this.frameSizeX,
-                this.tileHeight * this.frameSizeY,
+                tileSize * this.tileHor,
+                tileSize * this.tileVer,
                 this.x - cam.x,
                 this.y - cam.y, 
-                this.tileWidth * this.frameSizeX * this.scale,
-                this.tileHeight * this.frameSizeY * this.scale, 
+                this.width,
+                this.height, 
                 );
         }
     }

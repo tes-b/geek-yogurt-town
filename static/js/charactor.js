@@ -26,7 +26,10 @@ class Charactor {
         this.isMovingRight = false;
         this.isMovingUp = false;
         this.isMovingDown = false;
-        this.moveSpeed = 0.8;
+
+        this.MOVE_SPD_WALK = 0.8;
+        this.moveSpeed = this.MOVE_SPD_WALK;
+        this.acceleration = 0.001;
 
         this.isLeft = false;
 
@@ -121,8 +124,8 @@ class Charactor {
 
         this.drawFrame(this.currentFrameX, this.isLeft);
         this.frameCount++;
-
-        if (this.frameCount >= this.imgCurrent["frameRate"]) {
+        let frameRate = this.imgCurrent["frameRate"] - this.moveSpeed;
+        if (this.frameCount >= frameRate) {
             this.currentFrameX++;
             if (this.currentFrameX >= this.imgCurrent["frameX"]) {
                 this.currentFrameX = 0;
@@ -186,10 +189,14 @@ class Charactor {
     }
 
     update(elapsedTime) {
+        // calc tile
         this.tileX = Math.floor(this.x / (tileSize * this.scale));
         this.tileY = Math.floor(this.y / (tileSize * this.scale));
 
-        if (Math.abs(this.gotoX - this.x) < this.gotoOffsetX ) {
+        // stop
+        let distance = Math.abs(this.gotoX - this.x);
+        this.moveSpeed = this.MOVE_SPD_WALK + (distance * this.acceleration);
+        if (distance < this.gotoOffsetX ) {
             this.move("stop");
         }
 
@@ -197,22 +204,6 @@ class Charactor {
     }
 
     moveUpdate(elapsedTime) {
-        // console.log("move");
-        // if (this.isJumping) {
-        //     this.y -= this.jumpPower;
-        //     this.jumpTimer += elapsedTime;
-        // }
-
-        // gravity
-        // if (this.y < floorHeight){
-        //     this.y += gravity;
-        // }
-
-        // // jump
-        // if (this.jumpTimer > this.jumpDuration) {
-        //     this.isJumping = false;
-        //     this.jumpTimer = 0;
-        // }
 
         // move
         if (this.isMovingLeft) {
@@ -227,7 +218,5 @@ class Charactor {
         else if (this.isMovingDown) {
             this.y += this.moveSpeed * elapsedTime;
         }
-
-
     }
 }

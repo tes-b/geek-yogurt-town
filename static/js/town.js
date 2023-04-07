@@ -45,14 +45,16 @@ const SECTION_RESUME = 0;
 const SECTION_WORDLE = 1;
 const SECTION_YOUTUBE = 2;
 const SECTION_GITHUB = 3;
+const SECTION_BLOG = 4;
 
 var currentSection = { "section": SECTION_RESUME };
 
 // var board_intro = new Board(6, 3, imgObjBoard, SECTION_INTRO, "");
 var board_resume = new Board(6, 3, imgObjBoardResume, SECTION_RESUME, "https://geekyougurt.notion.site/09aa2b7a2ea844bbb8b28572ea51b235");
-var board_wordle = new Board(20, 3, imgObjBoardWordle, SECTION_WORDLE, "/wordle/");
-var board_youtube = new Board(34, 3, imgObjBoardYoutube, SECTION_YOUTUBE, "https://youtube.com/playlist?list=PL2QNFtrDTeb68f6i1MfZrjDSH9rzKrFlk");
-var board_github = new Board(48, 3, imgObjBoardGithub, SECTION_GITHUB, "https://github.com/tes-b");
+var board_wordle = new Board(18, 3, imgObjBoardWordle, SECTION_WORDLE, "/wordle/");
+var board_youtube = new Board(30, 3, imgObjBoardYoutube, SECTION_YOUTUBE, "https://youtube.com/playlist?list=PL2QNFtrDTeb68f6i1MfZrjDSH9rzKrFlk");
+var board_github = new Board(42, 3, imgObjBoardGithub, SECTION_GITHUB, "https://github.com/tes-b");
+var board_blog = new Board(54, 3, imgObjBoardBlog, SECTION_BLOG, "https://tes-b.github.io/");
 
 var listBoard = [
     // board_intro,
@@ -60,6 +62,7 @@ var listBoard = [
     board_wordle,
     board_youtube,
     board_github,
+    board_blog,
 ];
 
 const SECTION_MAX = listBoard.length;
@@ -198,7 +201,7 @@ function run() {
             listBoard.forEach((board) => {
                 board.draw();
             });
-            // command_prev.draw();
+
             listButtons.forEach((button) => {
                 button.draw();
             });

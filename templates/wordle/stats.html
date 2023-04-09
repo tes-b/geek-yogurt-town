@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div id="container">
+    
+    <header>
+        <!-- <div id="menu-bar" class="menu-bar">Back</div> -->
+        <!-- <a id="btn-town" class="button" href="{% url 'town:index' %}">Town</a> -->
+        <a id="btn-wordle" class="button" href="{% url 'wordle:main' %}">Wordle</a>
+        <h1 class="title">Statistics</h1>
+        <a id="username" class="button" href="{% url 'accounts:login' %}">username</a>
+    </header>    
+</div>
+
+{% endblock %}

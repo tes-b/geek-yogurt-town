@@ -21,7 +21,7 @@ label {
 
 #container {
     display: flex;
-    background-color:#1a2047;
+    background-color: #1a2047;
     height: 100%;
     align-items: center;
     flex-direction: column;
@@ -158,7 +158,7 @@ header {
     display: none;
 }
 
-#result-content{
+#result-content {
     color: gainsboro;
 }
 
@@ -178,7 +178,7 @@ header {
 
     padding: 10px;
     display: block;
-    background-color: rgb(130, 130, 130,);
+    background-color: rgb(130, 130, 130, );
     ;
     border-radius: 20px;
     z-index: 1;
@@ -220,25 +220,24 @@ header {
     cursor: pointer;
     border: none;
     outline: none;
-  }
+}
 
-  .button:hover {
+.button:hover {
     /* background-color: #0056b3; */
     background-color: #242424;
-  }
+}
 
-  form {
+form {
     display: flex;
     flex-basis: 0;
     flex-direction: column;
     align-items: flex-start;
-    gap:10px;
-  }
+    gap: 10px;
+}
 
-  .form-group {
+.form-group {
     display: grid;
     grid-template-columns: 250px 250px;
     gap: 5px;
     align-items: center;
-  }
-
+}

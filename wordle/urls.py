@@ -4,7 +4,7 @@ app_name = 'wordle'
 
 urlpatterns = [
     path('', views.index, name='main'),
-    path('test', views.test, name='test'),
+    path('stats', views.stats, name='stats'),
 
     # API
     path('api/', views.WordAPIView.as_view(), name='word')

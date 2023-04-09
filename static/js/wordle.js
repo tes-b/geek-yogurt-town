@@ -195,10 +195,36 @@ function openResultBox(result) {
     onPlay = false;
     onResultBox = true;
     document.getElementById("result-box").style.display = "block";
+
+    // for (let index = 0; index < 30; index++) {
+    //     let square = document.createElement("div");
+    //     square.classList.add("square");
+    //     square.classList.add("animate__animated");
+    //     square.setAttribute("id", index + 1);
+    //     gameBoard.appendChild(square);
+    // }
+
+    // const gameBoard = document.getElementById("board");
+    let textResult = result ? 'WIN' : 'LOOSE';
+    let colourResult = result ? colorGreen : colorRed;
     var template = `
     <div>
-        <h1>${result ? 'WIN' : 'LOOSE'}</h1>
-        <div>ANSWER : ${word}</div>
+        <h1 style="color:${colourResult};
+        text-shadow:
+        -1px -1px 0 #FFFFFF,
+         1px -1px 0 #FFFFFF,
+        -1px  1px 0 #FFFFFF,
+         1px  1px 0 #FFFFFF;">${textResult}</h1>
+        <div>ANSWER</div>
+        <div id="board-container">
+            <div id="answer-board">
+                <div class="square" id="answer">${word[0]}</div>
+                <div class="square" id="answer">${word[1]}</div>
+                <div class="square" id="answer">${word[2]}</div>
+                <div class="square" id="answer">${word[3]}</div>
+                <div class="square" id="answer">${word[4]}</div>
+            </div>
+        </div>
         <div>TRIES : ${guessedWordCount}</div>
     </div>`;
     const resultEl = document.getElementById("result-content");

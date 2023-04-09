@@ -163,11 +163,15 @@ function getTileColor(letter, index) {
 
 function sendResult(result) {
     // 게임 결과 보내기
-    const data = {
+    let data = {
         'word': word_id,
         'result': result,
         'tries': guessedWordCount,
         'user': user_id
+    }
+    for (var i=0; i<guessedWords.length; i++) {
+        let column = "guess" + String(i+1);
+        data[column] = guessedWords[i].join('');
     }
 
     fetch("/leaderboard/api/record/", {

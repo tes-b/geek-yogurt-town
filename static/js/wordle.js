@@ -48,16 +48,20 @@ keyInput();
 //     }
 // }
 
-function resetPage() {
-    console.log(word_id, word);
-    guessedWords = [[]]; // 시도한 단어
-    availableSpace = 1; // 현재 글자가 들어갈 
-    guessedWordCount = 0;
-    onPlay = true;
-    closeResultBox();
-    createSquares();
-    resetGuessedKeys();
+// ====================================================
+// MENU
+// ====================================================
+
+function openSlideMenu() {
+    document.getElementById('side-menu').style.width = '250px';
+    // document.getElementById('menu').style.marginLeft = '250px';
 }
+  
+function closeSlideMenu() {
+    document.getElementById('side-menu').style.width = '0';
+    // document.getElementById('menu').style.marginLeft = '0';
+}
+
 
 function getUserInfo() {
     fetch("/accounts/api/login/", {
@@ -76,16 +80,34 @@ function getUserInfo() {
             user_id = data.id;
             // console.log(user_id, username);
 
-            const usernameDiv = document.getElementById('username')
-            usernameDiv.textContent = username;
+            // const usernameDiv = document.getElementById('username')
+            // usernameDiv.textContent = username;
         })
         .catch(error => {
             console.error(error);
 
-            const usernameDiv = document.getElementById('username');
-            usernameDiv.textContent = "Log In";
+            // const usernameDiv = document.getElementById('username');
+            // usernameDiv.innerText = "&#128747; Log In";
+            // usernameDiv.textContent = "&#128747; Log In";
         });
 }
+
+// ====================================================
+// GAME
+// ====================================================
+
+function resetPage() {
+    console.log(word_id, word);
+    guessedWords = [[]]; // 시도한 단어
+    availableSpace = 1; // 현재 글자가 들어갈 
+    guessedWordCount = 0;
+    onPlay = true;
+    closeResultBox();
+    createSquares();
+    resetGuessedKeys();
+}
+
+
 
 function newGame() {
     // 이 과정에서 각 단어의 정답률, 평균 시도 횟수 등을 통계처리 할 수 있을 듯
@@ -142,7 +164,6 @@ function resetGuessedKeys() { // 키 색 초기화
         keys[i].style.removeProperty("background-color");
     }
 }
-
 
 function getTileColor(letter, index) {
     const isCorrectLetter = word.includes(letter);
@@ -345,7 +366,7 @@ function handleSubmitWord() {
             window.alert(error.message);
         });
 }
-
+// 글자 삭제
 function handleDeleteLetter() {
     const currentWordArr = getCurrentWordArr();
     if (currentWordArr % 5 == 0) { // 이미 확인한 단어는 지우지 못함

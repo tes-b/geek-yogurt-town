@@ -13,6 +13,9 @@ from config.settings import SECRET_KEY
 
 from .serializer import *
 
+def setting(request):
+    return render(request, 'accounts/setting.html')
+
 def signup(request):
     return render(request, 'accounts/signup.html')
 

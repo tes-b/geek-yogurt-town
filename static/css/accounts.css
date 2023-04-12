@@ -1,0 +1,36 @@
+form {
+    display: flex;
+    flex-basis: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    /* grid-template-columns: 300px 300px; */
+    gap: 5px;
+    /* align-items: center; */
+    align-items: flex-start;
+    width: 100%;
+}
+
+.form-group label {
+    text-align: left;
+}
+
+form button {
+    width: 97%;
+    align-self: center;
+}
+
+h2 {
+    border-bottom: 1px solid gainsboro;
+    width: 100%;
+    max-width: 300px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}

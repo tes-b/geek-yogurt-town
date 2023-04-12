@@ -7,6 +7,7 @@ app_name = 'accounts'
 urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('login/', views.login, name='login'),
+    path('setting/', views.setting, name='setting'),
 
     # API
     path('api/signup/', views.UserSignUpView.as_view(), name='api_signup'),

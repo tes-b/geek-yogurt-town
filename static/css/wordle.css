@@ -21,7 +21,7 @@ label {
 
 #container {
     display: flex;
-    background-color: #1a2047;
+    background-color: #2e2e2e;
     height: 100%;
     align-items: center;
     flex-direction: column;
@@ -243,17 +243,48 @@ header {
     background-color: #242424;
 }
 
-form {
-    display: flex;
-    flex-basis: 0;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+.menu-icon {
+    font-size: 30px;
+    cursor: pointer;
+    color:  gainsboro; 
+    text-decoration: none;
 }
 
-.form-group {
-    display: grid;
-    grid-template-columns: 250px 250px;
-    gap: 5px;
-    align-items: center;
+.side-menu {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.3s;
+    padding-top: 60px;
+}
+
+.side-menu a {
+    padding: 8px 8px 8px 8px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.side-menu a:hover {
+    color: gainsboro;
+}
+
+.side-menu .close-btn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+#menu {
+    transition: margin-left .3s;
+    padding: 20px;
 }

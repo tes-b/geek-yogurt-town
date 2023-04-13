@@ -68,7 +68,7 @@ var listBoard = [
 const SECTION_MAX = listBoard.length;
 
 // 캐릭터 =================================
-var charactor = new Charactor(3, 7);
+var charactor = new Charactor(4, 7);
 var info = new Info(charactor, currentSection);
 
 cam.followObj = charactor;

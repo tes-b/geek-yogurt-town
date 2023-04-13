@@ -9,11 +9,15 @@ from django.utils.translation import gettext_lazy as _
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
-    def _create_user(self, username, password, **extra_fields):
+    def _create_user(self, username, password, email, **extra_fields):
         if not username:
             raise ValueError('Username을 입력해주세요.')
+        print(username)
         username = self.model.normalize_username(username)
-        user = self.model(username=username, **extra_fields)
+        print(username)
+        if email:
+            email = self.normalize_email(email)
+        user = self.model(username=username, email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self.db)
         return user
@@ -37,6 +41,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     username_validator = UnicodeUsernameValidator()
 
     username = models.CharField(_("username"), max_length=50, validators=[username_validator], unique=True)
+    email = models.EmailField(_("email"),max_length=255,unique=True,null=True)
     is_staff = models.BooleanField(_("staff status"), default=False)
     is_active = models.BooleanField(_("active"), default=True)
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)

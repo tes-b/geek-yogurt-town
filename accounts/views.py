@@ -61,6 +61,8 @@ class UserLogInView(APIView):
     def get(self, request):
         try:
             # access token decode
+            if 'access' not in request.COOKIES:
+                return Response(status=status.HTTP_204_NO_CONTENT)
             access = request.COOKIES['access']
             payload = jwt.decode(access, SECRET_KEY, algorithms=['HS256']) # 토큰 디코드
             pk = payload.get('user_id') 
@@ -121,10 +123,11 @@ class UserLogInView(APIView):
     
     # 로그아웃
     def delete(self, request):
-        response = Response({
+        print("logout")
+        res = Response({
             'message': 'Logout success'
         }, status=status.HTTP_202_ACCEPTED)
-        response.delete_cookie('access')
-        response.delete_cookie('refresh')
-        return response
+        res.delete_cookie('access')
+        res.delete_cookie('refresh')
+        return res
 

@@ -25,6 +25,8 @@ let word_id = 0;
 let username = "";
 let user_id = null;
 
+var isLoggedIn = false;
+
 
 // ====================================================
 // Process
@@ -39,62 +41,88 @@ keyInput();
 // FUNCTIONS
 // ====================================================
 
-// function initLocalStorage() {
-//     const storedCurrentWordIndex = window.localStorage.getItem('currentWordIndex');
-//     if (!storedCurrentWordIndex) {
-//         window.localStorage.setItem('currentWordIndex', currentWordIndex);
-//     } else {
-//         currentWordIndex = Number(storedCurrentWordIndex);
-//     }
-// }
 
-// ====================================================
 // MENU
-// ====================================================
+// ===========================
 
 function openSlideMenu() {
     document.getElementById('side-menu').style.width = '250px';
-    // document.getElementById('menu').style.marginLeft = '250px';
 }
   
 function closeSlideMenu() {
     document.getElementById('side-menu').style.width = '0';
-    // document.getElementById('menu').style.marginLeft = '0';
 }
 
+function userMenu() {
+
+}
+
+function toggleUserMenu() {
+    var userPopupContent = document.querySelector('.user-popup-content');
+    userPopupContent.style.display = (userPopupContent.style.display === 'block') ? 'none' : 'block';
+}
+
+function userInfo() {
+    if (isLoggedIn){
+        toggleUserMenu();
+    }
+    else {
+        location.href = '/accounts/login/';
+    }
+}
+
+function userLogout() {
+    // console.log("log out");
+    fetch("/accounts/api/login/", {
+        method: 'DELETE',
+        credentials: 'include' // 쿠키를 request에 같이 보낸다.
+    })
+        .then(response => {
+            if (response.status === 202) {
+                console.log("log out");
+            }
+            else {
+                throw new Error('logout failed');
+            }
+        })   
+    location.reload();
+        
+}
 
 function getUserInfo() {
     fetch("/accounts/api/login/", {
         method: 'GET',
-        credentials: 'include' // This ensures that cookies are sent with the request
+        credentials: 'include' 
     })
         .then(response => {
             if (response.status === 200) {
                 return response.json();
-            } else {
+            } 
+            else {
                 throw new Error('Not logged in');
             }
         })
         .then(data => {
+            // 로그인 되어있는 경우 아이디 표시
+            isLoggedIn = true;
             username = data.username;
             user_id = data.id;
             // console.log(user_id, username);
-
             // const usernameDiv = document.getElementById('username')
-            // usernameDiv.textContent = username;
+            const usernameDiv = document.getElementById('user-info');
+            usernameDiv.textContent = username;
         })
         .catch(error => {
-            console.error(error);
-
+            isLoggedIn = false;
+            // console.error(error);
             // const usernameDiv = document.getElementById('username');
-            // usernameDiv.innerText = "&#128747; Log In";
-            // usernameDiv.textContent = "&#128747; Log In";
+            // usernameDiv.textContent = "Log In";
         });
 }
 
-// ====================================================
+
 // GAME
-// ====================================================
+// ===========================
 
 function resetPage() {
     console.log(word_id, word);

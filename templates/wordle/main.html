@@ -2,11 +2,11 @@
 {% load static %}
 {% block content %}
 <div id="container">
-    
+
     <header>
         <div id="side-menu" class="side-menu">
             <a href="javascript:void(0)" class="close-btn" onclick="closeSlideMenu()">&times;</a>
-            <h2>Menu</h2>    
+            <h2>Menu</h2>
             <br>
             <a href="{% url 'wordle:stats' %}">&#128202; Stats</a>
             <a href="#">&#127941; Leaderboard</a>
@@ -14,19 +14,20 @@
             <a href="{% url 'town:index' %}">&#127750; Town</a>
         </div>
         <div id="menu">
-            <a class="menu-icon" onclick="openSlideMenu()">&#9776; Menu</a>    
+            <a class="menu-icon" onclick="openSlideMenu()">&#9776; Menu</a>
         </div>
 
         <h1 class="title">WORDLE</h1>
 
-        <div id="menu">
-            <a class="menu-icon" href="{% url 'accounts:login' %}">&#128747; Log In</a>    
+        <div id="user-menu" class="user-popup">
+            <a id="user-info" class="user-popup-trigger" onclick="userInfo()">&#128100; Log In</a>
+            <div class="user-popup-content">
+                <a href="#">Settings</a>
+                <a onclick="userLogout()">Logout</a>
+            </div>
         </div>
-        <!-- <a id="username" class="menu-icon" href="{% url 'accounts:login' %}">&#128747; username</a> -->
+    </header>
 
-
-    </header>    
-    
     <div id="game">
         <div id="result-box" class="modal hidden">
             <div class="bg"></div>

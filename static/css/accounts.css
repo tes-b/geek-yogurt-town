@@ -11,9 +11,7 @@ form {
 .form-group {
     display: flex;
     flex-direction: column;
-    /* grid-template-columns: 300px 300px; */
     gap: 5px;
-    /* align-items: center; */
     align-items: flex-start;
     width: 100%;
 }

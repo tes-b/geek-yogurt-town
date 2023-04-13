@@ -86,17 +86,30 @@ function getUserInfo() {
 
 function userWithdrawal() {
     console.log("user withdrawal");
-    // fetch("/accounts/api/login/", {
-    //     method: 'DELETE',
-    //     credentials: 'include' // 쿠키를 request에 같이 보낸다.
-    // })
-    //     .then(response => {
-    //         if (response.status === 202) {
-    //             console.log("log out");
-    //         }
-    //         else {
-    //             throw new Error('logout failed');
-    //         }
-    //     })   
-    // location.reload();
+    let input = prompt("탈퇴를 원하시면 'delete'를 입력하세요.");
+    console.log(input);
+    if (input === 'delete') {
+        console.log("계정삭제");
+        fetch("/accounts/api/signup/", {
+        method: 'DELETE',
+        credentials: 'include' // 쿠키를 request에 같이 보낸다.
+        })
+            .then(response => {
+                if (response.status === 200) {
+                    alert("탈퇴되었습니다.");
+                    location.href = '/wordle/';
+                }
+                else {
+                    alert("탈퇴에 실패했습니다.");
+                    location.reload();
+                }
+            })   
+    }
+    else if (input == null){
+        // nothing
+    }
+    else {
+        alert("잘못된 입력입니다.");
+    }
+    
 }

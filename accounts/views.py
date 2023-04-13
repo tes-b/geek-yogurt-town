@@ -55,6 +55,22 @@ class UserSignUpView(APIView):
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    def delete(self, request):
+        try:
+            if 'access' not in request.COOKIES:
+                return Response(status=status.HTTP_204_NO_CONTENT)
+            access = request.COOKIES['access']
+            payload = jwt.decode(access, SECRET_KEY, algorithms=['HS256']) # 토큰 디코드
+            pk = payload.get('user_id') 
+            user = get_object_or_404(User, pk=pk) # id 로 유저 받아옴
+            user.delete()
+            res = Response({'message': 'withdrawal success'}, status=status.HTTP_200_OK)
+            res.delete_cookie('access')
+            res.delete_cookie('refresh')
+            return res
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+    
 
 class UserLogInView(APIView):
     # 유저 정보
@@ -123,11 +139,10 @@ class UserLogInView(APIView):
     
     # 로그아웃
     def delete(self, request):
-        print("logout")
+        # print("logout")
         res = Response({
             'message': 'Logout success'
         }, status=status.HTTP_202_ACCEPTED)
         res.delete_cookie('access')
         res.delete_cookie('refresh')
         return res
-

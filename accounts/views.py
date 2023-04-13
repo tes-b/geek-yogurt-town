@@ -16,8 +16,8 @@ from .serializer import *
 def setting(request):
     return render(request, 'accounts/setting.html')
 
-def signup(request):
-    return render(request, 'accounts/signup.html')
+# def signup(request):
+#     return render(request, 'accounts/signup.html')
 
 def login(request):
     return render(request, 'accounts/login.html')

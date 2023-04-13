@@ -1,91 +1,97 @@
-{% extends "base.html" %}
 {% load static %}
-{% block content %}
-<div id="container">
+<!doctype html>
+<html lang="ko">
 
-    <header>
-        <div id="side-menu" class="side-menu">
-            <a href="javascript:void(0)" class="close-btn" onclick="closeSlideMenu()">&times;</a>
-            <h2>Menu</h2>
-            <br>
-            <a href="{% url 'wordle:stats' %}">&#128202; Stats</a>
-            <a href="#">&#127941; Leaderboard</a>
-            <a href="#">&#128292; Words</a>
-            <a href="{% url 'town:index' %}">&#127750; Town</a>
-        </div>
-        <div id="menu">
-            <a class="menu-icon" onclick="openSlideMenu()">&#9776; Menu</a>
-        </div>
+<head>
+    <title>Wordle</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}"> -->
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/wordle.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/accounts.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+</head>
 
-        <h1 class="title">WORDLE</h1>
-
-        <div id="user-menu" class="user-popup">
-            <a id="user-info" class="user-popup-trigger" onclick="userInfo()">&#128100; Log In</a>
-            <div class="user-popup-content">
-                <a href="#">Settings</a>
-                <a onclick="userLogout()">Logout</a>
-            </div>
-        </div>
-    </header>
-
-    <div id="game">
-        <div id="result-box" class="modal hidden">
-            <div class="bg"></div>
-            <div id="result" class="modal-box">
-                <div id="result-content"></div>
-                <div class="btn-container">
-                    <button class="result-btn newgame" id="btn-newgame" onclick="newGame()">NEW GAME</button>
-                    <!-- <a id="btn-stats" class="button" href="{% url 'wordle:stats' %}">Stats</a> -->
-                    <!-- <a id="btn-town" class="button" href="{% url 'town:index' %}">TOWN</a> -->
+<body>
+    <div id="container">
+        <header>
+            {% include 'sidemenu.html' %}
+            
+            <h1 class="title">WORDLE</h1>
+    
+            <div id="user-menu" class="user-popup">
+                <a id="user-info" class="user-popup-trigger" onclick="userInfo()">&#128100; Log In</a>
+                <div class="user-popup-content">
+                    <a href="{% url 'accounts:setting' %}">Settings</a>
+                    <a onclick="userLogout()">Logout</a>
                 </div>
             </div>
-        </div>
+        </header>
 
-        <div id="board-container">
-            <div id="board"></div>
-        </div>
-        <div id="keyboard-container">
-            <div class="keyboard-row">
-                <button data-key="q">q</button>
-                <button data-key="w">w</button>
-                <button data-key="e">e</button>
-                <button data-key="r">r</button>
-                <button data-key="t">t</button>
-                <button data-key="y">y</button>
-                <button data-key="u">u</button>
-                <button data-key="i">i</button>
-                <button data-key="o">o</button>
-                <button data-key="p">p</button>
+        <div id="game">
+            <div id="result-box" class="modal hidden">
+                <div class="bg"></div>
+                <div id="result" class="modal-box">
+                    <div id="result-content"></div>
+                    <div class="btn-container">
+                        <button class="result-btn newgame" id="btn-newgame" onclick="newGame()">NEW GAME</button>
+                        <!-- <a id="btn-stats" class="button" href="{% url 'wordle:stats' %}">Stats</a> -->
+                        <!-- <a id="btn-town" class="button" href="{% url 'town:index' %}">TOWN</a> -->
+                    </div>
+                </div>
             </div>
-            <div class="keyboard-row">
-                <div class="spacer-half"></div>
-                <button data-key="a">a</button>
-                <button data-key="s">s</button>
-                <button data-key="d">d</button>
-                <button data-key="f">f</button>
-                <button data-key="g">g</button>
-                <button data-key="h">h</button>
-                <button data-key="j">j</button>
-                <button data-key="k">k</button>
-                <button data-key="l">l</button>
-                <div class="spacer-half"></div>
+
+            <div id="board-container">
+                <div id="board"></div>
             </div>
-            <div class="keyboard-row">
-                <button data-key="enter" class="wide-button">Enter</button>
-                <button data-key="z">z</button>
-                <button data-key="x">x</button>
-                <button data-key="c">c</button>
-                <button data-key="v">v</button>
-                <button data-key="b">b</button>
-                <button data-key="n">n</button>
-                <button data-key="m">m</button>
-                <button data-key="del" class="wide-button">Del</button>
+            <div id="keyboard-container">
+                <div class="keyboard-row">
+                    <button data-key="q">q</button>
+                    <button data-key="w">w</button>
+                    <button data-key="e">e</button>
+                    <button data-key="r">r</button>
+                    <button data-key="t">t</button>
+                    <button data-key="y">y</button>
+                    <button data-key="u">u</button>
+                    <button data-key="i">i</button>
+                    <button data-key="o">o</button>
+                    <button data-key="p">p</button>
+                </div>
+                <div class="keyboard-row">
+                    <div class="spacer-half"></div>
+                    <button data-key="a">a</button>
+                    <button data-key="s">s</button>
+                    <button data-key="d">d</button>
+                    <button data-key="f">f</button>
+                    <button data-key="g">g</button>
+                    <button data-key="h">h</button>
+                    <button data-key="j">j</button>
+                    <button data-key="k">k</button>
+                    <button data-key="l">l</button>
+                    <div class="spacer-half"></div>
+                </div>
+                <div class="keyboard-row">
+                    <button data-key="enter" class="wide-button">Enter</button>
+                    <button data-key="z">z</button>
+                    <button data-key="x">x</button>
+                    <button data-key="c">c</button>
+                    <button data-key="v">v</button>
+                    <button data-key="b">b</button>
+                    <button data-key="n">n</button>
+                    <button data-key="m">m</button>
+                    <button data-key="del" class="wide-button">Del</button>
+                </div>
             </div>
-        </div>
-        <div id="word-container">
-            <div id="words"></div>
+            <div id="word-container">
+                <div id="words"></div>
+            </div>
         </div>
     </div>
-</div>
-<script type="text/javascript" src="{% static 'js/wordle.js' %}"> </script>
-{% endblock %}
+    <script type="text/javascript" src="{% static 'js/userinfo.js' %}"> </script>
+    <script type="text/javascript" src="{% static 'js/wordle.js' %}"> </script>
+</body>
+
+</html>

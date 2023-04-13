@@ -1,0 +1,13 @@
+<div id="side-menu" class="side-menu">
+    <a href="javascript:void(0)" class="close-btn" onclick="closeSlideMenu()">&times;</a>
+    <h2>Menu</h2>
+    <br>
+    <a href="{% url 'wordle:main' %}">&#9989; Wordle</a>
+    <a href="{% url 'wordle:stats' %}">&#128202; Stats</a>
+    <a href="#">&#127941; Leaderboard</a>
+    <a href="#">&#128292; Words</a>
+    <a href="{% url 'town:index' %}">&#127750; Town</a>
+</div>
+<div id="menu">
+    <a class="menu-icon" onclick="openSlideMenu()">&#9776; Menu</a>
+</div>

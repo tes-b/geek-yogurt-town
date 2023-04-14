@@ -3,6 +3,7 @@ import jwt
 from django.shortcuts    import render, get_object_or_404
 from django.urls         import reverse
 from django.contrib.auth import authenticate
+from django.utils        import timezone
 
 from rest_framework             import generics, status
 from rest_framework.views       import APIView
@@ -15,9 +16,6 @@ from .serializer import *
 
 def setting(request):
     return render(request, 'accounts/setting.html')
-
-# def signup(request):
-#     return render(request, 'accounts/signup.html')
 
 def login(request):
     return render(request, 'accounts/login.html')
@@ -114,6 +112,10 @@ class UserLogInView(APIView):
 
         if user is not None:
             serializer = UserSerializer(user)
+            
+            user.last_login = timezone.now() # 로그인 시간 기록
+            user.save()
+            
             # jwt 토큰 접근
             token = TokenObtainPairSerializer.get_token(user)
             refresh_token = str(token)

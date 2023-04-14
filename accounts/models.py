@@ -45,6 +45,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(_("staff status"), default=False)
     is_active = models.BooleanField(_("active"), default=True)
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
+    last_login = models.DateTimeField(_("last_login"), default=timezone.now)
 
     plays = models.PositiveIntegerField(_("plays"), default=0)  # 게임수
     wins = models.PositiveIntegerField(_("wins"), default=0)    # 이긴횟수

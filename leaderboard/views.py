@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 
 from .serializer import RecordSerializer
 
-from config.settings import SECRET_KEY
+# from config.settings.base import SECRET_KEY
 
 from django.shortcuts import get_object_or_404
 

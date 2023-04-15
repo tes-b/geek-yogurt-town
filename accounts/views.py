@@ -10,7 +10,7 @@ from rest_framework.views       import APIView
 from rest_framework.response    import Response
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from config.settings.base import SECRET_KEY
+from config.settings import SECRET_KEY
 
 from .serializer import *
 

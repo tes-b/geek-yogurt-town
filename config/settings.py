@@ -17,7 +17,7 @@ from django.core.exceptions import ImproperlyConfigured
 from datetime               import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 secret_file = os.path.join(BASE_DIR, 'secrets.json') # secrets.json 파일 위치를 명시
 
@@ -37,9 +37,10 @@ def get_secret(setting, secrets=secrets):
 SECRET_KEY = get_secret("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+DEBUG = get_secret("DEBUG")
+
+ALLOWED_HOSTS = get_secret("ALLOWED_HOSTS")
 
 
 # Application definition

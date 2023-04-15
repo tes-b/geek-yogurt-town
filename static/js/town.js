@@ -73,7 +73,7 @@ var info = new Info(charactor, currentSection);
 
 cam.followObj = charactor;
 
-var drawInfo = true;
+var drawInfo = false;
 
 // RUN FUNCTIONS ============;
 keyInput();

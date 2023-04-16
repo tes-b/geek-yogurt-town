@@ -99,7 +99,8 @@ function prevSection() {
 }
 
 function selectSection(newTab=true) {
-    // 새로 탭 열때 캐릭터 이동하지 않도록 수정해야 함
+    charactor.move("stop"); // 캐릭터 멈추기
+
     if (newTab) {
         window.open(listBoard[currentSection.section].url);
     }

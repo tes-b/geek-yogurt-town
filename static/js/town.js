@@ -73,6 +73,7 @@ var info = new Info(charactor, currentSection);
 
 cam.followObj = charactor;
 
+var updateCharactor = false;
 var drawInfo = false;
 
 // RUN FUNCTIONS ============;
@@ -80,11 +81,14 @@ keyInput();
 mouseInput();
 changeSection(currentSection.section);
 run();
-charactor.move("stop"); // 캐릭터 멈추기
-
+setUpdateCharactor(true);
 
 
 // DECLARE FUNCTIONS=========
+
+function setUpdateCharactor(update) {
+    updateCharactor = update;
+}
 
 function nextSection() {
     var section = currentSection.section;
@@ -193,7 +197,9 @@ function run() {
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        charactor.update(elapsedTime);
+        if (updateCharactor) {
+            charactor.update(elapsedTime);
+        }
         cam.update(elapsedTime);
         listButtons.forEach((button) => {
             button.update();

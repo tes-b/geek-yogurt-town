@@ -73,7 +73,6 @@ var info = new Info(charactor, currentSection);
 
 cam.followObj = charactor;
 
-var updateCharactor = false;
 var drawInfo = false;
 
 // RUN FUNCTIONS ============;
@@ -81,14 +80,9 @@ keyInput();
 mouseInput();
 changeSection(currentSection.section);
 run();
-setUpdateCharactor(true);
 
 
 // DECLARE FUNCTIONS=========
-
-function setUpdateCharactor(update) {
-    updateCharactor = update;
-}
 
 function nextSection() {
     var section = currentSection.section;
@@ -197,9 +191,7 @@ function run() {
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        if (updateCharactor) {
-            charactor.update(elapsedTime);
-        }
+        charactor.update(elapsedTime);
         cam.update(elapsedTime);
         listButtons.forEach((button) => {
             button.update();

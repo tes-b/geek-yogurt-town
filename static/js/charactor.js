@@ -13,7 +13,7 @@ class Charactor {
         this.y = tileY * this.tileSize * this.scale;
 
         this.gotoX = listBoard[this.section].tileX;
-        this.gotoOffsetX = this.tileSize * 0.5;
+        this.gotoOffsetX = this.tileSize;
 
         this.widthHalf = 25;
         this.heightHalf = 25;

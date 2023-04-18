@@ -80,7 +80,7 @@ keyInput();
 mouseInput();
 changeSection(currentSection.section);
 run();
-
+charactor.move("stop");  // 캐릭터 급발진 방지
 
 // DECLARE FUNCTIONS=========
 

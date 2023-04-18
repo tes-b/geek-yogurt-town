@@ -68,7 +68,7 @@ var listBoard = [
 const SECTION_MAX = listBoard.length;
 
 // 캐릭터 =================================
-var charactor = new Charactor(4, 7);
+var charactor = new Charactor(5, 7);
 var info = new Info(charactor, currentSection);
 
 cam.followObj = charactor;
@@ -80,6 +80,8 @@ keyInput();
 mouseInput();
 changeSection(currentSection.section);
 run();
+charactor.move("stop"); // 캐릭터 멈추기
+
 
 
 // DECLARE FUNCTIONS=========

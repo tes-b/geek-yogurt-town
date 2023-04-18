@@ -28,12 +28,15 @@
   - 깃허브  
     <img src="https://user-images.githubusercontent.com/109839413/232714852-c2c799ef-e377-42cf-b4e8-2c45de2b8db2.png"  width="50%" height="50%"/>  
     깃허브 프로필 입니다.  
-    두문불출하고 개발만 하다보니 잔디가 푸릇해졌습니다. 축구한판 하시죠.    
+    두문불출하고 개발만 하다보니 잔디가 푸릇해졌습니다.    
     
   - 블로그  
     <img src="https://user-images.githubusercontent.com/109839413/232714965-27aa9281-662b-46f5-b3c1-c7afd9475078.png"  width="50%" height="50%"/>  
     블로그 요거트 사무소 입니다.(요거트와는 관련이 없습니다.)  
     개발 과정에서 마주친 문제들을 아카이빙 하는 것이 주된 용도이지만 구글 애드센스를 통해 부수입을 얻고 싶습니다.  
+
+## 플로우 차트
+<img src="https://user-images.githubusercontent.com/109839413/232769656-f549662e-16e7-4a8a-a55c-a67416c9d165.svg"  width="100%" height="100%"/>  
 
 ## 구현/수정 예정 기능
   ### 워들

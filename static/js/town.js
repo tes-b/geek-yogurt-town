@@ -68,7 +68,7 @@ var listBoard = [
 const SECTION_MAX = listBoard.length;
 
 // 캐릭터 =================================
-var charactor = new Charactor(5, 7);
+var charactor = new Charactor(6, 7);
 var info = new Info(charactor, currentSection);
 
 cam.followObj = charactor;
@@ -80,7 +80,7 @@ keyInput();
 mouseInput();
 changeSection(currentSection.section);
 run();
-charactor.move("stop");  // 캐릭터 급발진 방지
+// charactor.move("stop");  // 캐릭터 급발진 방지
 
 // DECLARE FUNCTIONS=========
 
@@ -89,6 +89,7 @@ function nextSection() {
     if (section + 1 >= SECTION_MAX) { return; }
     section += 1;
     changeSection(section);
+    charactor.changeSection(section);
 }
 
 function prevSection() {
@@ -96,6 +97,7 @@ function prevSection() {
     if (section - 1 < 0) { return; }
     section -= 1;
     changeSection(section);
+    charactor.changeSection(section);
 }
 
 function selectSection(newTab=true) {
@@ -116,7 +118,6 @@ function changeSection(section) {
         board.lightOn = false;
     });
     listBoard[section].lightOn = true;
-    charactor.changeSection(currentSection.section);
 }
 
 function mouseInput() {

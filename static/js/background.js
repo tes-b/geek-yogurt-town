@@ -53,11 +53,11 @@ class Background {
      
         this.scale = 6 * cam.height * 0.001;
 
-        this.imgBackgroundNight1 = new BackgroundImg(imgBackgroundNight1, 32, 20, this.scale, 0.05);
-        this.imgBackgroundNight2 = new BackgroundImg(imgBackgroundNight2, 32, 20, this.scale, 0.1);
-        this.imgBackgroundNight3 = new BackgroundImg(imgBackgroundNight3, 32, 20, this.scale, 0.2);
-        this.imgBackgroundNight4 = new BackgroundImg(imgBackgroundNight4, 32, 20, this.scale, 0.3);
-        this.imgBackgroundNight5 = new BackgroundImg(imgBackgroundNight5, 32, 20, this.scale, 0.5);
+        this.imgBackgroundNight1 = new BackgroundImg(imgBackgroundNight1, 36, 20, this.scale, 0.05);
+        this.imgBackgroundNight2 = new BackgroundImg(imgBackgroundNight2, 36, 20, this.scale, 0.1);
+        this.imgBackgroundNight3 = new BackgroundImg(imgBackgroundNight3, 36, 20, this.scale, 0.2);
+        this.imgBackgroundNight4 = new BackgroundImg(imgBackgroundNight4, 36, 20, this.scale, 0.3);
+        this.imgBackgroundNight5 = new BackgroundImg(imgBackgroundNight5, 36, 20, this.scale, 0.5);
 
         
         this.frameCount = 0;

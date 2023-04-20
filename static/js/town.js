@@ -50,7 +50,7 @@ const SECTION_BLOG = 4;
 var currentSection = { "section": SECTION_RESUME };
 
 // var board_intro = new Board(6, 3, imgObjBoard, SECTION_INTRO, "");
-var board_resume = new Board(6, 3, imgObjBoardResume, SECTION_RESUME, "https://geekyougurt.notion.site/09aa2b7a2ea844bbb8b28572ea51b235");
+var board_resume = new Board(6, 3, imgObjBoardResume, SECTION_RESUME, "https://docs.google.com/document/d/1ewpYogaF_9VN_tIuevlasXyUdC_toG6xpavs3bUC258/edit?usp=sharing");
 var board_wordle = new Board(18, 3, imgObjBoardWordle, SECTION_WORDLE, "/wordle/");
 var board_youtube = new Board(30, 3, imgObjBoardYoutube, SECTION_YOUTUBE, "https://youtube.com/playlist?list=PL2QNFtrDTeb68f6i1MfZrjDSH9rzKrFlk");
 var board_github = new Board(42, 3, imgObjBoardGithub, SECTION_GITHUB, "https://github.com/tes-b");

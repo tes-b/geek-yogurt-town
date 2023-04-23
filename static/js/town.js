@@ -43,7 +43,7 @@ var listButtons = [
 // const SECTION_INTRO = 0;
 const SECTION_RESUME = 0;
 const SECTION_WORDLE = 1;
-const SECTION_YOUTUBE = 2;
+const SECTION_PROJECTS = 2;
 const SECTION_GITHUB = 3;
 const SECTION_BLOG = 4;
 
@@ -51,18 +51,18 @@ var currentSection = { "section": SECTION_RESUME };
 
 // var board_intro = new Board(6, 3, imgObjBoard, SECTION_INTRO, "");
 var board_resume = new Board(6, 3, imgObjBoardResume, SECTION_RESUME, "https://docs.google.com/document/d/1ewpYogaF_9VN_tIuevlasXyUdC_toG6xpavs3bUC258/edit?usp=sharing");
-var board_wordle = new Board(18, 3, imgObjBoardWordle, SECTION_WORDLE, "/wordle/");
-var board_youtube = new Board(30, 3, imgObjBoardYoutube, SECTION_YOUTUBE, "https://youtube.com/playlist?list=PL2QNFtrDTeb68f6i1MfZrjDSH9rzKrFlk");
-var board_github = new Board(42, 3, imgObjBoardGithub, SECTION_GITHUB, "https://github.com/tes-b");
-var board_blog = new Board(54, 3, imgObjBoardBlog, SECTION_BLOG, "https://tes-b.github.io/");
+var board_github = new Board(18, 3, imgObjBoardGithub, SECTION_GITHUB, "https://github.com/tes-b");
+var board_projects = new Board(30, 3, imgObjBoardProjects, SECTION_PROJECTS, "https://youtube.com/playlist?list=PL2QNFtrDTeb68f6i1MfZrjDSH9rzKrFlk");
+var board_blog = new Board(42, 3, imgObjBoardBlog, SECTION_BLOG, "https://tes-b.github.io/");
+var board_wordle = new Board(54, 3, imgObjBoardWordle, SECTION_WORDLE, "/wordle/");
 
 var listBoard = [
     // board_intro,
     board_resume,
-    board_wordle,
-    board_youtube,
     board_github,
+    board_projects,
     board_blog,
+    board_wordle,
 ];
 
 const SECTION_MAX = listBoard.length;

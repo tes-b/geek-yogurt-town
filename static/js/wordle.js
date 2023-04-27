@@ -40,7 +40,7 @@ keyInput();
 // ====================================================
 
 function resetPage() {
-    console.log(word_id, word);
+    // console.log(word_id, word);
     guessedWords = [[]]; // 시도한 단어
     availableSpace = 1; // 현재 글자가 들어갈 
     guessedWordCount = 0;
@@ -155,7 +155,7 @@ function sendResult(result) {
 }
 
 function openResultBox(result) {
-    console.log("open-result-box");
+    // console.log("open-result-box");
     onPlay = false;
     onResultBox = true;
     document.getElementById("result-box").style.display = "block";
@@ -206,7 +206,7 @@ function openResultBox(result) {
 }
 
 function closeResultBox() {
-    console.log("close-result-box");
+    // console.log("close-result-box");
     onResultBox = false;
     document.getElementById("result-box").style.display = "none";
 }
@@ -313,7 +313,7 @@ function handleSubmitWord() {
 function handleDeleteLetter() {
     const currentWordArr = getCurrentWordArr();
     if (currentWordArr % 5 == 0) { // 이미 확인한 단어는 지우지 못함
-        console.log("Can't delete")
+        // console.log("Can't delete")
         return;
     }
 

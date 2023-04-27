@@ -9,7 +9,7 @@ from django.utils.translation import gettext_lazy as _
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
-    def _create_user(self, username, password, email, **extra_fields):
+    def _create_user(self, username, password, email=None, **extra_fields):
         if not username:
             raise ValueError('Username을 입력해주세요.')
         print(username)

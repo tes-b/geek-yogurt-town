@@ -142,9 +142,12 @@ class UserLogInView(APIView):
     # 로그아웃
     def delete(self, request):
         # print("logout")
-        res = Response({
-            'message': 'Logout success'
-        }, status=status.HTTP_202_ACCEPTED)
+        res = Response(
+            {
+                'message': 'Logout success'
+            }, 
+            status=status.HTTP_202_ACCEPTED,
+        )
         res.delete_cookie('access')
         res.delete_cookie('refresh')
         return res

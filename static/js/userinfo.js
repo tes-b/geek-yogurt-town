@@ -49,8 +49,11 @@ function userLogout() {
             else {
                 throw new Error('logout failed');
             }
+        })
+        .finally(() => {
+            location.href = '/wordle/';
         })   
-    location.reload();
+    
 }
 
 function getUserInfo() {

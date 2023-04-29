@@ -126,6 +126,7 @@ function getTileColor(letter, index) {
 }
 
 function sendResult(result) {
+    
     // 게임 결과 보내기
     let data = {
         'word': word_id,
@@ -227,14 +228,18 @@ function checkResult(currentWord) {
     }
 
     guessedWords.push([]);
+    onPlay = true;
 }
 
 function handleSubmitWord() {
+    console.log("handleSubmitWord");
+    
     const currentWordArr = getCurrentWordArr();
     if (currentWordArr.length !== 5) { // 5 letter only
         // window.alert("5글자 단어를 제출하세요거트~");
         // shakeX 애니메이션 
         // 글자 지우기
+        onPlay = true;
         return;
     }
 
@@ -273,7 +278,10 @@ function handleSubmitWord() {
                     }));
                 });
 
-                Promise.all(promises).then(() => checkResult(currentWord)); // 모든 애니메이션이 끝나면 결과 확인한다.
+                Promise.all(promises).then(() => {
+                    checkResult(currentWord)
+
+                }); // 모든 애니메이션이 끝나면 결과 확인한다.
             }
             else { // 단어가 데이터베이스에 없는 경우
                 const promises = [];
@@ -301,13 +309,14 @@ function handleSubmitWord() {
                         letterEl.style = "";
                         letterEl.classList.remove("animate__headShake");
                     }
+                    onPlay = true;
                 }); // 모든 애니메이션이 끝나면 결과 확인한다.
             }
         })
         .catch(error => {
             console.log('Fetch Error', error);
             window.alert(error.message);
-        });
+        })
 }
 // 글자 삭제
 function handleDeleteLetter() {
@@ -352,6 +361,7 @@ function keyInput() {
 
         if (letter === 'Enter') {
             if (onPlay) {
+                onPlay = false;
                 handleSubmitWord();
                 return;
             }

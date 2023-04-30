@@ -12,12 +12,14 @@ from .models import Word
 
 from .serializer import WordSerializer
 
-def index(request): # 첫화면
-    # return HttpResponse("game index")
-    return render(request, 'wordle/main.html') # 게임 페이지로 이동
+def index(request): # 게임 페이지
+    return render(request, 'wordle/main.html') 
 
-def stats(request): # 테스트
-    return render(request, 'wordle/stats.html') # 통계 페이지로 이동
+def stats(request): # 통계 페이지로
+    return render(request, 'wordle/stats.html') 
+
+def leaderboard(request): # 리더보드 페이지
+    return render(request, 'wordle/leaderboard.html') 
 
 class WordAPIView(APIView):
     

@@ -43,7 +43,6 @@
 
 - 워들 게임  
     <img src="https://user-images.githubusercontent.com/109839413/232714600-9b70ddc8-8fc9-4f22-a3d5-31d732b21fdc.png"  width="50%" height="50%"/><img src="https://user-images.githubusercontent.com/109839413/232724147-c0411587-e750-4443-a5ed-c0804ba39f22.png"  width="20%" height="20%"/>  
-    
+    <img src="https://user-images.githubusercontent.com/109839413/235361401-a8584a05-d73a-48c5-9ffb-74c8dc701f16.png"  width="70%" height="70%"/>  
     워들 게임을 즐길 수 있습니다.  
-    재미와 영어공부 둘을 함께 드셔 보시겠습니까?  
-    계정을 만들어 본인의 기록을 체크 할 수 있습니다.  
+    통계 페이지와 리더보드에서 통계데이터를 제공합니다.

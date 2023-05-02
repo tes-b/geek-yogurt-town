@@ -24,6 +24,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('leaderboard/', include('leaderboard.urls')),
     path('', include('town.urls')),
+    path('backender/', include('backender.urls')),
 ]
 
 if settings.DEBUG:

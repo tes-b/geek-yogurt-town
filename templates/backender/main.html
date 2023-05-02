@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Yogurt Town</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'img/favicon_yogurt(32x32).png' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/town.css' %}">
+    
+    
+</head>
+<body>
+    
+    <canvas id="canvas"></canvas>
+    
+    <script>
+        
+        var imgCharactorIdle = "{% static 'img/charactor/charactor_idle(128x64).png' %}";        
+        var imgCharactorWalk = "{% static 'img/charactor/charactor_walking(192x64).png' %}";         
+        var imgCharactorRun = "{% static 'img/charactor/charactor_running(256x64).png' %}";
+        
+        var imgBackgroundNight1 = "{% static 'img/background/1.png' %}";
+        var imgBackgroundNight2 = "{% static 'img/background/2.png' %}";
+        var imgBackgroundNight3 = "{% static 'img/background/3.png' %}";
+        var imgBackgroundNight4 = "{% static 'img/background/4.png' %}";
+        var imgBackgroundNight5 = "{% static 'img/background/5.png' %}";
+        
+        var imgTileMedieval = "{% static 'img/tiles/Medieval_tiles_free2_0.png' %}";
+        
+        // var imgObjBoard = "{% static 'img/tiles/billboard(256x96).png' %}";
+        // var imgObjBoardWordle = "{% static 'img/tiles/billboard_wordle(256x96).png' %}";
+        // var imgObjBoardResume = "{% static 'img/tiles/billboard_resume(256x96).png' %}";
+        // var imgObjBoardProjects = "{% static 'img/tiles/billboard_projects(256x96).png' %}";
+        // var imgObjBoardGithub = "{% static 'img/tiles/billboard_github(256x96).png' %}";
+        // var imgObjBoardBlog = "{% static 'img/tiles/billboard_blog(256x96).png' %}";
+
+        var imgBtnPrev = "{% static 'img/tiles/button_prev(32x96).png' %}";
+        var imgBtnNext = "{% static 'img/tiles/button_next(32x96).png' %}";
+        var imgBtnSelect = "{% static 'img/tiles/button_select(48x96).png' %}";
+        
+    </script>
+    <script type="text/javascript" src="{% static 'js/camera.js' %}"></script>
+    <!-- <script type="text/javascript" src="{% static 'js/board.js' %}"></script> -->
+    <script type="text/javascript" src="{% static 'js/button.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/map.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/background.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/info.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/backender/charactor.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/backender/main.js' %}"></script>
+    
+    
+    <p id="charactor-pos"></p>
+</body>
+</html>

@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "accounts",
     "leaderboard",
     "town",
+    "backender",
 
     # libraries
     "rest_framework",

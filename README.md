@@ -18,8 +18,15 @@
 - 2023년 2월 ~ 현재  
 **계속 업데이트 되는 프로젝트 입니다.**
 
-## 플로우 차트
-<img src="https://user-images.githubusercontent.com/109839413/232769656-f549662e-16e7-4a8a-a55c-a67416c9d165.svg"  width="100%" height="100%"/>  
+## 소개
+![gy_town (1)](https://user-images.githubusercontent.com/109839413/236110277-1d462365-3257-4a34-9a31-2cc10be0c91f.png)
+![gy_town (2)](https://user-images.githubusercontent.com/109839413/236110283-1500dc3a-8334-4264-abc8-e26f18b8abae.png)
+![gy_town (3)](https://user-images.githubusercontent.com/109839413/236110285-03ed46c4-bd00-454b-8571-c56b4ed22f69.png)
+![gy_town (4)](https://user-images.githubusercontent.com/109839413/236110287-e168518e-e2b2-42f7-8084-11fd7981ed0a.png)
+![gy_town (5)](https://user-images.githubusercontent.com/109839413/236110289-d40a572f-b03a-4065-a43a-35ad74ea39b5.png)
+![gy_town (6)](https://user-images.githubusercontent.com/109839413/236110291-a8625802-6c2e-41b2-86fb-83aa9c7ffb12.png)
+![gy_town (7)](https://user-images.githubusercontent.com/109839413/236110294-576074ca-3546-4462-9bea-6d63dc44217a.png)
+
 
 ## 광고판 소개  
   - 이력서(Google Docs)  

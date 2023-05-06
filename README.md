@@ -19,13 +19,13 @@
 **계속 업데이트 되는 프로젝트 입니다.**
 
 ## 소개
-![gy_town (1)](https://user-images.githubusercontent.com/109839413/236436840-0d9eaa5e-9792-4d6d-915c-dea3890b9c2f.png)
-![gy_town (2)](https://user-images.githubusercontent.com/109839413/236436847-70551ecb-a28f-4541-ad79-5e6cd3bbf233.png)
-![gy_town (3)](https://user-images.githubusercontent.com/109839413/236436853-173d13c6-8657-4949-bd6d-663853950ea7.png)
-![gy_town (4)](https://user-images.githubusercontent.com/109839413/236436856-3024b07f-b4e7-484f-bae0-8af76e9a8fb7.png)
-![gy_town (5)](https://user-images.githubusercontent.com/109839413/236436858-0b748ddc-3675-4196-a07c-bdaf921d924a.png)
-![gy_town (6)](https://user-images.githubusercontent.com/109839413/236436860-15b7b6ed-378e-411b-b9d4-09d4f9550c1a.png)
-![gy_town (7)](https://user-images.githubusercontent.com/109839413/236436863-2b80d0af-53e4-4379-a6f1-6485008e28dd.png)
+![gy_town (1)](https://user-images.githubusercontent.com/109839413/236599991-d12f07f1-967f-48a4-8300-446bc311f2cb.png)
+![gy_town (2)](https://user-images.githubusercontent.com/109839413/236599994-3162fe8d-6f0a-4a45-acfe-c389430ceee6.png)
+![gy_town (3)](https://user-images.githubusercontent.com/109839413/236599996-68cadab4-9cfe-4389-9455-5219213926e0.png)
+![gy_town (4)](https://user-images.githubusercontent.com/109839413/236599997-c18e9f12-2f3b-46b0-965b-286044517c96.png)
+![gy_town (5)](https://user-images.githubusercontent.com/109839413/236599998-74d7b447-0843-4caf-922a-978a02c36cf3.png)
+![gy_town (6)](https://user-images.githubusercontent.com/109839413/236599999-cd1fd3c1-6711-45de-87dc-17189e39030c.png)
+![gy_town (7)](https://user-images.githubusercontent.com/109839413/236600000-62213dd6-0e5a-4431-9e0a-491fa5a9f526.png)
 
 
 ## 광고판 소개  

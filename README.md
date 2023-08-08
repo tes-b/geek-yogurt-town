@@ -1,6 +1,8 @@
 # yogurt-town
 
-<http://yogurt-town.duckdns.org/>
+## 요거트 타운 재개발 중입니다...!
+~~http://yogurt-town.duckdns.org/~~
+
 
 ## 프로젝트 개요
 
